@@ -1,16 +1,14 @@
+using Equipments.Application;
+using Equipments.Application.Common.Mappings;
+using Equipments.Application.Interfaces;
+using Equipments.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Reflection;
 
 namespace Equipments.WebAPI
 {
@@ -26,6 +24,29 @@ namespace Equipments.WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //Настройка аутомаппера
+            services.AddAutoMapper(config =>
+            {
+                config.AddProfile(new AssemblyMappingProfile(Assembly.GetExecutingAssembly()));
+                config.AddProfile(new AssemblyMappingProfile(typeof(IEquipmentsDbContext).Assembly));
+            });
+
+            //Из файла Equipments.Application.DependencyInjection.cs
+            services.AddApplication();
+            //Из файла Equipments.Persistence.DependencyInjection.cs
+            services.AddPersistence(Configuration);
+
+            //CORS - совместное использование ресурсов из разных источников
+            //Одна из системы защиты.
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll", policy =>
+                {
+                    policy.AllowAnyHeader();
+                    policy.AllowAnyMethod();
+                    policy.AllowAnyOrigin();
+                });
+            });
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -47,6 +68,8 @@ namespace Equipments.WebAPI
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors("AllowAll");
 
             app.UseAuthorization();
 

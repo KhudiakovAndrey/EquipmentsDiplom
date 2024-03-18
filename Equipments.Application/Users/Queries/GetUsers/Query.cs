@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Equipments.Application.Users.Queries.GetUsers
+namespace Equipments.Application.Users.Queries
 {
     public partial class GetUsers
     {
