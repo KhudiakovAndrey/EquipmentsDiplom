@@ -41,6 +41,7 @@ namespace Equipments.Persistence.Models
         public DbSet<TypeEquipment> TypeEquipments { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Worker> Workers { get; set; }
+        public DbSet<Token> Tokens { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

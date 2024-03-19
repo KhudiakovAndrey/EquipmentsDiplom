@@ -7,6 +7,11 @@ namespace Equipments.Domain.Entities
 {
     public partial class User
     {
+        public User()
+        {
+            Tokens = new HashSet<Token>();
+        }
+
         public int Iduser { get; set; }
         public string Userlogin { get; set; }
         public string Userpassword { get; set; }
@@ -19,5 +24,7 @@ namespace Equipments.Domain.Entities
         public int? Idworker { get; set; }
 
         public virtual Worker IdworkerNavigation { get; set; }
+        public virtual ICollection<Token> Tokens { get; set; }
+
     }
 }

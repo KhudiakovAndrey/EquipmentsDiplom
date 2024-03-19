@@ -32,6 +32,7 @@ namespace Equipments.Application.Interfaces
         DbSet<TypeEquipment> TypeEquipments { get; set; }
         DbSet<User> Users { get; set; }
         DbSet<Worker> Workers { get; set; }
+        DbSet<Token> Tokens { get; set; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }
