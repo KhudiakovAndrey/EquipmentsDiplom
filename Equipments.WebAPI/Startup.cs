@@ -68,9 +68,9 @@ namespace Equipments.WebAPI
 
             app.UseCustomExceptionHandler();
 
-            app.UseRouting();
-
             app.UseHttpsRedirection();
+
+            app.UseRouting();
 
             app.UseCors("AllowAll");
 

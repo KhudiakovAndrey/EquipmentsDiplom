@@ -11,13 +11,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{9ADB6559
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentations", "Presentations", "{9B6173E6-FA1F-479F-B689-23A9DC9DB80F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Equipments.Domain", "Equipments.Domain\Equipments.Domain.csproj", "{3A70130D-204A-422B-A6C9-75147A2E8D6D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Equipments.Domain", "Equipments.Domain\Equipments.Domain.csproj", "{3A70130D-204A-422B-A6C9-75147A2E8D6D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Equipments.Application", "Equipments.Application\Equipments.Application.csproj", "{C8FF6C34-43A0-44BD-9CE9-7D53E5BC4505}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Equipments.Application", "Equipments.Application\Equipments.Application.csproj", "{C8FF6C34-43A0-44BD-9CE9-7D53E5BC4505}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Equipments.Persistence", "Equipments.Persistence\Equipments.Persistence.csproj", "{E9EF14DB-309F-4791-942D-240CED88021D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Equipments.Persistence", "Equipments.Persistence\Equipments.Persistence.csproj", "{E9EF14DB-309F-4791-942D-240CED88021D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Equipments.WebAPI", "Equipments.WebAPI\Equipments.WebAPI.csproj", "{8C3B15B4-BE76-4A5A-AA42-B3199FE29CA0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Equipments.WebAPI", "Equipments.WebAPI\Equipments.WebAPI.csproj", "{8C3B15B4-BE76-4A5A-AA42-B3199FE29CA0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

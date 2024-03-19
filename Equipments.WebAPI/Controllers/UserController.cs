@@ -10,8 +10,8 @@ using System.Threading.Tasks;
 
 namespace Equipments.WebAPI.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class UserController : BaseController
     {
         private readonly IMapper _mapper;
@@ -21,14 +21,14 @@ namespace Equipments.WebAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<GetUsers.UserVm>>> GetAll()
+        public async Task<ActionResult<IEnumerable<UserVm>>> GetAll()
         {
             var query = new GetUsers.Query();
             var vm = await Mediator.Send(query);
             return Ok(vm);
         }
         [HttpGet("{guid}")]
-        public async Task<ActionResult<GetUserById.UserVm>> GetUser(Guid guid)
+        public async Task<ActionResult<UserVm>> GetUser(Guid guid)
         {
             var query = new GetUserById.Query()
             {

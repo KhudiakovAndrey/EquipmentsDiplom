@@ -25,7 +25,7 @@ namespace Equipments.Application.Users.Commands
             }
             public async Task<Guid> Handle(Command request, CancellationToken cancellationToken)
             {
-                if (!await _dbContext.Users.AnyAsync(user =>
+                if (await _dbContext.Users.AnyAsync(user =>
                      user.Email == request.Email, cancellationToken))
                 {
                     throw new NotFoundException(nameof(User), request.Email);
