@@ -2,16 +2,11 @@
 using Equipments.Application.Common.Mappings;
 using Equipments.Domain.Entities;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Equipments.Application.Users.Queries
 {
-    public partial class GetUsers
+    public partial class GetUserById
     {
-
         public class UserVm : IMapWith<User>
         {
             public int Iduser { get; set; }
@@ -23,6 +18,7 @@ namespace Equipments.Application.Users.Queries
             public bool Isactive { get; set; }
             public int? Idworker { get; set; }
             public Guid RowGuid { get; set; }
+
             public void Mapping(Profile profile)
             {
                 profile.CreateMap<User, UserVm>()

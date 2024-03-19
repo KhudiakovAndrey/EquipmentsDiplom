@@ -1,17 +1,25 @@
 ﻿
+using AutoMapper;
+using Equipments.Application.Users.Commands;
 using Equipments.Application.Users.Queries;
-using Equipments.Domain.Entities;
+using Equipments.WebAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Equipments.WebAPI.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class UserController : BaseController
     {
+        private readonly IMapper _mapper;
+        public UserController(IMapper mapper)
+        {
+            _mapper = mapper;
+        }
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GetUsers.UserVm>>> GetAll()
         {
@@ -19,8 +27,8 @@ namespace Equipments.WebAPI.Controllers
             var vm = await Mediator.Send(query);
             return Ok(vm);
         }
-        [HttpGet("guid")]
-        public async Task<ActionResult<User>> GetUserByGuid(Guid guid)
+        [HttpGet("{guid}")]
+        public async Task<ActionResult<GetUserById.UserVm>> GetUser(Guid guid)
         {
             var query = new GetUserById.Query()
             {
@@ -28,6 +36,13 @@ namespace Equipments.WebAPI.Controllers
             };
             var vm = await Mediator.Send(query);
             return Ok(vm);
+        }
+        [HttpPost]
+        public async Task<ActionResult<Guid>> Create([FromBody] CreateUserDto createUserDto)
+        {
+            var command = _mapper.Map<CreateUser.Command>(createUserDto);
+            var userGuid = await Mediator.Send(command);
+            return Ok(userGuid);
         }
     }
 }

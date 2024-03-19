@@ -18,19 +18,19 @@ namespace Equipments.WebAPI
             var host = CreateHostBuilder(args).Build();
 
             //Инициализация БД (возможно надо исправить)
-            using (var scope = host.Services.CreateScope())
-            {
-                var serviceProvider = scope.ServiceProvider;
-                try
-                {
-                    var context = serviceProvider.GetRequiredService<EquipmentsDbContext>();
-                    //DbInitializer
-                }
-                catch (Exception ex)
-                {
+            //using (var scope = host.Services.CreateScope())
+            //{
+            //    var serviceProvider = scope.ServiceProvider;
+            //    try
+            //    {
+            //        var context = serviceProvider.GetRequiredService<EquipmentsDbContext>();
+            //        //DbInitializer
+            //    }
+            //    catch (Exception ex)
+            //    {
 
-                }
-            }
+            //    }
+            //}
             host.Run();
         }
 

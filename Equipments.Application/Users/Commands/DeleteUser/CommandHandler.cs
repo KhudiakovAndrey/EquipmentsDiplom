@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Equipments.Application.Users.Commands.DeleteUser
+namespace Equipments.Application.Users.Commands
 {
     public partial class DeleteUser
     {
@@ -18,10 +18,10 @@ namespace Equipments.Application.Users.Commands.DeleteUser
             {
                 _dbContext = dbContext;
             }
-            public async Task Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
                 var entity = await _dbContext.Users.FirstOrDefaultAsync(user =>
-                    user.Iduser == request.IdUser);
+                    user.Iduser == request.IdUser, cancellationToken);
                 if (entity == null)
                 {
                     throw new NotFoundException(nameof(User), request.IdUser);
@@ -29,7 +29,10 @@ namespace Equipments.Application.Users.Commands.DeleteUser
 
                 _dbContext.Users.Remove(entity);
                 await _dbContext.SaveChangesAsync(cancellationToken);
+
+                return Unit.Value;
             }
+
         }
     }
 

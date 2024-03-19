@@ -10,7 +10,7 @@ namespace Equipments.Application.Users.Queries
 {
     public partial class GetUserById
     {
-        public class Query : IRequest<User>
+        public class Query : IRequest<UserVm>
         {
             public Guid RowGuid { get; set; }
         }

@@ -2,6 +2,7 @@ using Equipments.Application;
 using Equipments.Application.Common.Mappings;
 using Equipments.Application.Interfaces;
 using Equipments.Persistence;
+using Equipments.WebAPI.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -65,9 +66,11 @@ namespace Equipments.WebAPI
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Equipments.WebAPI v1"));
             }
 
-            app.UseHttpsRedirection();
+            app.UseCustomExceptionHandler();
 
             app.UseRouting();
+
+            app.UseHttpsRedirection();
 
             app.UseCors("AllowAll");
 

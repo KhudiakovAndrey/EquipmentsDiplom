@@ -23,7 +23,7 @@ namespace Equipments.Persistence.EntiryTypeConfiguration
             entity.Property(e => e.Dateregistration).HasColumnName("dateregistration");
 
             entity.Property(e => e.Email)
-                .HasMaxLength(50)
+                .HasMaxLength(254)
                 .HasColumnName("email");
 
             entity.Property(e => e.Idworker).HasColumnName("idworker");

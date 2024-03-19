@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Equipments.Application.Users.Commands.DeleteUser
+namespace Equipments.Application.Users.Commands
 {
     public partial class DeleteUser
     {

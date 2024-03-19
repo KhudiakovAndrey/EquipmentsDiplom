@@ -7,13 +7,15 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Equipments.Application.Common.Exceptions;
 
-namespace Equipments.Application.Users.Commands.CreateUser
+namespace Equipments.Application.Users.Commands
 {
     public partial class CreateUser
     {
         public class CommandHandler
-            : IRequestHandler<Command, int>
+            : IRequestHandler<Command, Guid>
         {
             private readonly IEquipmentsDbContext _dbContext;
 
@@ -21,11 +23,15 @@ namespace Equipments.Application.Users.Commands.CreateUser
             {
                 _dbContext = dbContext;
             }
-            public async Task<int> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Guid> Handle(Command request, CancellationToken cancellationToken)
             {
+                if (!await _dbContext.Users.AnyAsync(user =>
+                     user.Email == request.Email, cancellationToken))
+                {
+                    throw new NotFoundException(nameof(User), request.Email);
+                }
                 var user = new User()
                 {
-                    Iduser = request.Iduser,
                     Userlogin = request.Userlogin,
                     Userpassword = request.Userpassword,
                     Email = request.Email,
@@ -39,7 +45,7 @@ namespace Equipments.Application.Users.Commands.CreateUser
                 await _dbContext.Users.AddAsync(user, cancellationToken);
                 await _dbContext.SaveChangesAsync(cancellationToken);
 
-                return user.Iduser;
+                return user.Rowguid;
             }
         }
     }

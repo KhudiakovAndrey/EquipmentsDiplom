@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Equipments.Application.Users.Commands.UpdateUser
+namespace Equipments.Application.Users.Commands
 {
     public partial class UpdateUser
     {
@@ -23,8 +23,15 @@ namespace Equipments.Application.Users.Commands.UpdateUser
                 _dbContext = dbContext;
             }
 
-            public async Task Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
+                
+                if( !await _dbContext.Workers.AnyAsync(worker =>
+                    worker.Idworker == request.Idworker,cancellationToken))
+                {
+                    throw new NotFoundException(nameof(Worker), request.Idworker);
+                }
+
                 var entity = await _dbContext.Users.FirstOrDefaultAsync(user =>
                     user.Iduser == request.Iduser, cancellationToken);
                 if (entity == null)
@@ -35,14 +42,12 @@ namespace Equipments.Application.Users.Commands.UpdateUser
                 entity.Userlogin = request.Userlogin;
                 entity.Userpassword = request.Userpassword;
                 entity.Email = request.Email;
-                entity.Datelastlogin = request.Datelastlogin;
-                entity.Dateregistration = request.Dateregistration;
-                entity.Isregemailactive = request.Isregemailactive;
                 entity.Isactive = request.Isactive;
-                entity.Rowguid = request.Rowguid;
                 entity.Idworker = request.Idworker;
 
                 await _dbContext.SaveChangesAsync(cancellationToken);
+
+                return Unit.Value;
             }
         }
 
