@@ -30,9 +30,10 @@ namespace Equipments.Application.Interfaces
         DbSet<StatusRequest> StatusRequests { get; set; }
         DbSet<TechnicalSupport> TechnicalSupports { get; set; }
         DbSet<TypeEquipment> TypeEquipments { get; set; }
-        DbSet<User> Users { get; set; }
         DbSet<Worker> Workers { get; set; }
         DbSet<Token> Tokens { get; set; }
+        DbSet<AppUser> AppUsers { get; set; }
+
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

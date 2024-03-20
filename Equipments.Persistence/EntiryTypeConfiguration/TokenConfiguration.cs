@@ -14,24 +14,36 @@ namespace Equipments.Persistence.EntiryTypeConfiguration
     {
         public void Configure(EntityTypeBuilder<Token> entity)
         {
-            entity.ToTable("tokens");
+            entity.HasKey(e => e.Key)
+    .HasName("Tokens_pkey");
 
-            entity.Property(e => e.Id)
-                .HasColumnName("id")
-                .HasDefaultValueSql("gen_random_uuid()");
+            entity.Property(e => e.Key).HasMaxLength(200);
 
-            entity.Property(e => e.Iduser).HasColumnName("iduser");
-
-            entity.Property(e => e.Tokencontent)
+            entity.Property(e => e.AccessToken)
                 .IsRequired()
-                .HasMaxLength(500)
-                .HasColumnName("tokencontent");
+                .HasMaxLength(256);
 
-            entity.HasOne(d => d.IduserNavigation)
+            entity.Property(e => e.ClientId)
+                .IsRequired()
+                .HasMaxLength(256);
+
+            entity.Property(e => e.CreationTime).HasColumnType("timestamp with time zone");
+
+            entity.Property(e => e.Data)
+                .IsRequired()
+                .HasColumnType("jsonb");
+
+            entity.Property(e => e.Expires).HasColumnType("timestamp with time zone");
+
+            entity.Property(e => e.Type)
+                .IsRequired()
+                .HasMaxLength(50);
+
+            entity.HasOne(d => d.User)
                 .WithMany(p => p.Tokens)
-                .HasForeignKey(d => d.Iduser)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("tokens_iduser_fkey");
+                .HasForeignKey(d => d.UserId)
+                .HasConstraintName("FK_Tokens_AspNetUsers_UserId");
+
         }
 
     }

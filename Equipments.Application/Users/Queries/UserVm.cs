@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Equipments.Application.Users.Queries
 {
 
-    public class UserVm : IMapWith<User>
+    public class UserVm : IMapWith<AppUser>
     {
         public int Iduser { get; set; }
         public string Userlogin { get; set; }
@@ -23,23 +23,21 @@ namespace Equipments.Application.Users.Queries
         public Guid RowGuid { get; set; }
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<User, UserVm>()
+            profile.CreateMap<AppUser, UserVm>()
                 .ForMember(userVm => userVm.Iduser,
-                    opt => opt.MapFrom(user => user.Iduser))
+                    opt => opt.MapFrom(user => user.Id))
                 .ForMember(userVm => userVm.Userlogin,
-                    opt => opt.MapFrom(user => user.Userlogin))
+                    opt => opt.MapFrom(user => user.UserName))
                 .ForMember(userVm => userVm.Datelastlogin,
-                    opt => opt.MapFrom(user => user.Datelastlogin))
+                    opt => opt.MapFrom(user => user.LastLoginDate))
                 .ForMember(userVm => userVm.Dateregistration,
-                    opt => opt.MapFrom(user => user.Dateregistration))
+                    opt => opt.MapFrom(user => user.RegistrationDate))
                 .ForMember(userVm => userVm.Isregemailactive,
-                    opt => opt.MapFrom(user => user.Isregemailactive))
+                    opt => opt.MapFrom(user => user.EmailConfirmed))
                 .ForMember(userVm => userVm.Isactive,
-                    opt => opt.MapFrom(user => user.Isactive))
+                    opt => opt.MapFrom(user => user.LockoutEnabled))
                 .ForMember(userVm => userVm.Idworker,
-                    opt => opt.MapFrom(user => user.Idworker))
-                .ForMember(userVm => userVm.RowGuid,
-                    opt => opt.MapFrom(user => user.Rowguid));
+                    opt => opt.MapFrom(user => user.WorkerId));
         }
     }
 

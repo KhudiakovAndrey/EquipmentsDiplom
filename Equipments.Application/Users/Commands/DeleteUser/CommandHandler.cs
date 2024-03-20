@@ -20,14 +20,14 @@ namespace Equipments.Application.Users.Commands
             }
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                var entity = await _dbContext.Users.FirstOrDefaultAsync(user =>
-                    user.Iduser == request.IdUser, cancellationToken);
+                var entity = await _dbContext.AppUsers.FirstOrDefaultAsync(user =>
+                    user.Id == request.IdUser, cancellationToken);
                 if (entity == null)
                 {
-                    throw new NotFoundException(nameof(User), request.IdUser);
+                    throw new NotFoundException(nameof(AppUser), request.IdUser);
                 }
 
-                _dbContext.Users.Remove(entity);
+                _dbContext.AppUsers.Remove(entity);
                 await _dbContext.SaveChangesAsync(cancellationToken);
 
                 return Unit.Value;

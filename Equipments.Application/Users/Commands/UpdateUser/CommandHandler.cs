@@ -32,18 +32,18 @@ namespace Equipments.Application.Users.Commands
                     throw new NotFoundException(nameof(Worker), request.Idworker);
                 }
 
-                var entity = await _dbContext.Users.FirstOrDefaultAsync(user =>
-                    user.Iduser == request.Iduser, cancellationToken);
+                var entity = await _dbContext.AppUsers.FirstOrDefaultAsync(user =>
+                    user.Id == request.Iduser, cancellationToken);
                 if (entity == null)
                 {
-                    throw new NotFoundException(nameof(User), request.Iduser);
+                    throw new NotFoundException(nameof(AppUser), request.Iduser);
                 }
 
-                entity.Userlogin = request.Userlogin;
-                entity.Userpassword = request.Userpassword;
-                entity.Email = request.Email;
-                entity.Isactive = request.Isactive;
-                entity.Idworker = request.Idworker;
+                //entity.Userlogin = request.Userlogin;
+                //entity.Userpassword = request.Userpassword;
+                //entity.Email = request.Email;
+                //entity.Isactive = request.Isactive;
+                //entity.Idworker = request.Idworker;
 
                 await _dbContext.SaveChangesAsync(cancellationToken);
 

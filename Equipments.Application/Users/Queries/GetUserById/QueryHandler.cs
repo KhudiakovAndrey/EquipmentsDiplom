@@ -28,10 +28,10 @@ namespace Equipments.Application.Users.Queries
 
             public async Task<UserVm> Handle(Query request, CancellationToken cancellationToken)
             {
-                var entity = await _dbContext.Users.FirstOrDefaultAsync(user => user.Rowguid == request.RowGuid);
+                var entity = await _dbContext.AppUsers.FirstOrDefaultAsync(user => user.Id == 1);
                 if (entity == null)
                 {
-                    throw new NotFoundException(nameof(User), request.RowGuid);
+                    throw new NotFoundException(nameof(AppUser), request.RowGuid);
                 }
 
                 return _mapper.Map<UserVm>(entity);

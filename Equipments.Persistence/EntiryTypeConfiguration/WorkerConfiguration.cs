@@ -31,8 +31,6 @@ namespace Equipments.Persistence.EntiryTypeConfiguration
                 .HasColumnName("image")
                 .HasDefaultValueSql("'Unidentity.jpg'::character varying");
 
-            entity.Property(e => e.Isadmin).HasColumnName("isadmin");
-
             entity.HasOne(d => d.IddepartmentNavigation)
                 .WithMany(p => p.Workers)
                 .HasForeignKey(d => d.Iddepartment)

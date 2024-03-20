@@ -11,10 +11,6 @@ namespace Equipments.Persistence.Models
 {
     public partial class EquipmentsDbContext : DbContext, IEquipmentsDbContext
     {
-        public EquipmentsDbContext()
-        {
-        }
-
         public EquipmentsDbContext(DbContextOptions<EquipmentsDbContext> options)
             : base(options)
         {
@@ -39,19 +35,9 @@ namespace Equipments.Persistence.Models
         public DbSet<StatusRequest> StatusRequests { get; set; }
         public DbSet<TechnicalSupport> TechnicalSupports { get; set; }
         public DbSet<TypeEquipment> TypeEquipments { get; set; }
-        public DbSet<User> Users { get; set; }
-        public DbSet<Worker> Workers { get; set; }
         public DbSet<Token> Tokens { get; set; }
-
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            //            if (!optionsBuilder.IsConfigured)
-            //            {
-            //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-            //                optionsBuilder.UseNpgsql("Host=localhost;Port=5433;Database=Equipments_dev;Username=postgres;Password=admin");
-            //            }
-        }
+        public DbSet<AppUser> AppUsers { get; set; }
+        public DbSet<Worker> Workers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -78,10 +64,9 @@ namespace Equipments.Persistence.Models
             modelBuilder.ApplyConfiguration(new StatusRequestConfiguration());
             modelBuilder.ApplyConfiguration(new TechnicalSupportConfiguration());
             modelBuilder.ApplyConfiguration(new TypeEquipmentConfiguration());
-            modelBuilder.ApplyConfiguration(new UserConfiguration());
+            modelBuilder.ApplyConfiguration(new AppUserConfiguration());
             modelBuilder.ApplyConfiguration(new WorkerConfiguration());
-
-
+            modelBuilder.ApplyConfiguration(new TokenConfiguration());
 
             modelBuilder.HasSequence("inventory_number_seq");
 

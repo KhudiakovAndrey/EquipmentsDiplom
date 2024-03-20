@@ -1,17 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+#nullable disable
 
 namespace Equipments.Domain.Entities
 {
-    public class Token
+    public partial class Token
     {
-        public Guid Id { get; set; }
-        public string Tokencontent { get; set; }
-        public int Iduser { get; set; }
+        public string Key { get; set; }
+        public string AccessToken { get; set; }
+        public DateTime Expires { get; set; }
+        public string Type { get; set; }
+        public DateTime CreationTime { get; set; }
+        public int UserId { get; set; }
+        public string ClientId { get; set; }
+        public string Data { get; set; }
 
-        public virtual User IduserNavigation { get; set; }
+        public virtual AppUser User { get; set; }
     }
 }

@@ -25,7 +25,7 @@ namespace Equipments.Application.Users.Queries
 
             public async Task<IEnumerable<UserVm>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var entities = await _dbContext.Users.ToListAsync();
+                var entities = await _dbContext.AppUsers.ToListAsync();
                 return _mapper.Map<IEnumerable<UserVm>>(entities);
             }
         }
