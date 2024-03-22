@@ -46,13 +46,8 @@ namespace Equipments.Identity
                 .AddInMemoryIdentityResources(Config.IdentityResources)
                 .AddInMemoryApiScopes(Config.ApiScopes)
                 .AddInMemoryClients(Config.Clients)
-                //.AddOperationalStore(options =>
-                //{
-                //    options.ConfigureDbContext = builder => builder.UseNpgsql(Configuration.GetConnectionString("DbUsersKPKConnection"));
-                //    options.EnableTokenCleanup = true;
-                //    options.TokenCleanupInterval = 3600;
-                //})
-                //.AddResourceOwnerValidator<CustomResourceOwnerPasswordValidator>()
+                //Добавляем кастомное добавление претензий в токен
+                .AddProfileService<ProfileClaimsService>()
                 .AddDeveloperSigningCredential();
 
 

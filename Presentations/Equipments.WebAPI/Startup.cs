@@ -40,15 +40,8 @@ namespace Equipments.WebAPI
                 .AddJwtBearer("Bearer", options =>
                 {
                     options.Authority = "https://localhost:5001/";
-                    options.RequireHttpsMetadata = true;
-                    IdentityModelEventSource.ShowPII = true;
-                    options.TokenValidationParameters = new TokenValidationParameters()
-                    {
-                        ValidateAudience = false,
-                        ValidateIssuer = false,
-                        ValidateLifetime = false,
-                        ValidateIssuerSigningKey = false,
-                    };
+                    options.TokenValidationParameters.ValidateAudience = false;
+                    options.TokenValidationParameters.ValidTypes = new[] { "at+jwt" };
                 });
 
 

@@ -45,18 +45,5 @@ namespace Equipments.WebAPI.Controllers
             var userGuid = await Mediator.Send(command);
             return Ok(userGuid);
         }
-
-        [HttpPost("SignIn/")]
-        [Authorize]
-        public ActionResult Login()
-        {
-            return NoContent();
-        }
-        [HttpGet("Status/")]
-        [Authorize]
-        public string GetStatus()
-        {
-            return "Status OK";
-        }
     }
 }

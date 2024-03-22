@@ -12,5 +12,6 @@ namespace Equipments.Identity.Models
         public DateTime RegistrationDate { get; set; }
         public DateTime LoginLastDate { get; set; }
         public int WorkerId { get; set; }
+        public bool IsAdmin { get; set; }
     }
 }

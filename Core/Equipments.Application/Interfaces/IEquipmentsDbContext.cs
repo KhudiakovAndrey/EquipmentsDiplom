@@ -32,6 +32,7 @@ namespace Equipments.Application.Interfaces
         DbSet<TypeEquipment> TypeEquipments { get; set; }
         DbSet<Worker> Workers { get; set; }
 
+        Task<bool> CheckConnectionAsync();
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

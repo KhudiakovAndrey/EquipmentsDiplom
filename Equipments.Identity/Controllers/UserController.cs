@@ -17,7 +17,6 @@ namespace Equipments.Identity.Controllers
 {
     [Route("api/{controller}")]
     [ApiController]
-    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly SignInManager<AppUser> _signInManager;
@@ -41,14 +40,62 @@ namespace Equipments.Identity.Controllers
             var user = new AppUser()
             {
                 UserName = model.Username,
-                Email = model.Email
+                Email = model.Email,
+                IsAdmin = false
             };
             var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
             {
-                return BadRequest(result.Errors);
+                return BadRequest("Не удалось зарегистрировать пользователя");
+            }
+            var resultClaim = await _userManager.AddClaimsAsync(user, new List<Claim>()
+            {
+                new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(ClaimTypes.Role, user.IsAdmin ? "admin" : "user")
+            });
+            if (!resultClaim.Succeeded)
+            {
+                return BadRequest("Не удалось создать претензии");
             }
             return Ok();
         }
+        [HttpPost("register-admin")]
+        public async Task<IActionResult> RegisterAdmin([FromBody] RegisterUserModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var user = new AppUser()
+            {
+                UserName = model.Username,
+                Email = model.Email,
+                IsAdmin = true
+            };
+            var result = await _userManager.CreateAsync(user, model.Password);
+            if (!result.Succeeded)
+            {
+                return BadRequest("Не удалось зарегистрировать пользователя");
+            }
+            var resultRole = await _userManager.AddToRoleAsync(user, user.IsAdmin ? "admin" : "user");
+            if (resultRole.Succeeded)
+            {
+                var resultClaim = await _userManager.AddClaimsAsync(user, new List<Claim>()
+                {
+                    new Claim(ClaimTypes.Name, user.UserName),
+                    new Claim(ClaimTypes.Role, _userManager.GetRolesAsync(user).Result.First())
+                });
+                if (!resultClaim.Succeeded)
+                {
+                    return BadRequest("Не удалось создать претензии");
+                }
+            }
+            else
+            {
+                return BadRequest();
+            }
+            return Ok();
+        }
+
     }
 }

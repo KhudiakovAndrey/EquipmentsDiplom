@@ -4,6 +4,7 @@ using Equipments.Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Equipments.Persistence.EntiryTypeConfiguration;
+using System.Threading.Tasks;
 
 #nullable disable
 
@@ -36,6 +37,25 @@ namespace Equipments.Persistence.Models
         public DbSet<TechnicalSupport> TechnicalSupports { get; set; }
         public DbSet<TypeEquipment> TypeEquipments { get; set; }
         public DbSet<Worker> Workers { get; set; }
+
+        public async Task<bool> CheckConnectionAsync()
+        {
+            var connection = Database.GetDbConnection();
+
+            try
+            {
+                await connection.OpenAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
