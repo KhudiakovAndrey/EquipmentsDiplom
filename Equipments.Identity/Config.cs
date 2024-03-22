@@ -11,50 +11,61 @@ namespace Equipments.Identity
 {
     public static class Config
     {
-        public static IEnumerable<ApiScope> ApiScopes =>
-           new List<ApiScope>
-           {
-                new ApiScope("EquipmentsWebAPI", "Web API")
-           };
-
         public static IEnumerable<IdentityResource> IdentityResources =>
-            new List<IdentityResource>
+            new IdentityResource[]
             {
                 new IdentityResources.OpenId(),
-                new IdentityResources.Profile()
+                new IdentityResources.Profile(),
             };
 
-        public static IEnumerable<ApiResource> ApiResources =>
-            new List<ApiResource>
+        public static IEnumerable<ApiScope> ApiScopes =>
+            new ApiScope[]
             {
-                new ApiResource("EquipmentsWebAPI", "Web API", new []
-                    { JwtClaimTypes.Name})
-                {
-                    Scopes = { "EquipmentsWebAPI" }
-                }
+                new ApiScope("EquipmentsWebApi", "Web API"),
+                new ApiScope("EquipmentsUI"),
             };
 
         public static IEnumerable<Client> Clients =>
-            new List<Client>
+            new Client[]
             {
                 new Client
                 {
                     ClientId = "equipments-web-api",
-                    ClientName = "Equipments Web",
-                    AllowedGrantTypes = GrantTypes.Code,
-                    RequireClientSecret = false,
-                    RequirePkce = true,
-                    AllowedCorsOrigins =
-                    {
-                        "http://..."
-                    },
+                    ClientName = "Equipments Web API",
+
+                    AllowedGrantTypes = GrantTypes.ClientCredentials,
+                    ClientSecrets = { new Secret("511536EF-F270-4058-80CA-1C89C192F69A".Sha256()) },
+
                     AllowedScopes =
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
-                        "EquipmentsWebAPI"
+                        "EquipmentsWebApi",
+                        "EquipmentsUI"
                     },
-                    AllowAccessTokensViaBrowser = true
+                    AllowedCorsOrigins =
+                    {
+                        "http://localhost:3000"
+                    },
+                },
+
+                new Client
+                {
+                    ClientId = "external",
+                    ClientName = "External Client",
+                    AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
+                    RequireClientSecret = false,
+
+                    AllowedScopes =
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        "EquipmentsWebApi"
+                    },
+                    AllowedCorsOrigins =
+                    {
+                        "http://localhost:3000"
+                    },
                 }
             };
     }
