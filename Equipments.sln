@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.34301.259
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34714.143
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{F76A0089-EFD3-4C86-9A5B-EB590B2FD137}"
 EndProject
@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{9ADB6559
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentations", "Presentations", "{9B6173E6-FA1F-479F-B689-23A9DC9DB80F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Equipments.Identity", "Equipments.Identity\Equipments.Identity.csproj", "{29B4A208-7835-4E71-B184-5A9193E04244}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Equipments.Identity", "Equipments.Identity\Equipments.Identity.csproj", "{29B4A208-7835-4E71-B184-5A9193E04244}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Equipments.Persistence", "Infrastructure\Equipments.Persistence\Equipments.Persistence.csproj", "{69E02B60-B5B1-4B92-B248-63894C8D6DC6}"
 EndProject
@@ -20,6 +20,12 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Equipments.Domain", "Core\Equipments.Domain\Equipments.Domain.csproj", "{04B4F313-D189-4E66-AFFA-7B302DCE696B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Equipments.WebAPI", "Presentations\Equipments.WebAPI\Equipments.WebAPI.csproj", "{C08822B3-407C-4935-B989-690D878A9D8E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Equipments.AvaloniaUI", "Equipments.AvaloniaUI\Equipments.AvaloniaUI.csproj", "{47B85F99-4335-4A1C-ADB9-FCBC9866F22F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Equipments.AvaloniaUI.Desktop", "Equipments.AvaloniaUI.Desktop\Equipments.AvaloniaUI.Desktop.csproj", "{544C3D51-C7F4-489D-8197-ED18EA510D3F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Equipments.AvaloniUI", "Equipments.AvaloniUI", "{5C129FBC-456B-42A0-80EE-A88DF95123BC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +53,14 @@ Global
 		{C08822B3-407C-4935-B989-690D878A9D8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C08822B3-407C-4935-B989-690D878A9D8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C08822B3-407C-4935-B989-690D878A9D8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47B85F99-4335-4A1C-ADB9-FCBC9866F22F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47B85F99-4335-4A1C-ADB9-FCBC9866F22F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47B85F99-4335-4A1C-ADB9-FCBC9866F22F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47B85F99-4335-4A1C-ADB9-FCBC9866F22F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{544C3D51-C7F4-489D-8197-ED18EA510D3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{544C3D51-C7F4-489D-8197-ED18EA510D3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{544C3D51-C7F4-489D-8197-ED18EA510D3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{544C3D51-C7F4-489D-8197-ED18EA510D3F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -56,6 +70,8 @@ Global
 		{9C461B80-7C0D-4744-8748-3FBA98A7EC12} = {F76A0089-EFD3-4C86-9A5B-EB590B2FD137}
 		{04B4F313-D189-4E66-AFFA-7B302DCE696B} = {F76A0089-EFD3-4C86-9A5B-EB590B2FD137}
 		{C08822B3-407C-4935-B989-690D878A9D8E} = {9B6173E6-FA1F-479F-B689-23A9DC9DB80F}
+		{47B85F99-4335-4A1C-ADB9-FCBC9866F22F} = {5C129FBC-456B-42A0-80EE-A88DF95123BC}
+		{544C3D51-C7F4-489D-8197-ED18EA510D3F} = {5C129FBC-456B-42A0-80EE-A88DF95123BC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BFDF835A-7156-454D-8E6A-CF22DD8BFFA0}
