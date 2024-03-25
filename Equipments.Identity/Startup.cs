@@ -1,5 +1,6 @@
 using Equipments.Identity.Data;
 using Equipments.Identity.Models;
+using Equipments.Identity.Services.EmailSender;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -9,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,6 +51,12 @@ namespace Equipments.Identity
                 //Добавляем кастомное добавление претензий в токен
                 .AddProfileService<ProfileClaimsService>()
                 .AddDeveloperSigningCredential();
+
+            services.Configure<EmailSettings>(Configuration.GetSection("Email"));
+            services.AddTransient<IEmailSender>(options =>
+            {
+                return new MailKitEmailSender(options.GetService<IOptions<EmailSettings>>()?.Value);
+            });
 
 
             //services.AddAuthentication();

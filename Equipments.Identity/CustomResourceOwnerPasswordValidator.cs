@@ -26,7 +26,8 @@ namespace Equipments.Identity
                 context.Result = new GrantValidationResult(TokenRequestErrors.InvalidGrant, "Неправильный логин или пароль");
                 return;
             }
-
+            user.LoginLastDate = DateTime.UtcNow;
+            await _userManager.UpdateAsync(user);
             var principal = await GetClaimsPrincipalAsync(user);
 
             context.Result = new GrantValidationResult(

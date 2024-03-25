@@ -10,7 +10,7 @@ namespace Equipments.Persistence
     {
         public static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
         {
-            var connectionsString = configuration["DbDevHomeConnection"];
+            var connectionsString = configuration["DbDevKPKConnection"];
             services.AddDbContext<EquipmentsDbContext>(options =>
             {
                 options.UseNpgsql(connectionsString);

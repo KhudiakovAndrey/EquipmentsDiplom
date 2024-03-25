@@ -15,8 +15,8 @@ namespace Equipments.Application.Equipments.Queries.GetDetailsEquipment
         {
 
             public int IdEquipment { get; set; }
-            public string Title { get; set; }
-            public string Fulltitle { get; set; }
+            public string Title { get; set; } = string.Empty;
+            public string Fulltitle { get; set; } = string.Empty;
             public bool Isgroup { get; set; }
             public int IdStatusEquipment { get; set; }
             public int IdTypeEquipment { get; set; }

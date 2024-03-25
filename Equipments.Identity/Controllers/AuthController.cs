@@ -1,7 +1,10 @@
 ﻿using Equipments.Identity.Models;
+using Equipments.Identity.Services.EmailSender;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -17,17 +20,19 @@ namespace Equipments.Identity.Controllers
 {
     [Route("api/{controller}")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class AuthController : ControllerBase
     {
-        private readonly SignInManager<AppUser> _signInManager;
         private readonly UserManager<AppUser> _userManager;
-        private readonly ILogger<UserController> _logger;
+        private readonly IConfiguration _configuration;
+        private readonly ILogger<AuthController> _logger;
+        private readonly IEmailSender _emailSender;
 
-        public UserController(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager, ILogger<UserController> logger)
+        public AuthController(UserManager<AppUser> userManager, IConfiguration configuration, ILogger<AuthController> logger, IEmailSender emailSender)
         {
-            _signInManager = signInManager;
             _userManager = userManager;
+            _configuration = configuration;
             _logger = logger;
+            _emailSender = emailSender;
         }
 
         [HttpPost("register")]
@@ -41,13 +46,17 @@ namespace Equipments.Identity.Controllers
             {
                 UserName = model.Username,
                 Email = model.Email,
+                RegistrationDate = DateTime.UtcNow,
+                EmailConfirmationCode = AppUser.GenerateEmailConfirmationCode(),
                 IsAdmin = false
             };
+
             var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
             {
                 return BadRequest("Не удалось зарегистрировать пользователя");
             }
+
             var resultClaim = await _userManager.AddClaimsAsync(user, new List<Claim>()
             {
                 new Claim(ClaimTypes.Name, user.UserName),
@@ -57,6 +66,12 @@ namespace Equipments.Identity.Controllers
             {
                 return BadRequest("Не удалось создать претензии");
             }
+
+            await _emailSender.SendEmailAsync(
+                user.Email,
+                "Подтверждение электронной почты",
+                user.EmailConfirmationCode);
+
             return Ok();
         }
         [HttpPost("register-admin")]
@@ -94,6 +109,51 @@ namespace Equipments.Identity.Controllers
             {
                 return BadRequest();
             }
+            return Ok();
+        }
+
+        [HttpPost("confirm-email")]
+        public async Task<ActionResult> Confirm(ConfirmEmailModel model)
+        {
+            var user = await _userManager.Users.FirstOrDefaultAsync(user => user.EmailConfirmationCode == model.Code && user.EmailConfirmed == false);
+
+            if (user == null)
+            {
+                return BadRequest("Неправильный код");
+            }
+
+            user.EmailConfirmed = true;
+            await _userManager.UpdateAsync(user);
+
+            return Ok();
+
+        }
+        [HttpPost("resend-email-code")]
+        public async Task<ActionResult> ResendEmailCode(ResendEmailCodeModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                return BadRequest("Пользователь не найден");
+            }
+            if (user.EmailConfirmed)
+            {
+                return BadRequest("Электронная почта подтверждена");
+            }
+
+            user.EmailConfirmationCode = AppUser.GenerateEmailConfirmationCode();
+            await _userManager.UpdateAsync(user);
+
+            await _emailSender.SendEmailAsync(
+                user.Email,
+                "Подтверждение электронной почты",
+                user.EmailConfirmationCode);
+
             return Ok();
         }
 

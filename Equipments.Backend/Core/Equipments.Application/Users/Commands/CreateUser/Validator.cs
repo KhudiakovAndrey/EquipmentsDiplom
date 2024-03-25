@@ -10,13 +10,6 @@ namespace Equipments.Application.Users.Commands
 {
     public partial class CreateUser
     {
-        private readonly IEquipmentsDbContext _dbContext;
-
-        public CreateUser(IEquipmentsDbContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
-
         public class Validator : AbstractValidator<Command>
         {
             public Validator()
