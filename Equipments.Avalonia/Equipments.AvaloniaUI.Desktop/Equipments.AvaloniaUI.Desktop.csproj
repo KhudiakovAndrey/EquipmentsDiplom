@@ -17,4 +17,10 @@
   <ItemGroup>
     <ProjectReference Include="..\Equipments.AvaloniaUI\Equipments.AvaloniaUI.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="App.axaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>
