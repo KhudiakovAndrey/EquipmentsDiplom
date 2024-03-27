@@ -11,18 +11,6 @@
 		<AvaloniaResource Include="Assets\**" />
 	</ItemGroup>
 
-
-	<ItemGroup>
-	  <AvaloniaXaml Remove="Views\MainView.axaml" />
-	  <AvaloniaXaml Remove="Views\MainWindow.axaml" />
-	</ItemGroup>
-
-
-	<ItemGroup>
-	  <AvaloniaResource Include="Views\MainView.axaml" />
-	  <AvaloniaResource Include="Views\MainWindow.axaml" />
-	</ItemGroup>
-
 	<ItemGroup>
 		<PackageReference Include="Avalonia" Version="$(AvaloniaVersion)" />
 		<PackageReference Include="Avalonia.Themes.Fluent" Version="$(AvaloniaVersion)" />
@@ -31,5 +19,11 @@
 		<!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
 		<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="$(AvaloniaVersion)" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.17" />
+		<PackageReference Include="Scrutor" Version="4.2.2" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="Services\ApiServices\" />
+		<Folder Include="Services\Interfaces\" />
 	</ItemGroup>
 </Project>

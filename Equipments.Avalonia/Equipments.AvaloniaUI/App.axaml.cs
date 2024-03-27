@@ -33,7 +33,7 @@ public partial class App : Application
         {
             //if (Enum.TryParse(settings.Theme, out ThemeVariant? theme))
             //{
-                string line = ThemeVariant.Dark.Key.ToString();
+            string? line = ThemeVariant.Dark.Key.ToString();
             //    this.RequestedThemeVariant = theme;
             //}
         }
@@ -51,7 +51,7 @@ public partial class App : Application
                 DataContext = new MainViewModel()
             };
         }
-        
+
         base.OnFrameworkInitializationCompleted();
     }
 }
