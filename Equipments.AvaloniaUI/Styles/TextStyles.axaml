@@ -1,0 +1,31 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<Design.PreviewWith>
+		<Border Padding="20">
+			<StackPanel>
+				<TextBlock Classes="h1">Заголовок 1</TextBlock>
+				<TextBlock Classes="h2">Заголовок 2</TextBlock>
+				<TextBlock Classes="h3">Заголовок 3</TextBlock>
+				<TextBlock Classes="h4">Заголовок 4</TextBlock>
+				<TextBlock Classes="h5">Заголовок 5</TextBlock>
+			</StackPanel>
+		</Border>
+	</Design.PreviewWith>
+
+	<Style Selector="TextBlock.h1">
+		<Setter Property="FontSize" Value="30"/>
+	</Style>
+	<Style Selector="TextBlock.h2">
+		<Setter Property="FontSize" Value="26"/>
+	</Style>
+	<Style Selector="TextBlock.h3">
+		<Setter Property="FontSize" Value="22"/>
+	</Style>
+	<Style Selector="TextBlock.h4">
+		<Setter Property="FontSize" Value="18"/>
+	</Style>
+	<Style Selector="TextBlock.h5">
+		<Setter Property="FontSize" Value="14"/>
+	</Style>
+	<!-- Add Styles Here -->
+</Styles>

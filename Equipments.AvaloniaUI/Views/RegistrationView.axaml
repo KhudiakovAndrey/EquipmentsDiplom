@@ -1,0 +1,28 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:vm="clr-namespace:Equipments.AvaloniaUI.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="450"
+             x:Class="Equipments.AvaloniaUI.Views.RegistrationView">
+	<UserControl.Styles>
+		<StyleInclude Source="/Styles/SpecialViewStyles/RegistrationViewStyles.axaml"/>
+	</UserControl.Styles>
+	<StackPanel Classes="reg-container">
+		<TextBlock Classes="h1">Регистрация</TextBlock>
+		<TextBox Classes="input"
+				 Watermark="Введите логин"/>
+		<TextBox Classes="input"
+				 Watermark="Введите емайл"/>
+		<TextBox Classes="pass revealPasswordButton"
+				 Watermark="Придумайте пароль"/>
+		<TextBox Classes="pass revealPasswordButton"
+				 Watermark="Подтвердите пароль"/>
+		<Button Classes="accent input">Зарегистрироваться</Button>
+		<TextBlock Classes="auth-block">
+			<TextBlock>Вспомнили данные от аккаунта?</TextBlock>
+			<Button Classes="hyperlink"
+					Command="{Binding $parent.((vm:MainAuthorizationViewModel)DataContext).ShowAuthorizationView}">Вернитесь к авторизации</Button>
+		</TextBlock>
+	</StackPanel>
+</UserControl>

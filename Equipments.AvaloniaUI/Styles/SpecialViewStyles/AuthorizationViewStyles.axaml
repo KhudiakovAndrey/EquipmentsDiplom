@@ -4,15 +4,14 @@
 		<Border Padding="20">
 			<!-- Add Controls for Previewer Here -->
 			<StackPanel Classes="auth-container">
-				<TextBlock  Classes="h">Авторизация</TextBlock>
+				<TextBlock Classes="h1">Авторизация</TextBlock>
 				<TextBox Classes="input" Watermark="Логин"/>
 				<TextBox Classes="revealPasswordButton input"
 						 PasswordChar="*"
-						 Watermark="Пароль"
-						 Text="пароль"/>
+						 Watermark="Пароль"/>
 				<CheckBox Classes="input">Сохранить пароль?</CheckBox>
 				<Button Classes="accent input">Войти</Button>
-				<TextBlock Classes="reg-block" TextWrapping="Wrap">
+				<TextBlock Classes="reg-block">
 					<TextBlock>Не удаётся войти?</TextBlock>
 					<Button Classes="hyperlink">Зарегистрируйся</Button>
 				</TextBlock>
@@ -20,20 +19,24 @@
 		</Border>
 	</Design.PreviewWith>
 
+	<Style Selector="StackPanel.auth-container">
+		<Setter Property="Margin" Value="10"/>
+	</Style>
 	<Style Selector="StackPanel > TextBox">
 		<Setter Property="Margin" Value="0 5 0 5"/>
 	</Style>
 
-	<Style Selector="StackPanel.auth-container">
-		<Setter Property="Height" Value="400"/>
-		<Setter Property="Width" Value="300"/>
-
-	</Style>
-
 	<Style Selector="Button.input">
+		<Setter Property="Height" Value="40"/>
 		<Setter Property="HorizontalAlignment" Value="Stretch"/>
 		<Setter Property="HorizontalContentAlignment" Value="Center"/>
 		<Setter Property="VerticalContentAlignment" Value="Center"/>
+		<Setter Property="Margin" Value="0 30 0 0"/>
+	</Style>
+
+	<Style Selector="TextBlock.reg-block">
+		<Setter Property="TextWrapping" Value="Wrap"/>
+		<Setter Property="Margin" Value="0 10 0 0"/>
 	</Style>
 
 </Styles>

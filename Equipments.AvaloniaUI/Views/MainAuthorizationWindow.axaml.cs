@@ -1,6 +1,8 @@
+using Avalonia.Animation;
 using Avalonia.Controls;
 using Equipments.AvaloniaUI.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace Equipments.AvaloniaUI.Views
 {
@@ -11,6 +13,7 @@ namespace Equipments.AvaloniaUI.Views
             InitializeComponent();
             var viewModel = App.ServiceProvider!.GetRequiredService<MainAuthorizationViewModel>();
             DataContext = viewModel;
+            Carousel carousel = new Carousel();
         }
     }
 }

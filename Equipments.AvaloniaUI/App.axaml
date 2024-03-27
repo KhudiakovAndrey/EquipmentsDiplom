@@ -13,5 +13,6 @@
 			</FluentTheme.Palettes>
 		</FluentTheme>
 		<StyleInclude Source="/Styles/ButtonStyles.axaml"/>
+		<StyleInclude Source="/Styles/TextStyles.axaml"/>
 	</Application.Styles>
 </Application>
