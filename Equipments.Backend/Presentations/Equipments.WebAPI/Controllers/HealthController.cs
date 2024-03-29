@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 
 namespace Equipments.WebAPI.Controllers
 {
-    //[Route("{controller}")]
-    //[ApiController]
+    [Route("api/[controller]")]
+    [ApiController]
     public class HealthController : BaseController
     {
         [HttpGet("status")]

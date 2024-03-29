@@ -1,0 +1,28 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:vm="clr-namespace:Equipments.AvaloniaUI.ViewModels"
+			 mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="450"
+			 x:DataType="vm:AuthorizationViewModel"
+             x:Class="Equipments.AvaloniaUI.Views.AuthorizationView">
+	<UserControl.Styles>
+		<StyleInclude Source="/Styles/SpecialViewStyles/AuthorizationViewStyles.axaml"/>
+	</UserControl.Styles>
+
+	<StackPanel Classes="auth-container">
+		<TextBlock Classes="h1">Авторизация</TextBlock>
+		<TextBox Classes="input" Watermark="Логин"/>
+		<TextBox Classes="revealPasswordButton input"
+				 PasswordChar="*"
+				 Watermark="Пароль"/>
+		<CheckBox Classes="input">Сохранить пароль?</CheckBox>
+		<Button Classes="accent input"
+				Command="{Binding AuthCommand}">Войти</Button>
+		<TextBlock Classes="reg-block">
+			<TextBlock>Не удаётся войти?</TextBlock>
+			<Button Classes="hyperlink"
+					Command="{Binding ((vm:MainAuthViewModel)DataContext).ShowRegistrationViewCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}">Зарегистрируйтесь</Button>
+		</TextBlock>
+	</StackPanel>
+</UserControl>

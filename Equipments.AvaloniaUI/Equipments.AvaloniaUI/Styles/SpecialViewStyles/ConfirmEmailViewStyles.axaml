@@ -1,0 +1,34 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<Design.PreviewWith>
+		<Border Padding="20">
+			<StackPanel Width="300" Classes="confirm-container">
+				<TextBlock Classes="h1" FontWeight="Black">Подтвердите Email</TextBlock>
+				<TextBlock Classes="message-block">
+					Мы выслали вам 6-ти значный код на
+					<TextBlock FontWeight="Black">nandery68@gmail.com</TextBlock>
+					. Скопируйте его в поле ниже
+				</TextBlock>
+				<TextBox Watermark="6-ти значный код активанции"></TextBox>
+				<Button Classes="accent input">Готово</Button>
+			</StackPanel>
+		</Border>
+	</Design.PreviewWith>
+
+	<Style Selector="StackPanel.confirm-container">
+		<Setter Property="Margin" Value="15"/>
+		<Setter Property="Spacing" Value="15"/>
+	</Style>
+
+	<Style Selector="TextBlock.message-block">
+		<Setter Property="TextWrapping" Value="Wrap"/>
+	</Style>
+
+	<Style Selector="Button.input">
+		<Setter Property="HorizontalAlignment" Value="Stretch"/>
+		<Setter Property="HorizontalContentAlignment" Value="Center"/>
+		<Setter Property="Height" Value="40"/>
+		<Setter Property="VerticalContentAlignment" Value="Center"/>
+	</Style>
+	<!-- Add Styles Here -->
+</Styles>

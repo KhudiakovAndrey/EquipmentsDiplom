@@ -1,19 +1,12 @@
 ﻿using Equipments.Identity.Models;
 using Equipments.Identity.Services.EmailSender;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Net;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Equipments.Identity.Controllers
@@ -23,17 +16,15 @@ namespace Equipments.Identity.Controllers
     public class AuthController : ControllerBase
     {
         private readonly UserManager<AppUser> _userManager;
-        private readonly IConfiguration _configuration;
-        private readonly ILogger<AuthController> _logger;
         private readonly IEmailSender _emailSender;
 
-        public AuthController(UserManager<AppUser> userManager, IConfiguration configuration, ILogger<AuthController> logger, IEmailSender emailSender)
+        public AuthController(UserManager<AppUser> userManager, IEmailSender emailSender)
         {
             _userManager = userManager;
-            _configuration = configuration;
-            _logger = logger;
             _emailSender = emailSender;
         }
+
+
 
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterUserModel model)
@@ -74,6 +65,7 @@ namespace Equipments.Identity.Controllers
 
             return Ok();
         }
+
         [HttpPost("register-admin")]
         public async Task<IActionResult> RegisterAdmin([FromBody] RegisterUserModel model)
         {
@@ -128,6 +120,7 @@ namespace Equipments.Identity.Controllers
             return Ok();
 
         }
+
         [HttpPost("resend-email-code")]
         public async Task<ActionResult> ResendEmailCode(ResendEmailCodeModel model)
         {

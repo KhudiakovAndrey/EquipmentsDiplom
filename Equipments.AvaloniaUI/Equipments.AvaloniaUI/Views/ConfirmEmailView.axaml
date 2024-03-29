@@ -1,0 +1,22 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:Equipments.AvaloniaUI.ViewModels"
+			 mc:Ignorable="d" d:DesignWidth="350" d:DesignHeight="450"
+             x:Class="Equipments.AvaloniaUI.Views.ConfirmEmailView">
+	<UserControl.Styles>
+		<StyleInclude Source="/Styles/SpecialViewStyles/ConfirmEmailViewStyles.axaml"/>
+	</UserControl.Styles>
+	<StackPanel Classes="confirm-container">
+		<TextBlock Classes="h1" FontWeight="Black">Подтвердите Email</TextBlock>
+		<TextBlock Classes="message-block">
+			Мы выслали вам 6-ти значный код на
+			<TextBlock FontWeight="Black">nandery68@gmail.com</TextBlock>
+			. Скопируйте его в поле ниже
+		</TextBlock>
+		<TextBox Watermark="6-ти значный код активанции"></TextBox>
+		<Button Classes="accent input">Готово</Button>
+	</StackPanel>
+
+</UserControl>

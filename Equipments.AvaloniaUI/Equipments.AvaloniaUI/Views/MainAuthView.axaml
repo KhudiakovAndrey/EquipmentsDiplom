@@ -1,0 +1,31 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:dialogHost="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
+		xmlns:vm="clr-namespace:Equipments.AvaloniaUI.ViewModels"
+		mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="450"
+		Width="450" Height="450"
+        x:Class="Equipments.AvaloniaUI.Views.MainAuthView"
+		x:DataType="vm:MainAuthViewModel"
+        Title="MainAuthWindow">
+	<Window.Styles>
+		<Style Selector="TransitioningContentControl.views-container">
+			<Setter Property="Height" Value="400"/>
+			<Setter Property="Width" Value="300"/>
+		</Style>
+	</Window.Styles>
+	<Grid>
+		<TransitioningContentControl
+			Classes="views-container"
+			Content="{Binding SelectedView}">
+			<TransitioningContentControl.PageTransition>
+				<PageSlide Orientation="Horizontal" Duration="0:00:00.300" />
+			</TransitioningContentControl.PageTransition>
+		</TransitioningContentControl>
+		<ToggleSwitch VerticalAlignment="Bottom"
+					  Command="{Binding ChangeThemeCommand}">Дневной режим</ToggleSwitch>
+
+		<Button Command="{Binding ShowDialog}">Нажми</Button>
+	</Grid>
+</Window>
