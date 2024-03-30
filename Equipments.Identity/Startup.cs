@@ -55,7 +55,7 @@ namespace Equipments.Identity
             services.Configure<EmailSettings>(Configuration.GetSection("Email"));
             services.AddTransient<IEmailSender>(options =>
             {
-                return new MailKitEmailSender(options.GetService<IOptions<EmailSettings>>()?.Value);
+                return new MailKitEmailSender(options.GetService<IOptions<EmailSettings>>()?.Value!);
             });
 
 

@@ -2,6 +2,7 @@
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Equipments.AvaloniaUI.Data;
+using Equipments.AvaloniaUI.Services.API;
 using Equipments.AvaloniaUI.ViewModels;
 using Equipments.AvaloniaUI.Views;
 using HanumanInstitute.MvvmDialogs;
@@ -23,7 +24,7 @@ public partial class App : Application
         var services = new ServiceCollection();
 
         //Добавляем базу данных для настроек
-        services.AddData("Data Source=D:\\dev\\Equipments\\Equipments.AvaloniaUI\\Equipments.AvaloniaUI\\settings.db");
+        services.AddData("Data Source=settings.db");
 
         //Добавляем сервис для диалогово в MVVM
         services.AddSingleton<IDialogService>(new DialogService(
@@ -39,6 +40,9 @@ public partial class App : Application
         var apiConfiguration = LoadConfiguration();
         services.AddSingleton(apiConfiguration);
 
+        services.AddSingleton(new LoginService(
+            ServiceProvider!.GetRequiredService<AppConfiguration>())
+            );
 
         ServiceProvider = services.BuildServiceProvider();
         DbInitializer.Initialize(ServiceProvider!.GetRequiredService<SettingsDbContext>());

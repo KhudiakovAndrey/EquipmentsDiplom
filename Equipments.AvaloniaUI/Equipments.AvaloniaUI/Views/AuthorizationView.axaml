@@ -12,9 +12,11 @@
 
 	<StackPanel Classes="auth-container">
 		<TextBlock Classes="h1">Авторизация</TextBlock>
-		<TextBox Classes="input" Watermark="Логин"/>
+		<TextBox Classes="input" Watermark="Логин"
+				 Text="{Binding Login.Username}"/>
 		<TextBox Classes="revealPasswordButton input"
 				 PasswordChar="*"
+				 Text="{Binding Login.Password}"
 				 Watermark="Пароль"/>
 		<CheckBox Classes="input">Сохранить пароль?</CheckBox>
 		<Button Classes="accent input"

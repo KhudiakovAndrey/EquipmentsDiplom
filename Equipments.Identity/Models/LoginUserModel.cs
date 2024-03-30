@@ -10,10 +10,10 @@ namespace Equipments.Identity.Models
     public class LoginUserModel
     {
         [Required]
-        [StringLength(256)]
-        public string Username { get; set; }
+        [StringLength(256, ErrorMessage = "Логин не должен превышать 256 символов")]
+        public string Username { get; set; } = string.Empty;
         [Required]
-        [StringLength(256)]
-        public string Password { get; set; }
+        [StringLength(256, ErrorMessage = "Пароль не должен превышать 256 символов")]
+        public string Password { get; set; } = string.Empty;
     }
 }

@@ -1,12 +1,18 @@
-﻿using Equipments.Identity.Models;
+﻿using Equipments.Api;
+using Equipments.Identity.Models;
 using Equipments.Identity.Services.EmailSender;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Equipments.Identity.Controllers
@@ -17,14 +23,74 @@ namespace Equipments.Identity.Controllers
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly IEmailSender _emailSender;
+        private readonly SignInManager<AppUser> _signInManager;
+        private readonly IConfiguration _configuration;
 
-        public AuthController(UserManager<AppUser> userManager, IEmailSender emailSender)
+        public AuthController(UserManager<AppUser> userManager,
+                                IEmailSender emailSender,
+                                SignInManager<AppUser> signInManager,
+                                IConfiguration configuration)
         {
             _userManager = userManager;
             _emailSender = emailSender;
+            _signInManager = signInManager;
+            _configuration = configuration;
         }
 
+        [HttpPost("login")]
+        public async Task<ActionResult> Login([FromBody] LoginUserModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
+                return BadRequest(new { errors });
+            }
 
+            var result = await _signInManager.PasswordSignInAsync(model.Username, model.Password, false, false);
+            if (result.Succeeded)
+            {
+                var user = await _userManager.FindByNameAsync(model.Username);
+                if (user != null && !user.EmailConfirmed)
+                {
+                    var errorResponse = new ErrorResponse(ErrorCodes.email_not_confirmed, "Электронная почта не подтверждена");
+                    return BadRequest(errorResponse);
+                }
+                if (user != null && user.LockoutEnabled)
+                {
+                    return BadRequest(new
+                    {
+                        error = $"Учётная запись заблокирована до {user.LockoutEnd.Value.ToString("dd.MM.yyyy")}",
+                        error_code = "account_locked"
+                    });
+                }
+                var claims = new[]
+                {
+                    new Claim(JwtRegisteredClaimNames.Sub, user!.Id),
+                    new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                };
+
+                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+                var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+                var expires = DateTime.UtcNow.AddSeconds(Convert.ToDouble(_configuration["Jwt:ExpireDays"]));
+
+                var token = new JwtSecurityToken(
+                    _configuration["Jwt:Issuer"],
+                    _configuration["Jwt:Audience"],
+                    claims,
+                    expires: expires,
+                    signingCredentials: creds
+                    );
+                return Ok(
+                    new
+                    {
+                        token = new JwtSecurityTokenHandler().WriteToken(token),
+                        expiration = expires
+                    });
+            }
+
+            return BadRequest("Неправильный логин или пароль");
+        }
 
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterUserModel model)

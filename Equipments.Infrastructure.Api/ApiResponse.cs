@@ -4,7 +4,7 @@
     {
         public bool IsSucces { get; set; }
         public int StatusCode { get; set; }
-        public string Message { get; set; } = string.Empty;
+        public ErrorResponse Message { get; set; } = new ErrorResponse();
         public T Data { get; set; }
     }
 }
