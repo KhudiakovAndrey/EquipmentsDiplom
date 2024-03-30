@@ -26,5 +26,10 @@
 			<Button Classes="hyperlink"
 					Command="{Binding ((vm:MainAuthViewModel)DataContext).ShowRegistrationViewCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}">Зарегистрируйтесь</Button>
 		</TextBlock>
+
+		<Border Classes="message-error-block" IsVisible="{Binding ShowError}">
+			<TextBlock Classes="error-text-block"
+					   Text="{Binding ErrorMessage}"/>
+		</Border>
 	</StackPanel>
 </UserControl>

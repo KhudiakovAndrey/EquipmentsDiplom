@@ -9,7 +9,7 @@ namespace Equipments.AvaloniaUI.Data
         public SettingsDbContext(DbContextOptions<SettingsDbContext> options)
             : base(options) { }
 
-        protected override async void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
         }

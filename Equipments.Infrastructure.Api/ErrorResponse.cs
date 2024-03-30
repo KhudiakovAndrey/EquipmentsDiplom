@@ -10,12 +10,16 @@ namespace Equipments.Api
     public class ErrorResponse
     {
         public ErrorResponse() { }
-        public ErrorResponse(ErrorCodes error_code, string error_message)
+        public ErrorResponse(string error_message)
+        {
+            ErrorMessage = error_message;
+        }
+        public ErrorResponse(ErrorCodes? error_code, string error_message)
         {
             ErrorCode = error_code;
             ErrorMessage = error_message;
         }
-        public ErrorCodes ErrorCode { get; set; }
+        public ErrorCodes? ErrorCode { get; set; }
         public string ErrorMessage { get; set; } = string.Empty;
     }
     public enum ErrorCodes

@@ -40,9 +40,7 @@ public partial class App : Application
         var apiConfiguration = LoadConfiguration();
         services.AddSingleton(apiConfiguration);
 
-        services.AddSingleton(new LoginService(
-            ServiceProvider!.GetRequiredService<AppConfiguration>())
-            );
+        services.AddSingleton(new LoginService(apiConfiguration));
 
         ServiceProvider = services.BuildServiceProvider();
         DbInitializer.Initialize(ServiceProvider!.GetRequiredService<SettingsDbContext>());

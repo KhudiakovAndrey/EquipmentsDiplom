@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace Equipments.Identity.Controllers
 {
-    [Route("api/{controller}")]
+    [Route("api/[controller]")]
     [ApiController]
     public class AuthController : ControllerBase
     {
@@ -57,11 +57,8 @@ namespace Equipments.Identity.Controllers
                 }
                 if (user != null && user.LockoutEnabled)
                 {
-                    return BadRequest(new
-                    {
-                        error = $"Учётная запись заблокирована до {user.LockoutEnd.Value.ToString("dd.MM.yyyy")}",
-                        error_code = "account_locked"
-                    });
+                    var errorResponse = new ErrorResponse(ErrorCodes.account_locked, $"Учётная запись заблокирована до {user?.LockoutEnd.Value.ToString("dd.MM.yyyy")}");
+                    return BadRequest(errorResponse);
                 }
                 var claims = new[]
                 {
@@ -89,7 +86,7 @@ namespace Equipments.Identity.Controllers
                     });
             }
 
-            return BadRequest("Неправильный логин или пароль");
+            return BadRequest(new ErrorResponse("Неправильный логин или пароль"));
         }
 
         [HttpPost("register")]

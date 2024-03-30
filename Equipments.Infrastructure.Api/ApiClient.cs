@@ -25,7 +25,7 @@ namespace Equipments.Api
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AccessToken);
             }
 
-            var response = await _httpClient.GetAsync(requestUrl);
+            var response = await _httpClient.GetAsync(_baseAddress + requestUrl);
             return await HandleResponse<T>(response);
         }
 
@@ -37,7 +37,7 @@ namespace Equipments.Api
             }
 
             var jsonContent = new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync(requestUrl, jsonContent);
+            var response = await _httpClient.PostAsync(_baseAddress + requestUrl, jsonContent);
             return await HandleResponse<T>(response);
         }
         public async Task<ApiResponse<T>> PutAsync<T>(string requestUrl, object content)
@@ -48,7 +48,7 @@ namespace Equipments.Api
             }
 
             var jsonContent = new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json");
-            var responce = await _httpClient.PutAsync(requestUrl, jsonContent);
+            var responce = await _httpClient.PutAsync(_baseAddress + requestUrl, jsonContent);
             return await HandleResponse<T>(responce);
         }
         public async Task<ApiResponse<bool>> DeleteAsync(string requestUrl)
@@ -58,7 +58,7 @@ namespace Equipments.Api
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AccessToken);
             }
 
-            var response = await _httpClient.DeleteAsync(requestUrl);
+            var response = await _httpClient.DeleteAsync(_baseAddress + requestUrl);
             return await HandleResponse<bool>(response);
         }
 
@@ -75,7 +75,7 @@ namespace Equipments.Api
             else
             {
                 var content = await response.Content.ReadAsStringAsync();
-                apiResponse.Message = content;
+                apiResponse.Message = JsonConvert.DeserializeObject<ErrorResponse>(content)!;
                 apiResponse.IsSucces = false;
             }
 

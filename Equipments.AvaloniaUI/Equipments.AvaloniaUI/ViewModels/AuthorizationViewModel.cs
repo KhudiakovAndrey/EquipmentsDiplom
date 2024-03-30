@@ -38,6 +38,8 @@ namespace Equipments.AvaloniaUI.ViewModels
         public ReactiveCommand<Unit, Unit> AuthCommand { get; private set; }
         public async Task Auth()
         {
+            ErrorMessage = string.Empty;
+            ShowError = false;
             var response = await _loginService.LoginAsync(Login);
             if (response.IsSucces)
             {
@@ -46,20 +48,25 @@ namespace Equipments.AvaloniaUI.ViewModels
             else
             {
                 //Ошибка авторизации. 
+                ErrorMessage = "Ошибка авторизации. ";
+
                 if (response.Message.ErrorCode == Api.ErrorCodes.email_not_confirmed)
                 {
                     //Электронная почта не подтверждена.
-                }
-                else if (response.Message.ErrorCode == Api.ErrorCodes.account_locked)
-                {
-                    //Учётная запись заблокирована.
+                    ErrorMessage += response.Message.ErrorMessage;
+
                 }
                 else
                 {
-                    //Неправильный логин или пароль.
+                    ErrorMessage += response.Message.ErrorMessage;
                 }
+
+                ShowError = true;
             }
         }
-
+        [Reactive]
+        public bool ShowError { get; set; }
+        [Reactive]
+        public string ErrorMessage { get; set; } = string.Empty;
     }
 }
