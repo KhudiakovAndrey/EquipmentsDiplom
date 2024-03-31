@@ -38,7 +38,10 @@
 															Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
 			<TextBlock Classes="error-text-block">
 				<Run Text="{Binding ErrorEmailNotConfirmMessage}"/>
-				<Button Classes="hyperlink">Подтвердите почту.</Button>
+				<Button Classes="hyperlink"
+						Command="{Binding ((vm:MainAuthViewModel)DataContext).ShowConfirmEmailView,
+						RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+						CommandParameter="{Binding EmailConfirm}">Подтвердите почту.</Button>
 			</TextBlock>
 		</Border>
 	</StackPanel>

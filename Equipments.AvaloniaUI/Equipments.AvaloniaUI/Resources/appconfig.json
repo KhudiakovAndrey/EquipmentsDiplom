@@ -2,6 +2,7 @@
   "IdentityUrl": "https://localhost:5001/api",
   "AuthEndpoint": "/auth",
 
+
   "WebApiUrl": "https://localhost:44304/api",
   "HealthEndpoint": "/health"
 }

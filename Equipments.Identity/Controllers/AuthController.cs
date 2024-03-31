@@ -195,11 +195,11 @@ namespace Equipments.Identity.Controllers
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user == null)
             {
-                return BadRequest("Пользователь не найден");
+                return BadRequest(new ErrorResponse("Пользователь не найден"));
             }
             if (user.EmailConfirmed)
             {
-                return BadRequest("Электронная почта подтверждена");
+                return BadRequest(new ErrorResponse("Электронная почта подтверждена"));
             }
 
             user.EmailConfirmationCode = AppUser.GenerateEmailConfirmationCode();

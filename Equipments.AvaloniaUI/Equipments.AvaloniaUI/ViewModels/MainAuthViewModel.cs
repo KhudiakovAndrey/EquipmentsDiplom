@@ -25,6 +25,7 @@ namespace Equipments.AvaloniaUI.ViewModels
             ShowRegistrationViewCommand = ReactiveCommand.Create(ShowRegistrationView);
             ShowAuthorizationViewCommand = ReactiveCommand.Create(ShowAuthorizationView);
             ChangeThemeCommand = ReactiveCommand.Create(ChangeTheme);
+
         }
         public async void ShowDialog()
         {
@@ -49,6 +50,7 @@ namespace Equipments.AvaloniaUI.ViewModels
         }
         public void ShowRegistrationView() => SelectedView = new RegistrationView();
         public void ShowAuthorizationView() => SelectedView = new AuthorizationView();
+        public void ShowConfirmEmailView(string email) => SelectedView = new ConfirmEmailView(email);
     }
 }
 

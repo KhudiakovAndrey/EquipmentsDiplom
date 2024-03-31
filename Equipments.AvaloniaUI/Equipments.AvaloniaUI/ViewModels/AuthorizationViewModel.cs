@@ -64,6 +64,7 @@ namespace Equipments.AvaloniaUI.ViewModels
                 {
                     //Электронная почта не подтверждена.
                     ErrorEmailNotConfirmMessage = "Электронная почта не подтверждена. ";
+                    EmailConfirm = response.Message.ErrorMessage;
                 }
                 else
                 {
@@ -79,6 +80,8 @@ namespace Equipments.AvaloniaUI.ViewModels
 
         [Reactive]
         public string ErrorEmailNotConfirmMessage { get; set; } = string.Empty;
+        [Reactive]
+        public string EmailConfirm { get; private set; } = string.Empty;
 
     }
 }

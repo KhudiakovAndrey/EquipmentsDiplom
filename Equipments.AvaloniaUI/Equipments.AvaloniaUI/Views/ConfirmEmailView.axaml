@@ -4,19 +4,22 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:Equipments.AvaloniaUI.ViewModels"
 			 mc:Ignorable="d" d:DesignWidth="350" d:DesignHeight="450"
+			 x:DataType="vm:ConfirmEmailViewModel"
              x:Class="Equipments.AvaloniaUI.Views.ConfirmEmailView">
 	<UserControl.Styles>
 		<StyleInclude Source="/Styles/SpecialViewStyles/ConfirmEmailViewStyles.axaml"/>
 	</UserControl.Styles>
+
 	<StackPanel Classes="confirm-container">
 		<TextBlock Classes="h1" FontWeight="Black">Подтвердите Email</TextBlock>
 		<TextBlock Classes="message-block">
 			Мы выслали вам 6-ти значный код на
-			<TextBlock FontWeight="Black">nandery68@gmail.com</TextBlock>
+			<TextBlock FontWeight="Black" Text="{Binding Email}"/>
 			. Скопируйте его в поле ниже
 		</TextBlock>
-		<TextBox Watermark="6-ти значный код активанции"></TextBox>
-		<Button Classes="accent input">Готово</Button>
+		<TextBox Watermark="6-ти значный код активанции"
+				 Text="{Binding ConfirmCode}"></TextBox>
+		<Button Classes="accent input"
+				Command="{Binding EmailConfirmedCommand}">Готово</Button>
 	</StackPanel>
-
 </UserControl>
