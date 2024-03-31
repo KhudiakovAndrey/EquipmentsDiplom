@@ -12,7 +12,10 @@
 	<Style Selector="Button.hyperlink">
 		<Setter Property="Template">
 			<ControlTemplate>
-				<TextBlock Text="{TemplateBinding Content}" Foreground="{StaticResource SystemAccentColor}" TextDecorations="Underline">
+				<TextBlock Text="{TemplateBinding Content}"
+						   Foreground="{StaticResource SystemAccentColor}"
+						   TextDecorations="Underline"
+						   TextWrapping="Wrap">
 					<TextBlock.Styles>
 						<Style Selector="TextBlock:pointerover">
 							<Setter Property="Foreground" Value="{StaticResource SystemAccentColorLight1}"/>

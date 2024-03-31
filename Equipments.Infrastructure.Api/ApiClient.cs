@@ -37,6 +37,7 @@ namespace Equipments.Api
             }
 
             var jsonContent = new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json");
+            string res = jsonContent.ReadAsStringAsync().Result;
             var response = await _httpClient.PostAsync(_baseAddress + requestUrl, jsonContent);
             return await HandleResponse<T>(response);
         }
@@ -48,6 +49,7 @@ namespace Equipments.Api
             }
 
             var jsonContent = new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json");
+            Console.WriteLine(jsonContent.ReadAsStringAsync());
             var responce = await _httpClient.PutAsync(_baseAddress + requestUrl, jsonContent);
             return await HandleResponse<T>(responce);
         }

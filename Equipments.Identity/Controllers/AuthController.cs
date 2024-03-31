@@ -52,7 +52,7 @@ namespace Equipments.Identity.Controllers
                 var user = await _userManager.FindByNameAsync(model.Username);
                 if (user != null && !user.EmailConfirmed)
                 {
-                    var errorResponse = new ErrorResponse(ErrorCodes.email_not_confirmed, "Электронная почта не подтверждена");
+                    var errorResponse = new ErrorResponse(ErrorCodes.email_not_confirmed, user.Email);
                     return BadRequest(errorResponse);
                 }
                 if (user != null && user.LockoutEnabled)

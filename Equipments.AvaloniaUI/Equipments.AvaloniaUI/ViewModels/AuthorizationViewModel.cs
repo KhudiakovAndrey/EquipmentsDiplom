@@ -1,8 +1,10 @@
-﻿using Equipments.AvaloniaUI.Data;
+﻿using Avalonia.Controls.Primitives;
+using Equipments.AvaloniaUI.Data;
 using Equipments.AvaloniaUI.Models;
 using Equipments.AvaloniaUI.Services.API;
 using HanumanInstitute.MvvmDialogs;
 using HanumanInstitute.MvvmDialogs.Avalonia.DialogHost;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -25,12 +27,7 @@ namespace Equipments.AvaloniaUI.ViewModels
 
         public AuthorizationViewModel(SettingsDbContext dbContext, LoginService loginService)
         {
-            var canExecuteAuthCommand = this.WhenAnyValue(
-                vm => vm.Login.Username,
-                vm => vm.Login.Password,
-                (name, pass) => !string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(pass));
-
-            AuthCommand = ReactiveCommand.CreateFromTask(Auth, canExecuteAuthCommand);
+            AuthCommand = ReactiveCommand.CreateFromTask(Auth, Login.IsValid);
 
             _dbContext = dbContext;
             _loginService = loginService;
@@ -39,34 +36,49 @@ namespace Equipments.AvaloniaUI.ViewModels
         public async Task Auth()
         {
             ErrorMessage = string.Empty;
-            ShowError = false;
+            ErrorEmailNotConfirmMessage = string.Empty;
+
             var response = await _loginService.LoginAsync(Login);
             if (response.IsSucces)
             {
-                //Авторизация прошла успешно
+                string token = response.Data.Token;
+
+                //Сохранение токена в бд
+                if (IsSaveUser)
+                {
+                    DateTime expiration = response.Data.Expiration;
+                    var settings = await _dbContext.Settings.FirstAsync();
+                    settings.AccessToken = token;
+                    settings.ExpirationToken = expiration;
+                    _dbContext.Update(settings);
+                    await _dbContext.SaveChangesAsync();
+                }
+
+
             }
             else
             {
                 //Ошибка авторизации. 
-                ErrorMessage = "Ошибка авторизации. ";
 
                 if (response.Message.ErrorCode == Api.ErrorCodes.email_not_confirmed)
                 {
                     //Электронная почта не подтверждена.
-                    ErrorMessage += response.Message.ErrorMessage;
-
+                    ErrorEmailNotConfirmMessage = "Электронная почта не подтверждена. ";
                 }
                 else
                 {
-                    ErrorMessage += response.Message.ErrorMessage;
+                    ErrorMessage = response.Message.ErrorMessage;
                 }
-
-                ShowError = true;
             }
         }
         [Reactive]
-        public bool ShowError { get; set; }
+        public bool IsSaveUser { get; set; } = false;
+
         [Reactive]
         public string ErrorMessage { get; set; } = string.Empty;
+
+        [Reactive]
+        public string ErrorEmailNotConfirmMessage { get; set; } = string.Empty;
+
     }
 }

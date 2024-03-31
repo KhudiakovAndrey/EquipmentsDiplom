@@ -36,7 +36,7 @@ namespace Equipments.Identity
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(
-                    Configuration.GetConnectionString("DbUsersKPKConnection")));
+                    Configuration.GetConnectionString("DbUsersConnection")));
             //services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddIdentity<AppUser, IdentityRole>()

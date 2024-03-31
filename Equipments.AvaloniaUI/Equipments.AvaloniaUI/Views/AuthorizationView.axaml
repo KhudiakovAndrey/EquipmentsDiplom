@@ -18,18 +18,28 @@
 				 PasswordChar="*"
 				 Text="{Binding Login.Password}"
 				 Watermark="Пароль"/>
-		<CheckBox Classes="input">Сохранить пароль?</CheckBox>
+		<CheckBox Classes="input"
+				  IsChecked="{Binding IsSaveUser}">Сохранить пароль?</CheckBox>
 		<Button Classes="accent input"
 				Command="{Binding AuthCommand}">Войти</Button>
 		<TextBlock Classes="reg-block">
 			<TextBlock>Не удаётся войти?</TextBlock>
 			<Button Classes="hyperlink"
-					Command="{Binding ((vm:MainAuthViewModel)DataContext).ShowRegistrationViewCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}">Зарегистрируйтесь</Button>
+					Command="{Binding ((vm:MainAuthViewModel)DataContext).ShowRegistrationViewCommand,
+							RelativeSource={RelativeSource AncestorType={x:Type Window}}}">Зарегистрируйтесь</Button>
 		</TextBlock>
 
-		<Border Classes="message-error-block" IsVisible="{Binding ShowError}">
+		<Border Classes="message-error-block" IsVisible="{Binding ErrorMessage,
+															Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
 			<TextBlock Classes="error-text-block"
 					   Text="{Binding ErrorMessage}"/>
+		</Border>
+		<Border Classes="message-error-block" IsVisible="{Binding ErrorEmailNotConfirmMessage,
+															Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+			<TextBlock Classes="error-text-block">
+				<Run Text="{Binding ErrorEmailNotConfirmMessage}"/>
+				<Button Classes="hyperlink">Подтвердите почту.</Button>
+			</TextBlock>
 		</Border>
 	</StackPanel>
 </UserControl>
