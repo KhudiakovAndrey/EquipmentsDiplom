@@ -28,7 +28,7 @@
 		<PackageReference Include="HanumanInstitute.MvvmDialogs.Avalonia.MessageBox" Version="2.0.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.17" />
 		<PackageReference Include="ReactiveUI.Fody" Version="18.3.1" />
-		<PackageReference Include="ReactiveUI.Validation" Version="3.1.7" />
+		<PackageReference Include="ReactiveValidation.Avalonia" Version="2.0.4" />
 		<PackageReference Include="Scrutor" Version="4.2.2" />
 	</ItemGroup>
 

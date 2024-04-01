@@ -12,14 +12,19 @@
 	<StackPanel Classes="reg-container">
 		<TextBlock Classes="h1">Регистрация</TextBlock>
 		<TextBox Classes="input"
-				 Watermark="Введите логин"/>
+				 Watermark="Введите логин"
+				 Text="{Binding Register.Username}"/>
 		<TextBox Classes="input"
-				 Watermark="Введите емайл"/>
+				 Watermark="Введите емайл"
+				 Text="{Binding Register.Email}"/>
 		<TextBox Classes="pass revealPasswordButton"
-				 Watermark="Придумайте пароль"/>
+				 Watermark="Придумайте пароль"
+				 Text="{Binding Register.Password}"/>
 		<TextBox Classes="pass revealPasswordButton"
-				 Watermark="Подтвердите пароль"/>
-		<Button Classes="accent input">Зарегистрироваться</Button>
+				 Watermark="Подтвердите пароль"
+				 Text="{Binding Register.ConfirmPassword}"/>
+		<Button Classes="accent input"
+				Command="{Binding RegistrationCommand}">Зарегистрироваться</Button>
 		<TextBlock Classes="auth-block">
 			<TextBlock>Вспомнили данные от аккаунта?</TextBlock>
 			<Button Classes="hyperlink"

@@ -12,15 +12,15 @@ namespace Equipments.AvaloniaUI.Services.API
     {
         private readonly AppConfiguration _appConfiguration;
 
-        public HealthService(AppConfiguration appConfiguration, HttpClient client) : base(client)
+        public HealthService(AppConfiguration appConfiguration, HttpClient client) : base(appConfiguration.IdentityUrl)
         {
             _appConfiguration = appConfiguration;
         }
 
         public async Task<bool> CheckServerStatusAsync()
         {
-            var responce = await SendRequestAsync(HttpMethod.Get, _appConfiguration.WebApiUrl + _appConfiguration.HealthEndpoint);
-            return responce.IsSuccessStatusCode;
+            var responce = await GetAsync<object>(_appConfiguration.WebApiUrl + _appConfiguration.HealthEndpoint);
+            return responce.IsSucces;
         }
     }
 }

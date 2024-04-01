@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Equipments.AvaloniaUI.Services.API
 {
-    public class LoginService : ApiService<LoginViewModel>
+    public class LoginService : ApiService
     {
         private readonly AppConfiguration _appConfiguration;
 

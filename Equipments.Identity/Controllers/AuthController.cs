@@ -42,8 +42,7 @@ namespace Equipments.Identity.Controllers
         {
             if (!ModelState.IsValid)
             {
-                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
-                return BadRequest(new { errors });
+                return BadRequest(new ErrorResponse("Объект не прошёл проверку данных"));
             }
 
             var result = await _signInManager.PasswordSignInAsync(model.Username, model.Password, false, false);
@@ -94,7 +93,7 @@ namespace Equipments.Identity.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return BadRequest(new ErrorResponse("Объект не прошёл проверку данных"));
             }
             var user = new AppUser()
             {
@@ -108,7 +107,7 @@ namespace Equipments.Identity.Controllers
             var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
             {
-                return BadRequest("Не удалось зарегистрировать пользователя");
+                return BadRequest(new ErrorResponse("Не удалось зарегистрировать пользователя"));
             }
 
             var resultClaim = await _userManager.AddClaimsAsync(user, new List<Claim>()
@@ -118,13 +117,10 @@ namespace Equipments.Identity.Controllers
             });
             if (!resultClaim.Succeeded)
             {
-                return BadRequest("Не удалось создать претензии");
+                return BadRequest(new ErrorResponse("Не удалось создать претензии"));
             }
 
-            await _emailSender.SendEmailAsync(
-                user.Email,
-                "Подтверждение электронной почты",
-                user.EmailConfirmationCode);
+            await ResendEmailCode(new ResendEmailCodeModel() { Email = user.Email });
 
             return Ok();
         }

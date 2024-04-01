@@ -3,7 +3,6 @@ using HanumanInstitute.MvvmDialogs;
 using HanumanInstitute.MvvmDialogs.Avalonia.DialogHost;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
-using ReactiveUI.Validation.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

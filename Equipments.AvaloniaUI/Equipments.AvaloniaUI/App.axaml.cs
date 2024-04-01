@@ -41,6 +41,7 @@ public partial class App : Application
         services.AddSingleton(apiConfiguration);
 
         services.AddSingleton(new LoginService(apiConfiguration));
+        services.AddSingleton(new RegistrationService(apiConfiguration));
 
         ServiceProvider = services.BuildServiceProvider();
         DbInitializer.Initialize(ServiceProvider!.GetRequiredService<SettingsDbContext>());
