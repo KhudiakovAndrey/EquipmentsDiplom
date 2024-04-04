@@ -5,6 +5,8 @@ using HanumanInstitute.MvvmDialogs;
 using HanumanInstitute.MvvmDialogs.Avalonia.DialogHost;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using ReactiveValidation;
+using ReactiveValidation.ValidatorFactory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,14 +16,21 @@ using System.Threading.Tasks;
 
 namespace Equipments.AvaloniaUI.ViewModels
 {
-    public class RegistrationViewModel : ViewModelBase
+    public class RegistrationViewModel : ValidatableObject
     {
         private readonly RegistrationService _registrationService;
         private readonly IDialogService _dialogService;
+        private readonly IValidatorFactory _validatorFactory;
 
-        public RegistrationViewModel(RegistrationService registrationService, IDialogService dialogService)
+        public RegistrationViewModel(RegistrationService registrationService,
+            IDialogService dialogService, IValidatorFactory validatorFactory)
         {
             RegistrationCommand = ReactiveCommand.CreateFromTask(Registration);
+
+            _validatorFactory = validatorFactory;
+            Validator = new RegistrationViewModelValidation().Build(this);
+            Validator = ValidationOptions.ValidatorFactory.GetValidator(this);
+            Validator = _validatorFactory.GetValidator(this);
 
             _registrationService = registrationService;
             _dialogService = dialogService;
@@ -53,7 +62,5 @@ namespace Equipments.AvaloniaUI.ViewModels
         [Reactive] public string Password { get; set; } = string.Empty;
 
         [Reactive] public string ConfirmPassword { get; set; } = string.Empty;
-
     }
-
 }

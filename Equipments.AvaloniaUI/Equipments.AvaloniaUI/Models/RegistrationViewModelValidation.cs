@@ -1,5 +1,6 @@
 ﻿using Equipments.AvaloniaUI.ViewModels;
 using ReactiveValidation;
+using ReactiveValidation.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
