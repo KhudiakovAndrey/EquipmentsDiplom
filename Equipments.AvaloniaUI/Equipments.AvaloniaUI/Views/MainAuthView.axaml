@@ -11,7 +11,7 @@
         Title="MainAuthWindow">
 	<Window.Styles>
 		<Style Selector="TransitioningContentControl.views-container">
-			<Setter Property="Height" Value="400"/>
+			<Setter Property="VerticalAlignment" Value="Center"/>
 			<Setter Property="Width" Value="300"/>
 		</Style>
 	</Window.Styles>
@@ -26,6 +26,5 @@
 		<ToggleSwitch VerticalAlignment="Bottom"
 					  Command="{Binding ChangeThemeCommand}">Дневной режим</ToggleSwitch>
 
-		<Button Command="{Binding ShowDialog}">Нажми</Button>
 	</Grid>
 </Window>

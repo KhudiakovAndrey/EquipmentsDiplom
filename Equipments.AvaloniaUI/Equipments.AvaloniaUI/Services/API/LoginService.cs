@@ -29,7 +29,7 @@ namespace Equipments.AvaloniaUI.Services.API
             var response = await PostAsync<object>(_appConfiguration.AuthEndpoint + "/resend-email-code", new { Email = email });
             return response;
         }
-        public async Task<ApiResponse<object>> ConfirmEmail(string code)
+        public async Task<ApiResponse<object>> ConfirmEmail(ConfirmEmailModel code)
         {
             var response = await PostAsync<object>(_appConfiguration.AuthEndpoint + "/confirm-email", new { Code = code });
             return response;

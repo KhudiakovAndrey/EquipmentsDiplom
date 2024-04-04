@@ -9,27 +9,30 @@
 	<UserControl.Styles>
 		<StyleInclude Source="/Styles/SpecialViewStyles/RegistrationViewStyles.axaml"/>
 	</UserControl.Styles>
-	<StackPanel Classes="reg-container">
-		<TextBlock Classes="h1">Регистрация</TextBlock>
-		<TextBox Classes="input"
-				 Watermark="Введите логин"
-				 Text="{Binding Register.Username}"/>
-		<TextBox Classes="input"
-				 Watermark="Введите емайл"
-				 Text="{Binding Register.Email}"/>
-		<TextBox Classes="pass revealPasswordButton"
-				 Watermark="Придумайте пароль"
-				 Text="{Binding Register.Password}"/>
-		<TextBox Classes="pass revealPasswordButton"
-				 Watermark="Подтвердите пароль"
-				 Text="{Binding Register.ConfirmPassword}"/>
-		<Button Classes="accent input"
-				Command="{Binding RegistrationCommand}">Зарегистрироваться</Button>
-		<TextBlock Classes="auth-block">
-			<TextBlock>Вспомнили данные от аккаунта?</TextBlock>
-			<Button Classes="hyperlink"
-					Command="{Binding ((vm:MainAuthViewModel)DataContext).ShowAuthorizationViewCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+	<ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+		<StackPanel Classes="reg-container">
+			<TextBlock Classes="h1">Регистрация</TextBlock>
+			<TextBox Classes="input"
+					 Watermark="Введите логин"
+					 Text="{Binding Register.Username}"/>
+			<TextBox Classes="input"
+					 Watermark="Введите емайл"
+					 Text="{Binding Register.Email}"/>
+			<TextBox Classes="pass revealPasswordButton"
+					 Watermark="Придумайте пароль"
+					 Text="{Binding Register.Password}"/>
+			<TextBox Classes="pass revealPasswordButton"
+					 Watermark="Подтвердите пароль"
+					 Text="{Binding Register.ConfirmPassword}"/>
+			<Button Classes="accent input"
+					Command="{Binding RegistrationCommand}">Зарегистрироваться</Button>
+			<TextBlock Classes="auth-block">
+				<TextBlock>Вспомнили данные от аккаунта?</TextBlock>
+				<Button Classes="hyperlink"
+						Command="{Binding ((vm:MainAuthViewModel)DataContext).ShowAuthorizationViewCommand, 
+					RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
 					>Вернитесь к авторизации</Button>
-		</TextBlock>
-	</StackPanel>
+			</TextBlock>
+		</StackPanel>
+	</ScrollViewer>
 </UserControl>

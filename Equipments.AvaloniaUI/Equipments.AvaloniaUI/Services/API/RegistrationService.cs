@@ -18,9 +18,9 @@ namespace Equipments.AvaloniaUI.Services.API
             _appConfiguration = appConfiguration;
         }
 
-        public async Task<ApiResponse<object>> RegistrationUserAsync(RegistrationModel model)
+        public async Task<ApiResponse<object>> RegistrationUserAsync(RegViewModel model)
         {
-            var response = await PostAsync<object>(_appConfiguration.AuthEndpoint, model);
+            var response = await PostAsync<object>(_appConfiguration.AuthEndpoint + "/register", model);
             return response;
         }
     }

@@ -16,7 +16,6 @@ namespace Equipments.AvaloniaUI;
 
 public partial class App : Application
 {
-    public static ServiceProvider? ServiceProvider { get; private set; }
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
@@ -37,13 +36,17 @@ public partial class App : Application
         //Добавляем все ViewModels
         services.AddViewModels();
 
+        //Загружаем конфиги
         var apiConfiguration = LoadConfiguration();
         services.AddSingleton(apiConfiguration);
 
+        //Загружаем сервисы для работы с апи
         services.AddSingleton(new LoginService(apiConfiguration));
         services.AddSingleton(new RegistrationService(apiConfiguration));
 
         ServiceProvider = services.BuildServiceProvider();
+
+        //Инициализируем БД
         DbInitializer.Initialize(ServiceProvider!.GetRequiredService<SettingsDbContext>());
     }
 
@@ -57,6 +60,8 @@ public partial class App : Application
 
         base.OnFrameworkInitializationCompleted();
     }
+    public static ServiceProvider? ServiceProvider { get; private set; }
+    public static MainAuthViewModel? MainAuthVM => ServiceProvider!.GetService<MainAuthViewModel>();
     private AppConfiguration LoadConfiguration()
     {
         var assembly = Assembly.GetExecutingAssembly();

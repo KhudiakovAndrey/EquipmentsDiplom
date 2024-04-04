@@ -12,11 +12,11 @@ namespace Equipments.AvaloniaUI.ViewModels
     {
         public static IServiceCollection AddViewModels(this IServiceCollection services)
         {
-            services.Scan(scan => scan
-                .FromAssemblyOf<ViewModelBase>()
-                .AddClasses(classes => classes.AssignableTo<ViewModelBase>())
-                .AsSelf()
-                .WithTransientLifetime());
+            services.AddTransient<AuthorizationViewModel>();
+            services.AddTransient<ConfirmEmailViewModel>();
+            services.AddTransient<RegistrationViewModel>();
+            services.AddSingleton<MainAuthViewModel>();
+
             return services;
         }
     }

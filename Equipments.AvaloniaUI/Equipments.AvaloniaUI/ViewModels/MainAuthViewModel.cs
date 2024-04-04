@@ -5,7 +5,6 @@ using HanumanInstitute.MvvmDialogs;
 using HanumanInstitute.MvvmDialogs.Avalonia.DialogHost;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
-using System.Collections.ObjectModel;
 using System.Reactive;
 using System.Threading.Tasks;
 
@@ -27,16 +26,7 @@ namespace Equipments.AvaloniaUI.ViewModels
             ChangeThemeCommand = ReactiveCommand.Create(ChangeTheme);
 
         }
-        public async void ShowDialog()
-        {
-            await _dialogService.ShowDialogHostAsync(
-                   this,
-                   new DialogHostSettings("Hello world!")
-                   {
-                       CloseOnClickAway = true,
 
-                   });
-        }
         public ReactiveCommand<Unit, Unit> ChangeThemeCommand { get; private set; }
         public ReactiveCommand<Unit, Unit> ShowRegistrationViewCommand { get; private set; }
         public ReactiveCommand<Unit, Unit> ShowAuthorizationViewCommand { get; private set; }
@@ -48,9 +38,32 @@ namespace Equipments.AvaloniaUI.ViewModels
             else
                 App.Current!.RequestedThemeVariant = ThemeVariant.Dark;
         }
-        public void ShowRegistrationView() => SelectedView = new RegistrationView();
+        public void ShowRegistrationView()
+        {
+            SelectedView = new RegistrationView();
+            var vm = SelectedView.DataContext as RegistrationViewModel;
+            vm!.SuccessfulRegistration += RegistrationViewModel_SuccessfulRegistration;
+            vm.FailedRegistraion += async (s, error) => await ShowDialogHostAsync(error);
+        }
+
+        private void RegistrationViewModel_SuccessfulRegistration(object? sender, Models.RegViewModel e) => ShowConfirmEmailView(e.Email);
         public void ShowAuthorizationView() => SelectedView = new AuthorizationView();
-        public void ShowConfirmEmailView(string email) => SelectedView = new ConfirmEmailView(email);
+        public void ShowConfirmEmailView(string email)
+        {
+            SelectedView = new ConfirmEmailView(email);
+            var vm = SelectedView.DataContext as ConfirmEmailViewModel;
+            vm!.OnError += async (s, err) => await ShowDialogHostAsync(err);
+        }
+
+        public async Task ShowDialogHostAsync(string message)
+        {
+            await _dialogService.ShowDialogHostAsync(
+                    this,
+                    new DialogHostSettings(message)
+                    {
+                        CloseOnClickAway = true
+                    }).ConfigureAwait(true);
+        }
     }
 }
 

@@ -1,39 +1,32 @@
 ﻿using Equipments.AvaloniaUI.Models;
 using Equipments.AvaloniaUI.Services.API;
-using Equipments.AvaloniaUI.Views;
-using HanumanInstitute.MvvmDialogs;
-using HanumanInstitute.MvvmDialogs.Avalonia.DialogHost;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
-using ReactiveValidation;
-using ReactiveValidation.ValidatorFactory;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reactive;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Equipments.AvaloniaUI.ViewModels
 {
-    public class RegistrationViewModel : ValidatableObject
+    public class RegistrationViewModel : ViewModelBase
     {
         private readonly RegistrationService _registrationService;
-        private readonly IDialogService _dialogService;
-        private readonly IValidatorFactory _validatorFactory;
-
-        public RegistrationViewModel(RegistrationService registrationService,
-            IDialogService dialogService, IValidatorFactory validatorFactory)
+        public event EventHandler<string> FailedRegistraion;
+        public event EventHandler<RegViewModel> SuccessfulRegistration;
+        public RegistrationViewModel(RegistrationService registrationService)
         {
-            RegistrationCommand = ReactiveCommand.CreateFromTask(Registration);
-
-            _validatorFactory = validatorFactory;
-            Validator = new RegistrationViewModelValidation().Build(this);
-            Validator = ValidationOptions.ValidatorFactory.GetValidator(this);
-            Validator = _validatorFactory.GetValidator(this);
-
             _registrationService = registrationService;
-            _dialogService = dialogService;
+
+            Register = new RegViewModel();
+
+            IObservable<bool> isExecuteRegistrationCommand = this.WhenAnyValue(
+                vm => vm.Register.Username,
+                vm => vm.Register.Email,
+                vm => vm.Register.Password,
+                vm => vm.Register.ConfirmPassword, (u, e, p, c) => RegViewModel.isValiable(Register));
+
+            RegistrationCommand = ReactiveCommand.CreateFromTask(Registration, isExecuteRegistrationCommand);
+
         }
 
         public ReactiveCommand<Unit, Unit> RegistrationCommand { get; private set; }
@@ -42,25 +35,14 @@ namespace Equipments.AvaloniaUI.ViewModels
             var response = await _registrationService.RegistrationUserAsync(Register);
             if (response.IsSucces)
             {
-
+                SuccessfulRegistration?.Invoke(this, Register);
             }
             else
             {
-                //Неудачно
-                await _dialogService.ShowDialogHostAsync(
-                    this,
-                    new DialogHostSettings(response.Message.ErrorMessage)
-                    {
-                        CloseOnClickAway = true
-                    }).ConfigureAwait(true);
+                FailedRegistraion?.Invoke(this, response.Message.ErrorMessage);
             }
         }
-        [Reactive] public string Username { get; set; } = string.Empty;
 
-        [Reactive] public string Email { get; set; } = string.Empty;
-
-        [Reactive] public string Password { get; set; } = string.Empty;
-
-        [Reactive] public string ConfirmPassword { get; set; } = string.Empty;
+        [Reactive] public RegViewModel Register { get; set; }
     }
 }

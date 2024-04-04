@@ -8,8 +8,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using Serilog;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reactive;
 using System.Text;
@@ -38,40 +40,60 @@ namespace Equipments.AvaloniaUI.ViewModels
             ErrorMessage = string.Empty;
             ErrorEmailNotConfirmMessage = string.Empty;
 
-            var response = await _loginService.LoginAsync(Login);
-            if (response.IsSucces)
+            try
             {
-                string token = response.Data.Token;
-
-                //Сохранение токена в бд
-                if (IsSaveUser)
+                var response = await _loginService.LoginAsync(Login);
+                if (response.IsSucces)
                 {
-                    DateTime expiration = response.Data.Expiration;
-                    var settings = await _dbContext.Settings.FirstAsync();
-                    settings.AccessToken = token;
-                    settings.ExpirationToken = expiration;
-                    _dbContext.Update(settings);
-                    await _dbContext.SaveChangesAsync();
-                }
+                    string token = response.Data.Token;
 
+                    //Сохранение токена в бд
+                    if (IsSaveUser)
+                    {
+                        DateTime expiration = response.Data.Expiration;
+                        try
+                        {
+                            var settings = await _dbContext.Settings.FirstAsync();
+                            settings.AccessToken = token;
+                            settings.ExpirationToken = expiration;
+                            _dbContext.Update(settings);
+                            await _dbContext.SaveChangesAsync();
 
-            }
-            else
-            {
-                //Ошибка авторизации. 
-
-                if (response.Message.ErrorCode == Api.ErrorCodes.email_not_confirmed)
-                {
-                    //Электронная почта не подтверждена.
-                    ErrorEmailNotConfirmMessage = "Электронная почта не подтверждена. ";
-                    EmailConfirm = response.Message.ErrorMessage;
+                        }
+                        catch (FileNotFoundException ex)
+                        {
+                            Log.Information(ex, "Не удалось найти файл настроек.");
+                        }
+                    }
                 }
                 else
                 {
-                    ErrorMessage = response.Message.ErrorMessage;
+                    //Ошибка авторизации. 
+
+
+                    if (response.Message.ErrorCode == Api.ErrorCodes.email_not_confirmed)
+                    {
+                        //Электронная почта не подтверждена.
+                        ErrorEmailNotConfirmMessage = "Электронная почта не подтверждена. ";
+                        EmailConfirm = response.Message.ErrorMessage;
+                    }
+                    else
+                    {
+                        ErrorMessage = response.Message.ErrorMessage;
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Исключение при обращении к серверу для авторизации");
+            }
         }
+
+        public async void ShowDialog()
+        {
+            await App.MainAuthVM?.ShowDialogHostAsync("Hello World!")!;
+        }
+
         [Reactive]
         public bool IsSaveUser { get; set; } = false;
 

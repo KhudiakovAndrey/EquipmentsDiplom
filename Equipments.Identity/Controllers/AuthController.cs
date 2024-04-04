@@ -95,6 +95,17 @@ namespace Equipments.Identity.Controllers
             {
                 return BadRequest(new ErrorResponse("Объект не прошёл проверку данных"));
             }
+
+            var findByLoginUser = await _userManager.FindByNameAsync(model.Username);
+            var findByEmailUser = await _userManager.FindByEmailAsync(model.Email);
+
+            if (findByEmailUser != null || findByLoginUser != null)
+            {
+                string errorLogin = findByLoginUser != null ? "Пользователь с таким логином уже существует" : string.Empty;
+                string errorEmail = findByEmailUser != null ? "Пользователь с таким емайлом уже существует" : string.Empty;
+                return BadRequest(new ErrorResponse(errorLogin + "\n" + errorEmail));
+            }
+
             var user = new AppUser()
             {
                 UserName = model.Username,
@@ -119,8 +130,6 @@ namespace Equipments.Identity.Controllers
             {
                 return BadRequest(new ErrorResponse("Не удалось создать претензии"));
             }
-
-            await ResendEmailCode(new ResendEmailCodeModel() { Email = user.Email });
 
             return Ok();
         }

@@ -18,7 +18,7 @@
 			. Скопируйте его в поле ниже
 		</TextBlock>
 		<TextBox Watermark="6-ти значный код активанции"
-				 Text="{Binding ConfirmCode}"></TextBox>
+				 Text="{Binding ConfirmEmail.Code}"></TextBox>
 		<Button Classes="accent input"
 				Command="{Binding EmailConfirmedCommand}">Готово</Button>
 	</StackPanel>

@@ -1,12 +1,15 @@
-﻿using Equipments.AvaloniaUI.Services.API;
+﻿using Equipments.AvaloniaUI.Models;
+using Equipments.AvaloniaUI.Services.API;
 using HanumanInstitute.MvvmDialogs;
 using HanumanInstitute.MvvmDialogs.Avalonia.DialogHost;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Net;
 using System.Reactive;
 using System.Runtime.Serialization;
 using System.Text;
@@ -17,52 +20,66 @@ namespace Equipments.AvaloniaUI.ViewModels
     public class ConfirmEmailViewModel : ViewModelBase
     {
         private readonly LoginService _loginService;
-        private readonly IDialogService _dialogService;
 
-        public ConfirmEmailViewModel(LoginService loginService, IDialogService dialogService)
+        public ConfirmEmailViewModel(LoginService loginService)
         {
             _loginService = loginService;
-            _dialogService = dialogService;
 
-            var isExecuteEmailConfirmedCommand = this.WhenAnyValue(
-                vm => vm.ConfirmCode,
-                code => !string.IsNullOrWhiteSpace(code) && code.Count() == 6);
+            ConfirmEmail = new ConfirmEmailModel();
 
-            EmailConfirmedCommand = ReactiveCommand.CreateFromTask(EmailConfirmed, isExecuteEmailConfirmedCommand);
+
+            EmailConfirmedCommand = ReactiveCommand.CreateFromTask(EmailConfirmed, ConfirmEmail.IsExecuteCommand);
         }
 
         public ReactiveCommand<Unit, Unit> EmailConfirmedCommand { get; private set; }
         private async Task EmailConfirmed()
         {
-            var response = await _loginService.SendEmailCode(ConfirmCode);
-            if (response.IsSucces)
+            try
             {
-                //Успешно
+                var response = await _loginService.ConfirmEmail(ConfirmEmail);
+                if (response.IsSucces)
+                {
+                    //Успешно
+                }
+                else
+                {
+                    OnError?.Invoke(this, response.Message.ErrorMessage);
+                }
+            }
+            catch (WebException ex)
+            {
+                Log.Fatal(ex, "Не удалось отправить запрос на подтверждение кода");
+                throw;
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "Непредвиденная ошибка при отправке запроса на подтверждение кода");
             }
         }
 
         public async void SendEmailCode()
         {
-            var repsonse = await _loginService.SendEmailCode(Email);
-            if (!repsonse.IsSucces)
+            try
             {
-                await _dialogService.ShowDialogHostAsync(
-                    this,
-                    new DialogHostSettings($"Не удалось отправить код подтверждения на электронную почту {Email}. Пожалуйста повторите попытку позже.")
-                    {
-                        CloseOnClickAway = true,
-                    }).ConfigureAwait(true);
+                var response = await _loginService.SendEmailCode(Email);
+                if (!response.IsSucces)
+                {
+                    OnError?.Invoke(this, response.Message.ErrorMessage);
+                }
+            }
+            catch (WebException ex)
+            {
+                Log.Fatal(ex, "Не удалосб отправить запрос на отпраку кода подтверждения");
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "Непредвиденная ошибка при отправке запроса на отпраку кода подтверждения");
             }
         }
 
-        [Reactive]
-        [DataMember]
+        public event EventHandler<string>? OnError;
         public string Email { get; set; } = string.Empty;
 
-        [Reactive]
-        [Required(ErrorMessage = "Код обязательно должен быть введён")]
-        [StringLength(6, MinimumLength = 6, ErrorMessage = "Код не должен превышать 6 символом")]
-        public string ConfirmCode { get; set; } = string.Empty;
-
+        [Reactive] public ConfirmEmailModel ConfirmEmail { get; set; }
     }
 }
