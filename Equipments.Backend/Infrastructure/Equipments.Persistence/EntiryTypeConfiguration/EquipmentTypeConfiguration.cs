@@ -4,14 +4,16 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Equipments.Persistence.EntityTypeConfiguration
 {
-    public class DepartmentConfiguration : IEntityTypeConfiguration<Department>
+    public class EquipmentTypeConfiguration : IEntityTypeConfiguration<EquipmentType>
     {
-        public void Configure(EntityTypeBuilder<Department> entity)
+        public void Configure(EntityTypeBuilder<EquipmentType> entity)
         {
             entity.HasKey(e => e.Id)
-                  .HasName("departments_pkey");
+                  .HasName("equipment_types_pkey");
 
-            entity.ToTable("departments");
+            entity.ToTable("equipment_types");
+
+            entity.HasIndex(e => e.Name, "equipment_types_index");
 
             entity.Property(e => e.Id).HasColumnName("id");
 

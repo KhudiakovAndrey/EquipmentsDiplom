@@ -5,19 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Equipments\Commands\**" />
-    <EmbeddedResource Remove="Equipments\Commands\**" />
-    <None Remove="Equipments\Commands\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="Equipments\Commands\AddEquipment\Command.cs" />
-    <Compile Include="Equipments\Commands\AddEquipment\CommandHandler.cs" />
-    <Compile Include="Equipments\Commands\AddEquipment\Validator.cs" />
-    <Compile Include="Equipments\Commands\DeleteEquipment\Query.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Equipments.Domain\Equipments.Domain.csproj" />
   </ItemGroup>
 

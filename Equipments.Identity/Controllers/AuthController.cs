@@ -44,7 +44,6 @@ namespace Equipments.Identity.Controllers
             {
                 return BadRequest(new ErrorResponse("Объект не прошёл проверку данных"));
             }
-
             var result = await _signInManager.PasswordSignInAsync(model.Username, model.Password, false, false);
             if (result.Succeeded)
             {
@@ -112,7 +111,7 @@ namespace Equipments.Identity.Controllers
                 Email = model.Email,
                 RegistrationDate = DateTime.UtcNow,
                 EmailConfirmationCode = AppUser.GenerateEmailConfirmationCode(),
-                IsAdmin = false
+                RoleID = (int)Roles.User,
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
@@ -124,7 +123,7 @@ namespace Equipments.Identity.Controllers
             var resultClaim = await _userManager.AddClaimsAsync(user, new List<Claim>()
             {
                 new Claim(ClaimTypes.Name, user.UserName),
-                new Claim(ClaimTypes.Role, user.IsAdmin ? "admin" : "user")
+                new Claim(ClaimTypes.Role, user.Role.Name)
             });
             if (!resultClaim.Succeeded)
             {
@@ -145,14 +144,14 @@ namespace Equipments.Identity.Controllers
             {
                 UserName = model.Username,
                 Email = model.Email,
-                IsAdmin = true
+                RoleID = (int)Roles.Admin
             };
             var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
             {
                 return BadRequest("Не удалось зарегистрировать пользователя");
             }
-            var resultRole = await _userManager.AddToRoleAsync(user, user.IsAdmin ? "admin" : "user");
+            var resultRole = await _userManager.AddToRoleAsync(user, user.Role.Name);
             if (resultRole.Succeeded)
             {
                 var resultClaim = await _userManager.AddClaimsAsync(user, new List<Claim>()

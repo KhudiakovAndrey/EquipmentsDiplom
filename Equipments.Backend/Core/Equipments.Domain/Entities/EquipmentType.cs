@@ -5,16 +5,16 @@ using System.Collections.Generic;
 
 namespace Equipments.Domain.Entities
 {
-    public partial class Post
+    public partial class EquipmentType
     {
-        public Post()
+        public EquipmentType()
         {
-            Employees = new HashSet<Employee>();
+            ProblemTypes = new HashSet<ProblemType>();
         }
 
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public virtual ICollection<Employee> Employees { get; set; }
+        public virtual ICollection<ProblemType> ProblemTypes { get; set; }
     }
 }

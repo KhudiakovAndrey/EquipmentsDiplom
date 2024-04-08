@@ -10,12 +10,12 @@ namespace Equipments.AvaloniaUI.ViewModels
 {
     public class RegistrationViewModel : ViewModelBase
     {
-        private readonly RegistrationService _registrationService;
+        private readonly UserService _userService;
         public event EventHandler<string> FailedRegistraion;
         public event EventHandler<RegViewModel> SuccessfulRegistration;
-        public RegistrationViewModel(RegistrationService registrationService)
+        public RegistrationViewModel(UserService registrationService)
         {
-            _registrationService = registrationService;
+            _userService = registrationService;
 
             Register = new RegViewModel();
 
@@ -32,7 +32,7 @@ namespace Equipments.AvaloniaUI.ViewModels
         public ReactiveCommand<Unit, Unit> RegistrationCommand { get; private set; }
         private async Task Registration()
         {
-            var response = await _registrationService.RegistrationUserAsync(Register);
+            var response = await _userService.RegistrationUserAsync(Register);
             if (response.IsSucces)
             {
                 SuccessfulRegistration?.Invoke(this, Register);

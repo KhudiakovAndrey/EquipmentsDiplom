@@ -11,11 +11,11 @@ namespace Equipments.Persistence
         public static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
         {
             var connectionsString = configuration["DbDevKPKConnection"];
-            services.AddDbContext<EquipmentsDbContext>(options =>
+            services.AddDbContext<EquipmentsBusinessContext>(options =>
             {
                 options.UseNpgsql(connectionsString);
             });
-            services.AddScoped<IEquipmentsDbContext>(provider => provider.GetService<EquipmentsDbContext>());
+            services.AddScoped<IEquipmentsDbContext>(provider => provider.GetService<EquipmentsBusinessContext>()!);
             return services;
         }
     }

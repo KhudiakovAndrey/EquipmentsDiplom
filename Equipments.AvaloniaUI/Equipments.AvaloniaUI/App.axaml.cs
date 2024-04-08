@@ -41,8 +41,8 @@ public partial class App : Application
         services.AddSingleton(apiConfiguration);
 
         //Загружаем сервисы для работы с апи
-        services.AddSingleton(new LoginService(apiConfiguration));
-        services.AddSingleton(new RegistrationService(apiConfiguration));
+        services.AddSingleton(new UserService(apiConfiguration));
+        services.AddSingleton(new UserService(apiConfiguration));
 
         ServiceProvider = services.BuildServiceProvider();
 

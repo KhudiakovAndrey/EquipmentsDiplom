@@ -11,26 +11,21 @@ namespace Equipments.Application.Interfaces
 {
     public interface IEquipmentsDbContext
     {
-        DbSet<Act> Acts { get; set; }
-        DbSet<ActsAcceptEquipment> ActsAcceptEquipments { get; set; }
-        DbSet<ActsAddResource> ActsAddResources { get; set; }
-        DbSet<ActsDeleteEquipment> ActsDeleteEquipments { get; set; }
-        DbSet<ActsDeleteResource> ActsDeleteResources { get; set; }
+        DbSet<AssignedOffice> AssignedOffices { get; set; }
+        DbSet<CommercialOffer> CommercialOffers { get; set; }
+        DbSet<CommercialOrganization> CommercialOrganizations { get; set; }
         DbSet<Department> Departments { get; set; }
-        DbSet<EqCustodiansOffice> EqCustodiansOffices { get; set; }
-        DbSet<Equipment> Equipments { get; set; }
-        DbSet<EquipmentCustodian> EquipmentCustodians { get; set; }
-        DbSet<EquipmentResource> EquipmentResources { get; set; }
-        DbSet<InventoryObject> InventoryObjects { get; set; }
-        DbSet<OfficeAssigment> OfficeAssigments { get; set; }
+        DbSet<Employee> Employees { get; set; }
+        DbSet<EquipmentPurchaseRequest> EquipmentPurchaseRequests { get; set; }
+        DbSet<EquipmentServiceRequest> EquipmentServiceRequests { get; set; }
+        DbSet<EquipmentType> EquipmentTypes { get; set; }
         DbSet<Post> Posts { get; set; }
-        DbSet<ProgressServiceRequest> ProgressServiceRequests { get; set; }
-        DbSet<ServiceRequest> ServiceRequests { get; set; }
-        DbSet<StatusEquipment> StatusEquipments { get; set; }
-        DbSet<StatusRequest> StatusRequests { get; set; }
-        DbSet<TechnicalSupport> TechnicalSupports { get; set; }
-        DbSet<TypeEquipment> TypeEquipments { get; set; }
-        DbSet<Worker> Workers { get; set; }
+        DbSet<ProblemType> ProblemTypes { get; set; }
+        DbSet<PurchasedEquipment> PurchasedEquipments { get; set; }
+        DbSet<RequestComment> RequestComments { get; set; }
+        DbSet<RequestStatus> RequestStatuses { get; set; }
+        DbSet<RequestStatusChange> RequestStatusChanges { get; set; }
+
 
         Task<bool> CheckConnectionAsync();
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);

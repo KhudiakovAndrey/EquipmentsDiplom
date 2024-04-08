@@ -9,12 +9,12 @@ namespace Equipments.Domain.Entities
     {
         public Department()
         {
-            Workers = new HashSet<Worker>();
+            Employees = new HashSet<Employee>();
         }
 
-        public int Iddepartment { get; set; }
-        public string Title { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
 
-        public virtual ICollection<Worker> Workers { get; set; }
+        public virtual ICollection<Employee> Employees { get; set; }
     }
 }

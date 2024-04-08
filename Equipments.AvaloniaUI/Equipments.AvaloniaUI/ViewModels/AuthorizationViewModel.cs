@@ -22,12 +22,12 @@ namespace Equipments.AvaloniaUI.ViewModels
     public class AuthorizationViewModel : ViewModelBase
     {
         private readonly SettingsDbContext _dbContext;
-        private readonly LoginService _loginService;
+        private readonly UserService _loginService;
 
         [Reactive]
         public LoginViewModel Login { get; set; } = new LoginViewModel();
 
-        public AuthorizationViewModel(SettingsDbContext dbContext, LoginService loginService)
+        public AuthorizationViewModel(SettingsDbContext dbContext, UserService loginService)
         {
             AuthCommand = ReactiveCommand.CreateFromTask(Auth, Login.IsValid);
 

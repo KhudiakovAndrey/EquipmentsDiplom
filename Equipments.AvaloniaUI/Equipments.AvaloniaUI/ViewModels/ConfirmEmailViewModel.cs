@@ -19,16 +19,18 @@ namespace Equipments.AvaloniaUI.ViewModels
 {
     public class ConfirmEmailViewModel : ViewModelBase
     {
-        private readonly LoginService _loginService;
+        private readonly UserService _loginService;
 
-        public ConfirmEmailViewModel(LoginService loginService)
+        public ConfirmEmailViewModel(UserService loginService)
         {
             _loginService = loginService;
 
             ConfirmEmail = new ConfirmEmailModel();
 
+            IObservable<bool> isExecuteEmailConfirmedCommand = this.WhenAnyValue(vm => vm.ConfirmEmail.Code,
+                code => !string.IsNullOrWhiteSpace(code) && code.Length == 6);
 
-            EmailConfirmedCommand = ReactiveCommand.CreateFromTask(EmailConfirmed, ConfirmEmail.IsExecuteCommand);
+            EmailConfirmedCommand = ReactiveCommand.CreateFromTask(EmailConfirmed, isExecuteEmailConfirmedCommand);
         }
 
         public ReactiveCommand<Unit, Unit> EmailConfirmedCommand { get; private set; }
@@ -43,7 +45,7 @@ namespace Equipments.AvaloniaUI.ViewModels
                 }
                 else
                 {
-                    OnError?.Invoke(this, response.Message.ErrorMessage);
+                    OnErrorHandler(response.Message.ErrorMessage);
                 }
             }
             catch (WebException ex)
@@ -64,22 +66,21 @@ namespace Equipments.AvaloniaUI.ViewModels
                 var response = await _loginService.SendEmailCode(Email);
                 if (!response.IsSucces)
                 {
-                    OnError?.Invoke(this, response.Message.ErrorMessage);
+                    OnErrorHandler(response.Message.ErrorMessage);
                 }
             }
             catch (WebException ex)
             {
-                Log.Fatal(ex, "Не удалосб отправить запрос на отпраку кода подтверждения");
+                Log.Fatal(ex, "Не удалось отправить запрос на отпраку кода подтверждения");
             }
             catch (Exception ex)
             {
-                Log.Fatal(ex, "Непредвиденная ошибка при отправке запроса на отпраку кода подтверждения");
+                Log.Fatal(ex, "Непредвиденная ошибка при отправке запроса на подтверждение кода");
             }
         }
 
-        public event EventHandler<string>? OnError;
         public string Email { get; set; } = string.Empty;
 
-        [Reactive] public ConfirmEmailModel ConfirmEmail { get; set; }
+        public ConfirmEmailModel ConfirmEmail { get; set; }
     }
 }
