@@ -12,6 +12,7 @@ namespace Equipments.AvaloniaUI.Services.API
 
         public UserService(AppConfiguration appConfiguration) : base(appConfiguration.IdentityUrl)
         {
+            AccessToken = AppConfiguration.AccesToken;
             _appConfiguration = appConfiguration;
         }
 

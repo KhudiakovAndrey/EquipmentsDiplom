@@ -4,8 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:Equipments.AvaloniaUI.ViewModels"
 			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:DataType="vm:"
 			 x:Class="Equipments.AvaloniaUI.Views.EquipmentsServiceRequestView">
+	<!--x:DataType="vm:"-->
 
 	<DataGrid>
 

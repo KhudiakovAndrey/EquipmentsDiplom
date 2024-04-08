@@ -14,6 +14,7 @@ namespace Equipments.Identity.Data
             : base(options)
         {
         }
+        public DbSet<RoleRequest> RoleRequests { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -30,8 +31,11 @@ namespace Equipments.Identity.Data
                 entity.ToTable("AspNetUserTokens"));
             builder.Entity<IdentityRoleClaim<string>>(entity =>
                 entity.ToTable("AspNetRoleClaims"));
+            builder.Entity<RoleRequest>(entity =>
+                entity.ToTable("RoleRequest"));
 
             builder.ApplyConfiguration(new AppUserConfiguration());
+            builder.ApplyConfiguration(new RoleRequestConfiguration());
         }
     }
 }

@@ -4,13 +4,11 @@ using Equipments.Identity.Services.EmailSender;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -67,7 +65,7 @@ namespace Equipments.Identity.Controllers
 
                 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
                 var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-                var expires = DateTime.UtcNow.AddSeconds(Convert.ToDouble(_configuration["Jwt:ExpireDays"]));
+                var expires = DateTime.UtcNow.AddDays(Convert.ToDouble(_configuration["Jwt:ExpireDays"]));
 
                 var token = new JwtSecurityToken(
                     _configuration["Jwt:Issuer"],
@@ -111,7 +109,6 @@ namespace Equipments.Identity.Controllers
                 Email = model.Email,
                 RegistrationDate = DateTime.UtcNow,
                 EmailConfirmationCode = AppUser.GenerateEmailConfirmationCode(),
-                RoleID = (int)Roles.User,
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
@@ -123,7 +120,7 @@ namespace Equipments.Identity.Controllers
             var resultClaim = await _userManager.AddClaimsAsync(user, new List<Claim>()
             {
                 new Claim(ClaimTypes.Name, user.UserName),
-                new Claim(ClaimTypes.Role, user.Role.Name)
+                //new Claim(ClaimTypes.Role, user.Role.Name)
             });
             if (!resultClaim.Succeeded)
             {
@@ -144,30 +141,29 @@ namespace Equipments.Identity.Controllers
             {
                 UserName = model.Username,
                 Email = model.Email,
-                RoleID = (int)Roles.Admin
             };
             var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
             {
                 return BadRequest("Не удалось зарегистрировать пользователя");
             }
-            var resultRole = await _userManager.AddToRoleAsync(user, user.Role.Name);
-            if (resultRole.Succeeded)
-            {
-                var resultClaim = await _userManager.AddClaimsAsync(user, new List<Claim>()
-                {
-                    new Claim(ClaimTypes.Name, user.UserName),
-                    new Claim(ClaimTypes.Role, _userManager.GetRolesAsync(user).Result.First())
-                });
-                if (!resultClaim.Succeeded)
-                {
-                    return BadRequest("Не удалось создать претензии");
-                }
-            }
-            else
-            {
-                return BadRequest();
-            }
+            //var resultRole = await _userManager.AddToRoleAsync(user, user.Role.Name);
+            //if (resultRole.Succeeded)
+            //{
+            //    var resultClaim = await _userManager.AddClaimsAsync(user, new List<Claim>()
+            //    {
+            //        new Claim(ClaimTypes.Name, user.UserName),
+            //        new Claim(ClaimTypes.Role, _userManager.GetRolesAsync(user).Result.First())
+            //    });
+            //    if (!resultClaim.Succeeded)
+            //    {
+            //        return BadRequest("Не удалось создать претензии");
+            //    }
+            //}
+            //else
+            //{
+            //    return BadRequest();
+            //}
             return Ok();
         }
 

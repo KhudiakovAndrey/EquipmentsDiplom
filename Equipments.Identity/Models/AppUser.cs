@@ -12,9 +12,6 @@ namespace Equipments.Identity.Models
         public DateTime RegistrationDate { get; set; }
         public DateTime LoginLastDate { get; set; }
         public string EmailConfirmationCode { get; set; } = string.Empty;
-        public int WorkerId { get; set; }
-        public int RoleID { get; set; }
-        public Role Role { get; set; }
         public static string GenerateEmailConfirmationCode()
         {
             return Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Substring(0, 6);

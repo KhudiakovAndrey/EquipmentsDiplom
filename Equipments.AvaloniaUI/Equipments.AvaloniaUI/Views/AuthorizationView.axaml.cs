@@ -16,6 +16,16 @@ namespace Equipments.AvaloniaUI.Views
             InitializeComponent();
             var vm = App.ServiceProvider!.GetRequiredService<AuthorizationViewModel>();
             DataContext = vm;
+
+            vm.OnAuthorizationSuccess += AuthorizationViewModel_OnAuthorizationSuccess;
+        }
+
+        private void AuthorizationViewModel_OnAuthorizationSuccess(object? sender, System.EventArgs e)
+        {
+            if (VisualRoot is MainAuthView root)
+            {
+                root.Close(/* Здесь будет пользователь */);
+            }
         }
     }
 }

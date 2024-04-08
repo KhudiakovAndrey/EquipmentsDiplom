@@ -1,20 +1,14 @@
-﻿using Avalonia.Controls.Primitives;
-using Equipments.AvaloniaUI.Data;
+﻿using Equipments.AvaloniaUI.Data;
 using Equipments.AvaloniaUI.Models;
 using Equipments.AvaloniaUI.Services.API;
-using HanumanInstitute.MvvmDialogs;
-using HanumanInstitute.MvvmDialogs.Avalonia.DialogHost;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using Serilog;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reactive;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Equipments.AvaloniaUI.ViewModels
@@ -46,11 +40,11 @@ namespace Equipments.AvaloniaUI.ViewModels
                 if (response.IsSucces)
                 {
                     string token = response.Data.Token;
+                    DateTime expiration = response.Data.Expiration;
 
                     //Сохранение токена в бд
                     if (IsSaveUser)
                     {
-                        DateTime expiration = response.Data.Expiration;
                         try
                         {
                             var settings = await _dbContext.Settings.FirstAsync();
@@ -58,13 +52,17 @@ namespace Equipments.AvaloniaUI.ViewModels
                             settings.ExpirationToken = expiration;
                             _dbContext.Update(settings);
                             await _dbContext.SaveChangesAsync();
-
                         }
                         catch (FileNotFoundException ex)
                         {
                             Log.Information(ex, "Не удалось найти файл настроек.");
                         }
                     }
+
+                    AppConfiguration.AccesToken = token;
+                    AppConfiguration.ExpirationToken = expiration;
+
+                    OnAuthorizationSuccess?.Invoke(this, EventArgs.Empty);
                 }
                 else
                 {
@@ -93,6 +91,7 @@ namespace Equipments.AvaloniaUI.ViewModels
         {
             await App.MainAuthVM?.ShowDialogHostAsync("Hello World!")!;
         }
+        public event EventHandler? OnAuthorizationSuccess;
 
         [Reactive]
         public bool IsSaveUser { get; set; } = false;

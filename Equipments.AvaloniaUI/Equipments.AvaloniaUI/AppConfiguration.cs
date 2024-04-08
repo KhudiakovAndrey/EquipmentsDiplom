@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Equipments.AvaloniaUI
 {
@@ -12,5 +8,9 @@ namespace Equipments.AvaloniaUI
         public string AuthEndpoint { get; set; } = string.Empty;
         public string WebApiUrl { get; set; } = string.Empty;
         public string HealthEndpoint { get; set; } = string.Empty;
+
+        public static string AccesToken { get; set; } = string.Empty;
+        public static DateTime? ExpirationToken { get; set; }
+
     }
 }

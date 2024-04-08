@@ -1,4 +1,5 @@
 ﻿using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Equipments.AvaloniaUI.Data;
@@ -9,7 +10,9 @@ using HanumanInstitute.MvvmDialogs;
 using HanumanInstitute.MvvmDialogs.Avalonia;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 
 namespace Equipments.AvaloniaUI;
@@ -54,14 +57,51 @@ public partial class App : Application
     {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            var mainWindow = new MainAuthView();
-            desktop.MainWindow = mainWindow;
+
+            var settingsDbContext = ServiceProvider?.GetService<SettingsDbContext>();
+
+            var settings = SettingsDbContext?.Settings.First();
+            if (settings?.AccessToken != null && settings?.ExpirationToken!.Value > DateTime.Now)
+            {
+                AppConfiguration.AccesToken = settings.AccessToken!;
+                AppConfiguration.ExpirationToken = settings.ExpirationToken;
+
+                var mainMenuWindow = new MainMenuWindow();
+                desktop.MainWindow = mainMenuWindow;
+            }
+            else
+            {
+                var authWindow = new MainAuthView();
+                desktop.MainWindow = authWindow;
+                authWindow.Closing += (s, e) =>
+                {
+                    var mainMenuWindow = new MainMenuWindow();
+                    desktop.MainWindow = mainMenuWindow;
+
+                    mainMenuWindow.Show();
+                };
+            }
         }
 
         base.OnFrameworkInitializationCompleted();
     }
+
+    private void AuthWindow_Closed(object? sender, System.EventArgs e)
+    {
+        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+        {
+            var mainMenuWindow = new MainMenuWindow();
+            desktop.MainWindow = mainMenuWindow;
+
+            mainMenuWindow.Show();
+
+            (sender as Window)?.Close();
+        }
+    }
+
     public static ServiceProvider? ServiceProvider { get; private set; }
     public static MainAuthViewModel? MainAuthVM => ServiceProvider!.GetService<MainAuthViewModel>();
+    public static SettingsDbContext? SettingsDbContext => ServiceProvider?.GetService<SettingsDbContext>();
     private AppConfiguration LoadConfiguration()
     {
         var assembly = Assembly.GetExecutingAssembly();

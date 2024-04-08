@@ -2,7 +2,28 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="200"
+			 xmlns:vm="clr-namespace:Equipments.AvaloniaUI.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="450"
+			 x:DataType="vm:DialogRequestRoleViewModel"
              x:Class="Equipments.AvaloniaUI.Views.DialogRequestRoleView">
-	Диалог на смену роли
+
+	<StackPanel Margin="10" Spacing="10">
+		<TextBlock Classes="h1">Запрос роли</TextBlock>
+		<TextBlock TextWrapping="Wrap">
+			Для дальнейшего входа в
+			систему необходимо произвести индентификацию аккаунта.
+			Пожалуйста введите ваши личные данные для того что бы мы
+			могли выдать вам роль
+		</TextBlock>
+		<TextBlock>Роль:</TextBlock>
+		<ComboBox PlaceholderText="Выберите желаемую роль"/>
+		<TextBlock>Описание себя:</TextBlock>
+		<TextBox AcceptsReturn="True" TextWrapping="Wrap" Height="100"
+				 Watermark="Впишите информацию чтобы мы могли вас идентифицировать и выдать положенную вам роль, это может быть ФИО, должность и др."/>
+		<Button Classes="accent" HorizontalAlignment="Stretch" Height="40">Запросить роль</Button>
+		<TextBlock TextWrapping="Wrap">
+			Если вы не желаете запрашивать роль.
+			<Button Classes="hyperlink">Перейдите к авторизации.</Button>
+		</TextBlock>
+	</StackPanel>
 </UserControl>
