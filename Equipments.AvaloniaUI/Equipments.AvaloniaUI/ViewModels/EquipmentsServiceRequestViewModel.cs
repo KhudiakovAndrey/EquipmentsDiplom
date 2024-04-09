@@ -1,4 +1,5 @@
 ﻿using DynamicData;
+using Equipments.AvaloniaUI.Models;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
@@ -10,14 +11,18 @@ using System.Threading.Tasks;
 
 namespace Equipments.AvaloniaUI.ViewModels
 {
-    public class EquipmentsServiceRequestViewModel : ViewModelBase
+    public class EquipmentsServiceRequestViewModel : RoutableViewModelBase
     {
-        public EquipmentsServiceRequestViewModel()
+        public EquipmentsServiceRequestViewModel(IScreen screen)
+            : base(screen, nameof(EquipmentPurchaseRequestViewModel).ToLowerInvariant())
         {
+            Page = new PaginationEquipmentsServiceRequestVM();
 
         }
+        public string Test => "test";
+        [Reactive] PaginationEquipmentsServiceRequestVM Page { get; set; }
 
-        //[Reactive] public ReadOnlyObservableCollection Requests { get; set; }
-        //private SourceCache<Equipment, int> _source = new(x => x.IdEquipment);
+        [Reactive] public Guid? IDResponsible { get; set; }
+        [Reactive] public DateTime? CreationDate { get; set; }
     }
 }

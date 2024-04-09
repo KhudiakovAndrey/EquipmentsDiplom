@@ -11,26 +11,26 @@ namespace Equipments.Persistence.EntityTypeConfiguration
             entity.HasKey(e => e.Id)
                   .HasName("equipment_service_requests_pkey");
 
-            entity.ToTable("equipment_service_requests");
+            entity.ToTable("EquipmentServiceRequest");
 
             entity.HasIndex(e => new { e.DetailedDescription, e.BrokenEquipmentDescription, e.CreationDate }, "equipment_service_requests_index");
 
-            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("ID");
 
             entity.Property(e => e.BrokenEquipmentDescription)
                 .IsRequired()
                 .HasMaxLength(255)
-                .HasColumnName("broken_equipment_description");
+                .HasColumnName("BrokenEquipmentDescription");
 
             entity.Property(e => e.DetailedDescription)
                 .HasMaxLength(255)
-                .HasColumnName("detailed_description");
+                .HasColumnName("DetailedDescription");
 
-            entity.Property(e => e.IdproblemType).HasColumnName("idproblem_type");
+            entity.Property(e => e.IdproblemType).HasColumnName("IDProblemType");
 
-            entity.Property(e => e.Idresponsible).HasColumnName("idresponsible");
+            entity.Property(e => e.Idresponsible).HasColumnName("IDResponsible");
 
-            entity.Property(e => e.IdsystemAdministrator).HasColumnName("idsystem_administrator");
+            entity.Property(e => e.IdsystemAdministrator).HasColumnName("IDSystemAdministrator");
 
             entity.HasOne(d => d.IdproblemTypeNavigation)
                 .WithMany(p => p.EquipmentServiceRequests)

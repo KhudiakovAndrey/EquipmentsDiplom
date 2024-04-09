@@ -1,6 +1,13 @@
-﻿namespace Equipments.AvaloniaUI.ViewModels
+﻿using ReactiveUI;
+
+namespace Equipments.AvaloniaUI.ViewModels
 {
-    public class EquipmentPurchaseRequestViewModel : ViewModelBase
+    public class EquipmentPurchaseRequestViewModel : RoutableViewModelBase
     {
+        public EquipmentPurchaseRequestViewModel(IScreen screen)
+            : base(screen, nameof(EquipmentPurchaseRequestViewModel).ToLowerInvariant())
+        {
+
+        }
     }
 }

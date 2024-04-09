@@ -2,19 +2,28 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:rxui="http://reactiveui.net"
+		xmlns:vm="clr-namespace:Equipments.AvaloniaUI.ViewModels"
+		xmlns:local="clr-namespace:Equipments.AvaloniaUI"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Equipments.AvaloniaUI.Views.MainMenuWindow"
+		x:DataType="vm:MainMenuViewModel"
         Title="MainMenuWindow">
 
 	<Grid RowDefinitions="Auto,*">
 		<StackPanel Orientation="Horizontal">
-			<Button>Кнопка1</Button>
-			<Button>Кнопка1</Button>
+			<Button Command="{Binding ShowEquipmentsServiceRequestView}">Кнопка1</Button>
+			<Button Command="{Binding ShowEquipmentPurchaseRequestView}">Кнопка1</Button>
 			<Button>Кнопка1</Button>
 			<Button>Кнопка1</Button>
 		</StackPanel>
-		<TransitioningContentControl>
+		<rxui:RoutedViewHost Grid.Row="1"
+							 Router="{Binding Router}">
 
-		</TransitioningContentControl>
+			<rxui:RoutedViewHost.ViewLocator>
+				<local:AppViewLocator/>
+			</rxui:RoutedViewHost.ViewLocator>
+
+		</rxui:RoutedViewHost>
 	</Grid>
 </Window>

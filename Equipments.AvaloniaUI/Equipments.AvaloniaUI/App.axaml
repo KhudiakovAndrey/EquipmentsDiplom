@@ -1,11 +1,11 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 x:Class="Equipments.AvaloniaUI.App"
-			 xmlns:dialogHost="clr-namespace:Equipments.AvaloniaUI"
+			 xmlns:local="clr-namespace:Equipments.AvaloniaUI"
              RequestedThemeVariant="Default">
 	<!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 	<Application.DataTemplates>
-		<dialogHost:ViewLocator/>
+		<local:ViewLocator/>
 	</Application.DataTemplates>
 
 	<Application.Styles>
@@ -17,6 +17,7 @@
 		</FluentTheme>
 
 		<StyleInclude Source="avares://DialogHost.Avalonia/Styles.xaml"/>
+		<StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
 
 		<StyleInclude Source="/Styles/ButtonStyles.axaml"/>
 		<StyleInclude Source="/Styles/TextStyles.axaml"/>

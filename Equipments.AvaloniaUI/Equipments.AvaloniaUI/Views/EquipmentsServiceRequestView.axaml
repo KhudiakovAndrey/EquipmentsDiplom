@@ -4,13 +4,21 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:Equipments.AvaloniaUI.ViewModels"
 			 mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450"
+			 x:DataType="vm:EquipmentsServiceRequestViewModel"
 			 x:Class="Equipments.AvaloniaUI.Views.EquipmentsServiceRequestView">
-	<!--x:DataType="vm:"-->
 
 	<Grid>
 
-		<DataGrid>
+		<DataGrid AutoGenerateColumns="True"
+				  IsReadOnly="True"
+				  CanUserResizeColumns="True"
+				  CanUserReorderColumns="False"
+				  GridLinesVisibility="Horizontal"
+				  ItemsSource="{Binding Page.Items}">
+			<DataGrid.Columns>
 
+			</DataGrid.Columns>
 		</DataGrid>
+		<TextBlock Text="{Binding Test}"/>
 	</Grid>
 </UserControl>
