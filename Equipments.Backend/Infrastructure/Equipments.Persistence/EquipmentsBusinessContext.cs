@@ -1,10 +1,10 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Equipments.Application.Interfaces;
 using Equipments.Domain.Entities;
-using Equipments.Application.Interfaces;
-using System.Threading.Tasks;
+using Equipments.Persistence.EntiryTypeConfiguration;
 using Equipments.Persistence.EntityTypeConfiguration;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Threading.Tasks;
 
 #nullable disable
 
@@ -73,6 +73,7 @@ namespace Equipments.Persistence.Models
             modelBuilder.ApplyConfiguration(new RequestCommentConfiguration());
             modelBuilder.ApplyConfiguration(new RequestStatusConfiguration());
             modelBuilder.ApplyConfiguration(new RequestStatusChangeConfiguration());
+            modelBuilder.ApplyConfiguration(new EmployeeRolesConfiguration());
 
 
             OnModelCreatingPartial(modelBuilder);

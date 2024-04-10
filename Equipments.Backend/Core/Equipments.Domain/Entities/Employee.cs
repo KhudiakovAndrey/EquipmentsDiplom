@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 
 #nullable disable
 
@@ -20,9 +21,11 @@ namespace Equipments.Domain.Entities
         public string FullName { get; set; }
         public int Idpost { get; set; }
         public int Iddepartment { get; set; }
+        public int? IDEmployeeRole { get; set; }
         public int? IdassignedOffice { get; set; }
         public string Photo { get; set; }
 
+        public virtual EmployeeRole EmployeeRole { get; set; }
         public virtual AssignedOffice IdassignedOfficeNavigation { get; set; }
         public virtual Department IddepartmentNavigation { get; set; }
         public virtual Post IdpostNavigation { get; set; }

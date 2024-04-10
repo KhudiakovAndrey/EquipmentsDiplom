@@ -100,6 +100,7 @@ public partial class App : Application
 
     public static ServiceProvider? ServiceProvider { get; private set; }
     public static MainAuthViewModel? MainAuthVM => ServiceProvider!.GetService<MainAuthViewModel>();
+    public static MainMenuViewModel MainMenuVM => ServiceProvider!.GetService<MainMenuViewModel>()!;
     public static SettingsDbContext? SettingsDbContext => ServiceProvider?.GetService<SettingsDbContext>();
     private AppConfiguration LoadConfiguration()
     {

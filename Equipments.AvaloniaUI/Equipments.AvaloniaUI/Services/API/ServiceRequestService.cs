@@ -28,5 +28,11 @@ namespace Equipments.AvaloniaUI.Services.API
                 query);
             return response;
         }
+
+        public async Task<ApiResponse<Guid>> CreateServiceRequest(CreateServiceRequestModel body)
+        {
+            var response = await PostAsync<Guid>(_appConfiguration.ServiceRequestsEndpoint, body);
+            return response;
+        }
     }
 }

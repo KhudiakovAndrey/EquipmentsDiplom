@@ -28,7 +28,8 @@ namespace Equipments.Application.EquipmentsServiceRequest.Queries
                 var requestQuery = await _dbContext.EquipmentServiceRequests
                     .Where(req =>
                         request.CreationDate == null ? true : req.CreationDate == request.CreationDate
-                        && request.IDResponsible == null ? true : req.Idresponsible == request.IDResponsible)
+                        && request.IDResponsible == null ? true : req.Idresponsible == request.IDResponsible
+                        && request.IDSystemAdministration == null ? true : req.IdsystemAdministrator == request.IDSystemAdministration)
                     .Skip((request.Pagination.PageNumber - 1) * request.Pagination.PageSize)
                     .Take(request.Pagination.PageSize)
                     .Include(req => req.IdresponsibleNavigation)

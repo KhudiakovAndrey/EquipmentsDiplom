@@ -3,9 +3,9 @@ using Equipments.Application.Common.Mappings;
 using Equipments.Domain.Entities;
 using System;
 
-namespace Equipments.Application.EquipmentsServiceRequest.Queries
+namespace Equipments.Application.Models
 {
-    public class EmployeDto : IMapWith<Employee>
+    public class EmployDto : IMapWith<Employee>
     {
         public Guid ID { get; set; }
         public string FullName { get; set; } = string.Empty;
@@ -15,7 +15,7 @@ namespace Equipments.Application.EquipmentsServiceRequest.Queries
         public int RoleID { get; set; }
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<Employee, EmployeDto>()
+            profile.CreateMap<Employee, EmployDto>()
                 .ForMember(emDto => emDto.FullName,
                     opt => opt.MapFrom(em => em.FullName))
                 .ForMember(emDto => emDto.Post,
@@ -26,7 +26,6 @@ namespace Equipments.Application.EquipmentsServiceRequest.Queries
                     opt => opt.MapFrom(em => em.Photo))
                 .ForMember(emDto => emDto.RoleID,
                     opt => opt.MapFrom(em => em.IDEmployeeRole));
-
         }
     }
 }

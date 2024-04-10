@@ -17,7 +17,13 @@ namespace Equipments.Api.Extensions
                     return Enumerable.Empty<string>();
                 }
 
-                if (property.PropertyType.IsPrimitive || property.PropertyType == typeof(string) || property.PropertyType == typeof(DateTime) || property.PropertyType == typeof(Guid))
+                if (property.PropertyType.IsPrimitive
+                || property.PropertyType == typeof(string)
+                || property.PropertyType == typeof(DateTime)
+                || property.PropertyType == typeof(Guid)
+                || Nullable.GetUnderlyingType(property.PropertyType) == typeof(DateTime)
+                || Nullable.GetUnderlyingType(property.PropertyType) == typeof(Guid)
+                )
                 {
                     return new[] { $"{property.Name}={HttpUtility.UrlEncode(value.ToString())}" };
                 }

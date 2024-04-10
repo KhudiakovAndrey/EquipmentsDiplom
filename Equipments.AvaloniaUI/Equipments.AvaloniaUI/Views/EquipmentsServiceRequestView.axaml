@@ -4,19 +4,33 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:Equipments.AvaloniaUI.ViewModels"
 			 xmlns:model="clr-namespace:Equipments.AvaloniaUI.Models"
-			 mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450"
+			 mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="450"
 			 x:DataType="vm:EquipmentsServiceRequestViewModel"
 			 x:Class="Equipments.AvaloniaUI.Views.EquipmentsServiceRequestView">
 
 	<Grid RowDefinitions="Auto,Auto,,Auto,*,Auto">
-		<StackPanel Orientation="Horizontal">
+		<StackPanel Orientation="Horizontal" Spacing="10">
 			<ComboBox PlaceholderText="Выберите заявителя"
-					  ItemsSource="{Binding Employees}"
-					  SelectedItem="{Binding SelectedResponsible}"/>
+					  ItemsSource="{Binding Responsibles}"
+					  SelectedItem="{Binding SelectedResponsible}">
+				<ComboBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding FullName}"/>
+					</DataTemplate>
+				</ComboBox.ItemTemplate>
+			</ComboBox>
 			<ComboBox PlaceholderText="Выберите исполнителя"
-					  ItemsSource="{Binding Employees}"
-					  SelectedItem="{Binding SelectedSystemAdministrator}"/>
-			<CalendarDatePicker Watermark="Выберите дату подачи"/>
+					  ItemsSource="{Binding SystemAdministrations}"
+					  SelectedItem="{Binding SelectedSystemAdministrator}">
+				<ComboBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding FullName}"/>
+					</DataTemplate>
+				</ComboBox.ItemTemplate>
+			</ComboBox>
+			<CalendarDatePicker Watermark="Выберите дату подачи"
+							    SelectedDate="{Binding SelectedDate}"/>
+			<Button Command="{Binding ClearFilterCommand}">Очистить</Button>
 		</StackPanel>
 		<StackPanel Orientation="Horizontal" Grid.Row="1">
 			<Button Classes="accent"

@@ -12,6 +12,7 @@ namespace Equipments.WebAPI.Models
         [Required]
         public PaginationQuery Pagination { get; set; } = new();
         public Guid? IDResponsible { get; set; }
+        public Guid? IDSystemAdministration { get; set; }
         public DateTime? CreationDate { get; set; }
         public void Mapping(Profile profile)
         {
@@ -20,6 +21,8 @@ namespace Equipments.WebAPI.Models
                     opt => opt.MapFrom(pageDto => pageDto.Pagination))
                 .ForMember(pageQuery => pageQuery.IDResponsible,
                     opt => opt.MapFrom(pageDto => pageDto.IDResponsible))
+                .ForMember(pageQuery => pageQuery.IDSystemAdministration,
+                    opt => opt.MapFrom(pageDto => pageDto.IDSystemAdministration))
                  .ForMember(pageQuery => pageQuery.CreationDate,
                     opt => opt.MapFrom(pageDto => pageDto.CreationDate));
         }

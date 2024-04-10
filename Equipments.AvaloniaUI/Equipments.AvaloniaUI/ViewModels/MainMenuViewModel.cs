@@ -1,7 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using HanumanInstitute.MvvmDialogs;
+using HanumanInstitute.MvvmDialogs.Avalonia.DialogHost;
+using Microsoft.Extensions.DependencyInjection;
 using ReactiveUI;
-using ReactiveUI.Fody.Helpers;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Reactive;
 
 namespace Equipments.AvaloniaUI.ViewModels
@@ -9,9 +11,10 @@ namespace Equipments.AvaloniaUI.ViewModels
     public class MainMenuViewModel : ViewModelBase, IScreen
     {
         public RoutingState Router { get; } = new RoutingState();
-
-        public MainMenuViewModel()
+        private readonly IDialogService _dialogService;
+        public MainMenuViewModel(IDialogService dialogService)
         {
+            _dialogService = dialogService;
             ShowEquipmentsServiceRequestView();
         }
         public ReactiveCommand<Unit, IRoutableViewModel> GoBack => Router.NavigateBack!;
@@ -30,5 +33,18 @@ namespace Equipments.AvaloniaUI.ViewModels
                 return;
             Router.Navigate.Execute(vm);
         }
+
+        public async Task ShowDialogHostAsync(string message)
+        {
+            await _dialogService.ShowDialogHostAsync(
+                    this,
+                    new DialogHostSettings(message)
+                    {
+                        CloseOnClickAway = true
+                    }).ConfigureAwait(true);
+        }
+
+
+
     }
 }

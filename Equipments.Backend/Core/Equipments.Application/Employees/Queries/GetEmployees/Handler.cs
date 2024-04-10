@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
-using Equipments.Application.EquipmentsServiceRequest.Queries;
 using Equipments.Application.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
+using Equipments.Application.Models;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -15,7 +14,7 @@ namespace Equipments.Application.Employees.Queries
 {
     public partial class GetEmployees
     {
-        public class Handler : IRequestHandler<Query, List<EmployeDto>>
+        public class Handler : IRequestHandler<Query, List<EmployDto>>
         {
             private readonly IEquipmentsDbContext _dbContext;
             private readonly IMapper _mapper;
@@ -26,13 +25,13 @@ namespace Equipments.Application.Employees.Queries
                 _mapper = mapper;
             }
 
-            public async Task<List<EmployeDto>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<List<EmployDto>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var employees = _dbContext.Employees
-                    .Include(em => em.IddepartmentNavigation)
+                var employees = await _dbContext.Employees
                     .Include(em => em.IdpostNavigation)
-                    .ToList();
-                var employeDtos = _mapper.Map<List<EmployeDto>>(employees);
+                    .Include(em => em.IddepartmentNavigation)
+                    .ToListAsync(cancellationToken);
+                var employeDtos = _mapper.Map<List<EmployDto>>(employees);
 
                 return employeDtos;
             }

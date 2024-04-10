@@ -3,13 +3,78 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:Equipments.AvaloniaUI.ViewModels"
+			 xmlns:model="clr-namespace:Equipments.AvaloniaUI.Models"
 			 mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450"
              x:DataType="vm:CreateServiceRequestViewModel"
 			 x:Class="Equipments.AvaloniaUI.Views.CreateServiceRequestView">
-	<StackPanel>
-		<Button FontSize="20" Classes="accent"
-				Command="{Binding ((vm:MainMenuViewModel)DataContext).GoBack,
+	<ScrollViewer VerticalScrollBarVisibility="Auto">
+		<StackPanel Spacing="5" MaxWidth="600">
+			<Button FontSize="20" Classes="accent"
+					Command="{Binding ((vm:MainMenuViewModel)DataContext).GoBack,
 							RelativeSource={RelativeSource AncestorType={x:Type Window}}}">←Назад</Button>
-		<TextBlock Classes="h1" TextWrapping="Wrap">Создание заявки на обслуживание оборудования</TextBlock>
-	</StackPanel>
+			<TextBlock Classes="h1" TextWrapping="Wrap">Создание заявки на обслуживание оборудования</TextBlock>
+
+			<TextBlock>Заявитель:</TextBlock>
+			<AutoCompleteBox Watermark="Выберите заявителя"
+							 ItemsSource="{Binding Responsibles}"
+							 ValueMemberBinding="{Binding (model:EmployeModel).FullName}"
+							 FilterMode="ContainsOrdinal"
+							 SelectedItem="{Binding SelectedResponsible}">
+				<!--FilterMode="ContainsOrdinal"-->
+				<AutoCompleteBox.ItemTemplate>
+					<DataTemplate DataType="model:EmployeModel">
+						<Grid RowDefinitions="*,*" ColumnDefinitions="*,*">
+							<TextBlock Text="{Binding FullName}" Grid.ColumnSpan="2"/>
+							<TextBlock Text="{Binding Post}" Grid.Row="1"/>
+							<TextBlock Text="{Binding Department}" Grid.Row="1" Grid.Column="1"/>
+						</Grid>
+					</DataTemplate>
+				</AutoCompleteBox.ItemTemplate>
+			</AutoCompleteBox>
+
+			<TextBlock>Исполнитель:</TextBlock>
+			<AutoCompleteBox Watermark="Выберите исполнителя"
+							 ItemsSource="{Binding SystemAdministration}"
+							 ValueMemberBinding="{Binding (model:EmployeModel).FullName}"
+							 FilterMode="ContainsOrdinal"
+							 SelectedItem="{Binding SelectedSystemAdministration}">
+
+				<AutoCompleteBox.ItemTemplate>
+					<DataTemplate DataType="model:EmployeModel">
+						<Grid RowDefinitions="*,*" ColumnDefinitions="*,*">
+							<TextBlock Text="{Binding FullName}" Grid.ColumnSpan="2"/>
+							<TextBlock Text="{Binding Post}" Grid.Row="1"/>
+							<TextBlock Text="{Binding Department}" Grid.Row="1" Grid.Column="1"/>
+						</Grid>
+					</DataTemplate>
+				</AutoCompleteBox.ItemTemplate>
+			</AutoCompleteBox>
+
+			<TextBlock>Тип проблемы:</TextBlock>
+			<StackPanel Orientation="Horizontal" Spacing="15">
+				<ComboBox HorizontalAlignment="Stretch"
+						  PlaceholderText="Выберите тип техники"
+						  SelectedItem="{Binding SelectedEquipmentType}"
+						  ItemsSource="{Binding EquipmentTypes}"/>
+				<ComboBox HorizontalAlignment="Stretch"
+						  PlaceholderText="Выберите примерную неисправность"
+						  IsEnabled="{Binding ProblemTypesInEquipment.Count}"
+						  ItemsSource="{Binding ProblemTypesInEquipment}"
+						  SelectedItem="{Binding SelectedProblemType}"/>
+			</StackPanel>
+
+			<TextBlock>Дополнительное описание:</TextBlock>
+			<TextBox Height="100"
+					 Watermark="Добавьте дополнительное описание проблемы для уточнения заявки"
+					 Text="{Binding DetailedDescription}"/>
+			<TextBlock>Описание оборудования</TextBlock>
+			<TextBox Height="100"
+					 Watermark="Опишите сломанное оборудования (расположение, внешний вид, др.)"
+					Text="{Binding BrokenEquipmentDescription}"/>
+			<Button Classes="accent"
+					HorizontalAlignment="Stretch"
+					Height="40"
+					Command="{Binding CreateRequestCommand}">Подать заявку</Button>
+		</StackPanel>
+	</ScrollViewer>
 </UserControl>

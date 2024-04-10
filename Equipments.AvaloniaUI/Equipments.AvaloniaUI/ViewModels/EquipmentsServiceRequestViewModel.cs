@@ -1,8 +1,11 @@
 ﻿using Avalonia.Diagnostics;
+using Avalonia.Threading;
 using DynamicData;
 using DynamicData.Binding;
 using Equipments.AvaloniaUI.Models;
 using Equipments.AvaloniaUI.Services.API;
+using Equipments.AvaloniaUI.Services.Enums;
+using Nito.AsyncEx;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
@@ -11,6 +14,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Reactive;
+using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -31,29 +35,83 @@ namespace Equipments.AvaloniaUI.ViewModels
 
             var cancelletion = _sourceCache.Connect()
                 .Sort(SortExpressionComparer<EquipmentsServiceRequestVM>.Ascending(r => r.CreationDate))
-                //.Filter()
+                .Filter(request => Filtered(request))
                 .Bind(out _requests)
+                .DisposeMany()
+                .ObserveOn(RxApp.MainThreadScheduler)
                 .Subscribe();
-
-            GetServiceRequests();
-            GetEmployees();
+            Notify = NotifyTaskCompletion.Create(GetEmployees);
+            Notify = NotifyTaskCompletion.Create(GetServiceRequests);
 
             var isExecuteNextPageCommand = this.WhenAnyValue(vm => vm.Page,
                 page => page.PageNumber < Page.TotalPages);
             var isExecuteBackPageCommand = this.WhenAnyValue(vm => vm.Page,
                 page => page.PageNumber != 1);
+            var isExecuteClearFilterCommand = this.WhenAnyValue(
+                    vm => vm.SelectedDate,
+                    vm => vm.SelectedResponsible,
+                    vm => vm.SelectedSystemAdministrator,
+                    (date, responsible, sysadmin) => date != null || responsible != null || sysadmin != null
+                );
+
+            this.WhenAnyValue(
+                vm => vm.SelectedResponsible,
+                vm => vm.SelectedSystemAdministrator,
+                vm => vm.SelectedDate).Subscribe(_ =>
+                {
+                    Page.PageNumber = 1;
+                    _sourceCache.Refresh();
+                });
+
             NextPageCommand = ReactiveCommand.CreateFromTask(NextPage, isExecuteNextPageCommand);
             BackPageCommand = ReactiveCommand.CreateFromTask(BackPage, isExecuteBackPageCommand);
+            ClearFilterCommand = ReactiveCommand.Create(ClearFilter, isExecuteClearFilterCommand);
 
 
         }
-        public int TotalPages { get; set; } = 0;
+
+        private bool Filtered(EquipmentsServiceRequestVM request)
+        {
+            bool isResponsibleValid = SelectedResponsible?.ID == Guid.Empty ? true
+                : request.Responsible == SelectedResponsible?.FullName;
+
+            bool isSysAdmunValid = SelectedSystemAdministrator?.ID == Guid.Empty ? true
+                : request.SystemAdministration == SelectedSystemAdministrator?.FullName;
+
+            bool isCreationDateValid = SelectedDate == null ? true
+                : request.CreationDate == SelectedDate;
+
+            return isResponsibleValid && isSysAdmunValid && isCreationDateValid;
+        }
+
         private async Task GetEmployees()
         {
             var response = await _employeesService.GetEmployees();
             if (response.IsSucces)
             {
-                Employees = new ObservableCollection<EmployeModel>(response.Data);
+                Responsibles = new ObservableCollection<EmployeModel>(
+                    new List<EmployeModel>()
+                    {
+                        new EmployeModel
+                        {
+                            ID = Guid.Empty,
+                            FullName = "Все заявители"
+                        },
+                        response.Data.Where(em => em.RoleID == (int)Roles.Responsible)
+                    });
+                SystemAdministrations = new ObservableCollection<EmployeModel>(
+                    new List<EmployeModel>()
+                    {
+                        new EmployeModel
+                        {
+                            ID = Guid.Empty,
+                            FullName = "Все исполнители"
+                        },
+                        response.Data.Where(em => em.RoleID == (int)Roles.SystemAdministration)
+                    });
+
+                SelectedResponsible = Responsibles.First();
+                SelectedSystemAdministrator = SystemAdministrations.First();
             }
         }
         private async Task GetServiceRequests()
@@ -80,8 +138,15 @@ namespace Equipments.AvaloniaUI.ViewModels
                      PageSize = Page.PageSize
                  }
              };
+        public ReactiveCommand<Unit, Unit> ClearFilterCommand { get; private set; }
         public ReactiveCommand<Unit, Unit> NextPageCommand { get; private set; }
         public ReactiveCommand<Unit, Unit> BackPageCommand { get; private set; }
+        private void ClearFilter()
+        {
+            SelectedDate = null;
+            SelectedResponsible = Responsibles.First();
+            SelectedSystemAdministrator = SystemAdministrations.First();
+        }
         private async Task BackPage()
         {
             Page.PageNumber--;
@@ -101,9 +166,11 @@ namespace Equipments.AvaloniaUI.ViewModels
             set => this.RaiseAndSetIfChanged(ref _page, value);
         }
 
-        [Reactive] ObservableCollection<EmployeModel> Employees { get; set; }
-        [Reactive] EmployeModel? SelectedResponsible { get; set; }
-        [Reactive] EmployeModel? SelectedSystemAdministrator { get; set; }
+        [Reactive] public ObservableCollection<EmployeModel> Responsibles { get; set; } = new();
+        [Reactive] public ObservableCollection<EmployeModel> SystemAdministrations { get; set; } = new();
+        [Reactive] public EmployeModel SelectedResponsible { get; set; }
+        [Reactive] public EmployeModel SelectedSystemAdministrator { get; set; }
+        [Reactive] public DateTime? SelectedDate { get; set; }
 
         private SourceCache<EquipmentsServiceRequestVM, Guid> _sourceCache = new(x => x.ID);
 

@@ -30,6 +30,8 @@ namespace Equipments.Persistence.EntityTypeConfiguration
 
             entity.Property(e => e.Iduser).HasColumnName("IDUser");
 
+            entity.Property(e => e.IDEmployeeRole).HasColumnName("IDEmployeeRole");
+
             entity.Property(e => e.Photo)
                 .HasMaxLength(255)
                 .HasColumnName("Photo");
@@ -39,6 +41,12 @@ namespace Equipments.Persistence.EntityTypeConfiguration
                 .HasForeignKey(d => d.IdassignedOffice)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Employees_AssignedOffices");
+
+            entity.HasOne(d => d.EmployeeRole)
+                .WithMany(p => p.Employees)
+                .HasForeignKey(d => d.IDEmployeeRole)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("Employees_IDEmployeeRole_fkey");
 
             entity.HasOne(d => d.IddepartmentNavigation)
                 .WithMany(p => p.Employees)

@@ -7,5 +7,7 @@
   "HealthEndpoint": "health",
   "ServiceRequestsEndpoint": "service-request",
   "EmployeesEndpoint": "employees",
-  "EquipmentTypesEndpoint": "equipment-types"
+  "EquipmentTypesEndpoint": "equipment-types",
+  "ProblemTypesEndpoint": "problem-type"
+
 }
