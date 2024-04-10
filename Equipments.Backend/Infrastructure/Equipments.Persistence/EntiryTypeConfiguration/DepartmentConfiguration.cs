@@ -9,16 +9,16 @@ namespace Equipments.Persistence.EntityTypeConfiguration
         public void Configure(EntityTypeBuilder<Department> entity)
         {
             entity.HasKey(e => e.Id)
-                  .HasName("departments_pkey");
+                  .HasName("Departments_pkey");
 
-            entity.ToTable("departments");
+            entity.ToTable("Departments");
 
-            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("ID");
 
             entity.Property(e => e.Name)
                 .IsRequired()
                 .HasMaxLength(255)
-                .HasColumnName("name");
+                .HasColumnName("Name");
         }
     }
 }

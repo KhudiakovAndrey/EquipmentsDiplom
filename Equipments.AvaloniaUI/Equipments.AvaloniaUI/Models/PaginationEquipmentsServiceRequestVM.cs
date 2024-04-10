@@ -1,16 +1,22 @@
 ﻿using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace Equipments.AvaloniaUI.Models
 {
     public class PaginationEquipmentsServiceRequestVM
     {
-        public List<EquipmentsServiceRequestVM> Items { get; set; } = new();
-        public int PageNumber { get; set; } = 1;
-        public int PageSize { get; set; }
-        public int TotalCount { get; set; }
-        public int TotalPages { get; set; }
+        [DataMember]
+        [Reactive] public List<EquipmentsServiceRequestVM> Items { get; set; } = new();
+        [DataMember]
+        [Reactive] public int PageNumber { get; set; } = 1;
+        [DataMember]
+        [Reactive] public int PageSize { get; set; } = 3;
+        [DataMember]
+        [Reactive] public int TotalCount { get; set; }
+        [DataMember]
+        [Reactive] public int TotalPages { get; set; }
 
     }
 

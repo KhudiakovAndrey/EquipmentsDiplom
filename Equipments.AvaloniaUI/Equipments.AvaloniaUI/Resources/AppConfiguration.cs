@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Equipments.AvaloniaUI
+namespace Equipments.AvaloniaUI.Resources
 {
     public class AppConfiguration
     {
@@ -8,6 +8,9 @@ namespace Equipments.AvaloniaUI
         public string AuthEndpoint { get; set; } = string.Empty;
         public string WebApiUrl { get; set; } = string.Empty;
         public string HealthEndpoint { get; set; } = string.Empty;
+        public string ServiceRequestsEndpoint { get; set; } = string.Empty;
+        public string EmployeesEndpoint { get; set; } = string.Empty;
+        public string EquipmentTypesEndpoint { get; set; } = string.Empty;
 
         public static string AccesToken { get; set; } = string.Empty;
         public static DateTime? ExpirationToken { get; set; }

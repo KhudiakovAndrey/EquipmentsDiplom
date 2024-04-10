@@ -5,6 +5,8 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.Specialized;
+using Equipments.Api.Extensions;
 
 namespace Equipments.Api
 {
@@ -26,6 +28,17 @@ namespace Equipments.Api
             }
 
             var response = await _httpClient.GetAsync(_baseAddress + requestUrl);
+            return await HandleResponse<T>(response);
+        }
+        public async Task<ApiResponse<T>> GetAsync<T>(string requestUrl, object content)
+        {
+            if (!string.IsNullOrEmpty(AccessToken))
+            {
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AccessToken);
+            }
+
+            string query = content.ToQueryString();
+            var response = await _httpClient.GetAsync(_baseAddress + requestUrl + "?" + query);
             return await HandleResponse<T>(response);
         }
 

@@ -1,8 +1,11 @@
 {
-  "IdentityUrl": "https://localhost:5001/api",
-  "AuthEndpoint": "/auth",
+  "IdentityUrl": "https://localhost:5001/api/",
+  "AuthEndpoint": "auth",
 
 
-  "WebApiUrl": "https://localhost:44304/api",
-  "HealthEndpoint": "/health"
+  "WebApiUrl": "https://localhost:44304/api/",
+  "HealthEndpoint": "health",
+  "ServiceRequestsEndpoint": "service-request",
+  "EmployeesEndpoint": "employees",
+  "EquipmentTypesEndpoint": "equipment-types"
 }

@@ -1,6 +1,8 @@
-﻿using ReactiveUI;
+﻿using Microsoft.Extensions.DependencyInjection;
+using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System.Linq;
+using System.Reactive;
 
 namespace Equipments.AvaloniaUI.ViewModels
 {
@@ -10,13 +12,16 @@ namespace Equipments.AvaloniaUI.ViewModels
 
         public MainMenuViewModel()
         {
-            Router.Navigate.Execute(new EquipmentsServiceRequestViewModel(this));
+            ShowEquipmentsServiceRequestView();
         }
+        public ReactiveCommand<Unit, IRoutableViewModel> GoBack => Router.NavigateBack!;
+        public void ShowCreateServiceRequestView() =>
+            Router.Navigate.Execute(App.ServiceProvider!.GetService<CreateServiceRequestViewModel>()!);
         public void ShowEquipmentsServiceRequestView() =>
-            NaviageIgnoreCopyUrl(new EquipmentsServiceRequestViewModel(this));
+            NaviageIgnoreCopyUrl(App.ServiceProvider!.GetService<EquipmentsServiceRequestViewModel>()!);
 
         public void ShowEquipmentPurchaseRequestView() =>
-            NaviageIgnoreCopyUrl(new EquipmentPurchaseRequestViewModel(this));
+            NaviageIgnoreCopyUrl(App.ServiceProvider!.GetService<EquipmentPurchaseRequestViewModel>()!);
 
         private void NaviageIgnoreCopyUrl(IRoutableViewModel vm)
         {

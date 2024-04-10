@@ -9,9 +9,9 @@ namespace Equipments.Persistence.EntityTypeConfiguration
         public void Configure(EntityTypeBuilder<Post> entity)
         {
             entity.HasKey(e => e.Id)
-                  .HasName("posts_pkey");
+                  .HasName("Posts_pkey");
 
-            entity.ToTable("posts");
+            entity.ToTable("Posts");
 
             entity.Property(e => e.Id).HasColumnName("ID");
 

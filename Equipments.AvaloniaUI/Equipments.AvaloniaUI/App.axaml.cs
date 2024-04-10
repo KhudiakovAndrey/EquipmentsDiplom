@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Equipments.AvaloniaUI.Data;
+using Equipments.AvaloniaUI.Resources;
 using Equipments.AvaloniaUI.Services.API;
 using Equipments.AvaloniaUI.ViewModels;
 using Equipments.AvaloniaUI.Views;
@@ -44,8 +45,7 @@ public partial class App : Application
         services.AddSingleton(apiConfiguration);
 
         //Загружаем сервисы для работы с апи
-        services.AddSingleton(new UserService(apiConfiguration));
-        services.AddSingleton(new UserService(apiConfiguration));
+        services.AddApiServices(apiConfiguration);
 
         ServiceProvider = services.BuildServiceProvider();
 
@@ -57,7 +57,6 @@ public partial class App : Application
     {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-
             var settingsDbContext = ServiceProvider?.GetService<SettingsDbContext>();
 
             var settings = SettingsDbContext?.Settings.First();

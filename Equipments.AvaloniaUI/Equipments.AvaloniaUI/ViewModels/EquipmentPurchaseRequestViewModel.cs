@@ -4,8 +4,8 @@ namespace Equipments.AvaloniaUI.ViewModels
 {
     public class EquipmentPurchaseRequestViewModel : RoutableViewModelBase
     {
-        public EquipmentPurchaseRequestViewModel(IScreen screen)
-            : base(screen, nameof(EquipmentPurchaseRequestViewModel).ToLowerInvariant())
+        public EquipmentPurchaseRequestViewModel()
+            : base(nameof(EquipmentPurchaseRequestViewModel).ToLowerInvariant())
         {
 
         }

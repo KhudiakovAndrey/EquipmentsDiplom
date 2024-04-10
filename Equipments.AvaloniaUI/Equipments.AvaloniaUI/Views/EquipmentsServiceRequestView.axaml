@@ -3,22 +3,67 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:Equipments.AvaloniaUI.ViewModels"
+			 xmlns:model="clr-namespace:Equipments.AvaloniaUI.Models"
 			 mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450"
 			 x:DataType="vm:EquipmentsServiceRequestViewModel"
 			 x:Class="Equipments.AvaloniaUI.Views.EquipmentsServiceRequestView">
 
-	<Grid>
-
-		<DataGrid AutoGenerateColumns="True"
+	<Grid RowDefinitions="Auto,Auto,,Auto,*,Auto">
+		<StackPanel Orientation="Horizontal">
+			<ComboBox PlaceholderText="Выберите заявителя"
+					  ItemsSource="{Binding Employees}"
+					  SelectedItem="{Binding SelectedResponsible}"/>
+			<ComboBox PlaceholderText="Выберите исполнителя"
+					  ItemsSource="{Binding Employees}"
+					  SelectedItem="{Binding SelectedSystemAdministrator}"/>
+			<CalendarDatePicker Watermark="Выберите дату подачи"/>
+		</StackPanel>
+		<StackPanel Orientation="Horizontal" Grid.Row="1">
+			<Button Classes="accent"
+					Command="{Binding ((vm:MainMenuViewModel)DataContext).ShowCreateServiceRequestView,
+					RelativeSource={RelativeSource AncestorType={x:Type Window}}}">Создать</Button>
+		</StackPanel>
+		<TextBlock Grid.Row="2">
+			<TextBlock Text="{Binding Page.Items.Count}" FontWeight="Black"/>
+			<TextBlock>из</TextBlock>
+			<TextBlock Text="{Binding Page.TotalCount}" FontWeight="Black"/>
+		</TextBlock>
+		<DataGrid AutoGenerateColumns="False" Grid.Row="3"
 				  IsReadOnly="True"
 				  CanUserResizeColumns="True"
 				  CanUserReorderColumns="False"
 				  GridLinesVisibility="Horizontal"
-				  ItemsSource="{Binding Page.Items}">
-			<DataGrid.Columns>
+				  ItemsSource="{Binding Requests}">
 
+			<DataGrid.Columns>
+				<DataGridTextColumn Header="Заявитель" Width="*"
+									Binding="{Binding Responsible}"/>
+				<DataGridTextColumn Header="Исполнитель" Width="*"
+									Binding="{Binding SystemAdministration}"/>
+				<DataGridTextColumn Header="Проблема" Width="Auto"
+									Binding="{Binding ProblemType}"/>
+				<DataGridTextColumn Header="Дата подачи" Width="Auto"
+									Binding="{Binding CreationDate}"/>
+				<DataGridTemplateColumn Width="Auto" CanUserResize="False">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate DataType="model:EquipmentsServiceRequestVM">
+							<StackPanel Orientation="Horizontal" Spacing="5" Margin="3">
+								<Button>У</Button>
+								<Button>Р</Button>
+							</StackPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
 			</DataGrid.Columns>
 		</DataGrid>
-		<TextBlock Text="{Binding Test}"/>
+		<StackPanel Grid.Row="4"
+					Orientation="Horizontal"
+					Spacing="10"
+					HorizontalAlignment="Right">
+			<Button Command="{Binding BackPageCommand}">Назад</Button>
+			<TextBlock Text="{Binding Page.PageNumber}" VerticalAlignment="Center" TextAlignment="Center"/>
+
+			<Button Command="{Binding NextPageCommand}">Вперёд</Button>
+		</StackPanel>
 	</Grid>
 </UserControl>

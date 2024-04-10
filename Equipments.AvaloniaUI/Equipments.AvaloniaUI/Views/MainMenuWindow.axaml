@@ -12,12 +12,13 @@
 
 	<Grid RowDefinitions="Auto,*">
 		<StackPanel Orientation="Horizontal">
-			<Button Command="{Binding ShowEquipmentsServiceRequestView}">Кнопка1</Button>
+			<Button Command="{Binding ShowEquipmentsServiceRequestView}"
+					>Обслуживание</Button>
 			<Button Command="{Binding ShowEquipmentPurchaseRequestView}">Кнопка1</Button>
 			<Button>Кнопка1</Button>
 			<Button>Кнопка1</Button>
 		</StackPanel>
-		<rxui:RoutedViewHost Grid.Row="1"
+		<rxui:RoutedViewHost Grid.Row="1" Margin="20"
 							 Router="{Binding Router}">
 
 			<rxui:RoutedViewHost.ViewLocator>

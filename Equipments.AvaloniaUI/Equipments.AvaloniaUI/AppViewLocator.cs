@@ -11,6 +11,7 @@ namespace Equipments.AvaloniaUI
         {
             EquipmentsServiceRequestViewModel => new EquipmentsServiceRequestView(),
             EquipmentPurchaseRequestViewModel => new EquipmentPurchaseRequestView(),
+            CreateServiceRequestViewModel => new CreateServiceRequestView(),
             _ => throw new ArgumentOutOfRangeException(nameof(viewModel))
         };
     }

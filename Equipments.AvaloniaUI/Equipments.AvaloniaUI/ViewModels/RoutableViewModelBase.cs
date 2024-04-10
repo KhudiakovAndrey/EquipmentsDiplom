@@ -7,9 +7,9 @@ namespace Equipments.AvaloniaUI.ViewModels
     {
         public IScreen HostScreen { get; }
         public string? UrlPathSegment { get; set; }
-        public RoutableViewModelBase(IScreen screen, string urlPathSegment)
+        public RoutableViewModelBase(string urlPathSegment)
         {
-            HostScreen = screen;
+            //HostScreen = screen;
             UrlPathSegment = urlPathSegment;
         }
     }

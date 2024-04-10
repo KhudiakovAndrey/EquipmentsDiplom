@@ -3,13 +3,10 @@ using Equipments.Application.Interfaces;
 using Equipments.Application.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using static Equipments.Application.EquipmentsServiceRequest.Queries.GetPageResponsibleRequest;
 
 namespace Equipments.Application.EquipmentsServiceRequest.Queries
 {
@@ -34,6 +31,9 @@ namespace Equipments.Application.EquipmentsServiceRequest.Queries
                         && request.IDResponsible == null ? true : req.Idresponsible == request.IDResponsible)
                     .Skip((request.Pagination.PageNumber - 1) * request.Pagination.PageSize)
                     .Take(request.Pagination.PageSize)
+                    .Include(req => req.IdresponsibleNavigation)
+                    .Include(req => req.IdsystemAdministratorNavigation)
+                    .Include(req => req.IdproblemTypeNavigation)
                     .ToListAsync(cancellationToken);
 
                 var itemDtos = _mapper.Map<List<ServiceRequestVM>>(requestQuery);

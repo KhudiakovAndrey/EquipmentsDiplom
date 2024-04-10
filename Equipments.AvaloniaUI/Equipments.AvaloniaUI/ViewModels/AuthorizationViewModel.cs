@@ -1,5 +1,6 @@
 ﻿using Equipments.AvaloniaUI.Data;
 using Equipments.AvaloniaUI.Models;
+using Equipments.AvaloniaUI.Resources;
 using Equipments.AvaloniaUI.Services.API;
 using Microsoft.EntityFrameworkCore;
 using ReactiveUI;

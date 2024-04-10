@@ -9,26 +9,26 @@ namespace Equipments.Persistence.EntityTypeConfiguration
         public void Configure(EntityTypeBuilder<ProblemType> entity)
         {
             entity.HasKey(e => e.Id)
-                  .HasName("problem_types_pkey");
+                  .HasName("ProblemTypes_pkey");
 
-            entity.ToTable("problem_types");
+            entity.ToTable("ProblemTypes");
 
-            entity.HasIndex(e => e.Description, "problem_types_index");
+            entity.HasIndex(e => e.Description, "ProblemTypes_ID_INDEX");
 
-            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("ID");
 
             entity.Property(e => e.Description)
                 .IsRequired()
                 .HasMaxLength(255)
-                .HasColumnName("description");
+                .HasColumnName("Description");
 
-            entity.Property(e => e.IdequipmentType).HasColumnName("idequipment_type");
+            entity.Property(e => e.IdequipmentType).HasColumnName("IDEquipmentType");
 
             entity.HasOne(d => d.IdequipmentTypeNavigation)
                 .WithMany(p => p.ProblemTypes)
                 .HasForeignKey(d => d.IdequipmentType)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_problem_types_equipment_type_id");
+                .HasConstraintName("FK_ProblemTypes_EquipmentType");
         }
     }
 }

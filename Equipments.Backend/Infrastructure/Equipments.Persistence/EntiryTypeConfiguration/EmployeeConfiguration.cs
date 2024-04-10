@@ -9,48 +9,48 @@ namespace Equipments.Persistence.EntityTypeConfiguration
         public void Configure(EntityTypeBuilder<Employee> entity)
         {
             entity.HasKey(e => e.Id)
-                  .HasName("employees_pkey");
+                  .HasName("Employees_pkey");
 
-            entity.ToTable("employees");
+            entity.ToTable("Employees");
 
-            entity.HasIndex(e => new { e.FullName, e.Photo }, "employees_index");
+            entity.HasIndex(e => new { e.FullName, e.Photo }, "employees_ID_index");
 
-            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("ID");
 
             entity.Property(e => e.FullName)
                 .IsRequired()
                 .HasMaxLength(255)
-                .HasColumnName("full_name");
+                .HasColumnName("FullName");
 
-            entity.Property(e => e.IdassignedOffice).HasColumnName("idassigned_office");
+            entity.Property(e => e.IdassignedOffice).HasColumnName("IDAssignedOffice");
 
-            entity.Property(e => e.Iddepartment).HasColumnName("iddepartment");
+            entity.Property(e => e.Iddepartment).HasColumnName("IDDepartment");
 
-            entity.Property(e => e.Idpost).HasColumnName("idpost");
+            entity.Property(e => e.Idpost).HasColumnName("IDPost");
 
-            entity.Property(e => e.Iduser).HasColumnName("iduser");
+            entity.Property(e => e.Iduser).HasColumnName("IDUser");
 
             entity.Property(e => e.Photo)
                 .HasMaxLength(255)
-                .HasColumnName("photo");
+                .HasColumnName("Photo");
 
             entity.HasOne(d => d.IdassignedOfficeNavigation)
                 .WithMany(p => p.Employees)
                 .HasForeignKey(d => d.IdassignedOffice)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_employees_assigned_offices_id");
+                .HasConstraintName("FK_Employees_AssignedOffices");
 
             entity.HasOne(d => d.IddepartmentNavigation)
                 .WithMany(p => p.Employees)
                 .HasForeignKey(d => d.Iddepartment)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_employees_departments_id");
+                .HasConstraintName("FK_Employees_Departments");
 
             entity.HasOne(d => d.IdpostNavigation)
                 .WithMany(p => p.Employees)
                 .HasForeignKey(d => d.Idpost)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_employees_posts_id");
+                .HasConstraintName("FK_Employees_Posts");
         }
     }
 }

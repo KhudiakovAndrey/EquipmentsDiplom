@@ -1,5 +1,6 @@
 ﻿using Equipments.Api;
 using Equipments.AvaloniaUI.Models;
+using Equipments.AvaloniaUI.Resources;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;

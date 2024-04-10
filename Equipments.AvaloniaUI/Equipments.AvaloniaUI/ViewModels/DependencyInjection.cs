@@ -20,6 +20,7 @@ namespace Equipments.AvaloniaUI.ViewModels
             services.AddTransient<DialogRequestRoleViewModel>();
             services.AddTransient<EquipmentPurchaseRequestViewModel>();
             services.AddTransient<EquipmentsServiceRequestViewModel>();
+            services.AddTransient<CreateServiceRequestViewModel>();
 
             //Регистрируем классы создающиеся один раз при запуске
             services.AddSingleton<MainAuthViewModel>();
