@@ -21,10 +21,10 @@ namespace Equipments.Application.EquipmentsServiceRequest.Commands
                     .NotEmpty();
                 RuleFor(x => x.DetailedDescription)
                     .NotEmpty()
-                    .Length(255);
+                    .MaximumLength(255);
                 RuleFor(x => x.BrokenEquipmentDescription)
                     .NotEmpty()
-                    .Length(255);
+                    .MaximumLength(255);
             }
         }
     }

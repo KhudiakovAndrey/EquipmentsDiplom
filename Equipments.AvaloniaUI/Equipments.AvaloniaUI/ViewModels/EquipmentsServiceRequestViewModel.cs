@@ -1,6 +1,4 @@
-﻿using Avalonia.Diagnostics;
-using Avalonia.Threading;
-using DynamicData;
+﻿using DynamicData;
 using DynamicData.Binding;
 using Equipments.AvaloniaUI.Models;
 using Equipments.AvaloniaUI.Services.API;
@@ -11,11 +9,9 @@ using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Equipments.AvaloniaUI.ViewModels
@@ -66,10 +62,25 @@ namespace Equipments.AvaloniaUI.ViewModels
             NextPageCommand = ReactiveCommand.CreateFromTask(NextPage, isExecuteNextPageCommand);
             BackPageCommand = ReactiveCommand.CreateFromTask(BackPage, isExecuteBackPageCommand);
             ClearFilterCommand = ReactiveCommand.Create(ClearFilter, isExecuteClearFilterCommand);
-
+            DeleteServiceRequestCommand = ReactiveCommand.CreateFromTask<Guid>(DeleteServiceRequest);
 
         }
 
+        public ReactiveCommand<Guid, Unit> DeleteServiceRequestCommand { get; private set; }
+        public async Task DeleteServiceRequest(Guid id)
+        {
+            var result = await App.MainMenuVM.ShowAskQuestionDialogAsync(
+                "Вы действителЬно хотите удалить заявку на обслуживание?JFSFDS FSIUSGIDSFHIUSDF IUDSGIUDFGGF",
+                "Удаление заявки");
+            if (result)
+            {
+                var response = await _serviceRequestService.DeleteServiceRequest(id);
+                if (response.IsSucces)
+                {
+                    await GetServiceRequests();
+                }
+            }
+        }
         private bool Filtered(EquipmentsServiceRequestVM request)
         {
             bool isResponsibleValid = SelectedResponsible?.ID == Guid.Empty ? true

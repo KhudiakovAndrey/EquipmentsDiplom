@@ -9,18 +9,18 @@ namespace Equipments.Persistence.EntityTypeConfiguration
         public void Configure(EntityTypeBuilder<RequestStatus> entity)
         {
             entity.HasKey(e => e.Id)
-                  .HasName("request_statuses_pkey");
+                  .HasName("RequestStatuses_pkey");
 
-            entity.ToTable("request_statuses");
+            entity.ToTable("RequestStatuses");
 
-            entity.HasIndex(e => e.Name, "request_statuses_index");
+            entity.HasIndex(e => e.Name, "RequestStatuses_index");
 
-            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("ID");
 
             entity.Property(e => e.Name)
                 .IsRequired()
                 .HasMaxLength(255)
-                .HasColumnName("name");
+                .HasColumnName("Name");
         }
     }
 }

@@ -54,5 +54,17 @@ namespace Equipments.WebAPI.Controllers
             var reqId = await Mediator.Send(command);
             return Ok(reqId);
         }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteServiceRequest(Guid id)
+        {
+            var command = new DeleteServiceRequest.Command
+            {
+                ID = id
+            };
+            await Mediator.Send(command);
+
+            return Ok();
+        }
     }
 }

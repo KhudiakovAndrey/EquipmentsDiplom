@@ -75,6 +75,7 @@
 					HorizontalAlignment="Stretch"
 					Height="40"
 					Command="{Binding CreateRequestCommand}">Подать заявку</Button>
+			<Button Command="{Binding Show}">Диалог</Button>
 		</StackPanel>
 	</ScrollViewer>
 </UserControl>

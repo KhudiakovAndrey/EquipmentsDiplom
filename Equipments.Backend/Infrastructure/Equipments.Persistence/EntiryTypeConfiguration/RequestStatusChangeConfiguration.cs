@@ -9,31 +9,31 @@ namespace Equipments.Persistence.EntityTypeConfiguration
         public void Configure(EntityTypeBuilder<RequestStatusChange> entity)
         {
             entity.HasKey(e => e.Id)
-                  .HasName("request_status_changes_pkey");
+                  .HasName("RequestStatusChange_pkey");
 
-            entity.ToTable("request_status_changes");
+            entity.ToTable("RequestStatusChange");
 
-            entity.HasIndex(e => new { e.StatusChangeDate, e.WorkDescription }, "request_status_changes_index");
+            entity.HasIndex(e => new { e.StatusChangeDate, e.WorkDescription }, "RequestStatusChange_index");
 
-            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("ID");
 
-            entity.Property(e => e.IdequipmentServiceRequest).HasColumnName("idequipment_service_request");
+            entity.Property(e => e.IdequipmentServiceRequest).HasColumnName("IDEquipmentServiceRequest");
 
             entity.Property(e => e.WorkDescription)
                 .HasMaxLength(255)
-                .HasColumnName("work_description");
+                .HasColumnName("WorkDescription");
 
             entity.HasOne(d => d.IdequipmentServiceRequestNavigation)
                 .WithMany(p => p.RequestStatusChanges)
                 .HasForeignKey(d => d.IdequipmentServiceRequest)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_request_status_changes_equipment_service_request_id");
+                .HasConstraintName("FK_RequestStatusChange_Status");
 
             entity.HasOne(d => d.StatusNavigation)
                 .WithMany(p => p.RequestStatusChanges)
                 .HasForeignKey(d => d.Status)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_request_status_changes_status_id");
+                .HasConstraintName("FK_RequestStatusChange_Request");
         }
     }
 }

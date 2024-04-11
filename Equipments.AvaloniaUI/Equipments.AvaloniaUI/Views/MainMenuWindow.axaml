@@ -21,10 +21,15 @@
 		<rxui:RoutedViewHost Grid.Row="1" Margin="20"
 							 Router="{Binding Router}">
 
-			<rxui:RoutedViewHost.ViewLocator>
+			<!--<rxui:RoutedViewHost.ViewLocator>
 				<local:AppViewLocator/>
-			</rxui:RoutedViewHost.ViewLocator>
+			</rxui:RoutedViewHost.ViewLocator>-->
 
 		</rxui:RoutedViewHost>
+		<TransitioningContentControl
+			Grid.Row="1" Margin="20"
+			Content="{Binding SelectedViewModel}">
+
+		</TransitioningContentControl>
 	</Grid>
 </Window>

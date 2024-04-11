@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive;
-using System.Reflection.Emit;
 using System.Threading.Tasks;
 
 namespace Equipments.AvaloniaUI.ViewModels
@@ -91,7 +90,10 @@ namespace Equipments.AvaloniaUI.ViewModels
             }
         }
 
-
+        public async void Show()
+        {
+            await App.MainMenuVM.ShowAskQuestionDialogAsync("dsa");
+        }
         #region Properties
         [Reactive] public string DetailedDescription { get; set; } = string.Empty;
         [Reactive] public string BrokenEquipmentDescription { get; set; } = string.Empty;

@@ -5,6 +5,11 @@ using ReactiveUI;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Reactive;
+using Avalonia.Controls.Primitives;
+using Equipments.AvaloniaUI.Views;
+using ReactiveUI.Fody.Helpers;
+using System;
+using System.Reactive.Disposables;
 
 namespace Equipments.AvaloniaUI.ViewModels
 {
@@ -12,10 +17,16 @@ namespace Equipments.AvaloniaUI.ViewModels
     {
         public RoutingState Router { get; } = new RoutingState();
         private readonly IDialogService _dialogService;
+        [Reactive] public RoutableViewModelBase? SelectedViewModel { get; set; }
         public MainMenuViewModel(IDialogService dialogService)
         {
             _dialogService = dialogService;
             ShowEquipmentsServiceRequestView();
+
+            Router.CurrentViewModel.Subscribe(view =>
+            {
+                SelectedViewModel = (RoutableViewModelBase?)view;
+            });
         }
         public ReactiveCommand<Unit, IRoutableViewModel> GoBack => Router.NavigateBack!;
         public void ShowCreateServiceRequestView() =>
@@ -44,7 +55,10 @@ namespace Equipments.AvaloniaUI.ViewModels
                     }).ConfigureAwait(true);
         }
 
-
-
+        public async Task<bool> ShowAskQuestionDialogAsync(string message, string? title = null)
+        {
+            bool result = await _dialogService.AskQuestionAsync(this, message, title);
+            return result;
+        }
     }
 }

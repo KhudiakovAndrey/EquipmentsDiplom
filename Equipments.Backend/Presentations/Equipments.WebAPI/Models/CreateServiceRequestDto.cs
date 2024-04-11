@@ -34,7 +34,7 @@ namespace Equipments.WebAPI.Models
                 .ForMember(createDto => createDto.DetailedDescription,
                     opt => opt.MapFrom(create => create.DetailedDescription))
                 .ForMember(createDto => createDto.BrokenEquipmentDescription,
-                    opt => opt.MapFrom(create => create.BrokenEquipmentDescription))
+                    opt => opt.MapFrom(create => create.BrokenEquipmentDescription));
         }
     }
 }

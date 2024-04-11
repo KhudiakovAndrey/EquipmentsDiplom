@@ -34,5 +34,11 @@ namespace Equipments.AvaloniaUI.Services.API
             var response = await PostAsync<Guid>(_appConfiguration.ServiceRequestsEndpoint, body);
             return response;
         }
+
+        public async Task<ApiResponse<object>> DeleteServiceRequest(Guid id)
+        {
+            var response = await DeleteAsync<object>(_appConfiguration.ServiceRequestsEndpoint + "/" + id.ToString());
+            return response;
+        }
     }
 }

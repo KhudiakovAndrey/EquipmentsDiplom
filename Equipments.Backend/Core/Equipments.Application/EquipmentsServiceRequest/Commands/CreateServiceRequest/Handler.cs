@@ -1,4 +1,5 @@
-﻿using Equipments.Application.Interfaces;
+﻿using Equipments.Application.Common.Exceptions;
+using Equipments.Application.Interfaces;
 using Equipments.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -29,8 +30,9 @@ namespace Equipments.Application.EquipmentsServiceRequest.Commands
                 var type = problemTypes.FirstOrDefault(p => p.IdequipmentTypeNavigation.Name == request.EquipmentType && p.Description == request.ProblemType);
 
                 if (type == null)
-                    return Guid.Empty;
-
+                {
+                    throw new NotFoundException(nameof(ProblemType), request.IDResponsible);
+                }
 
                 var req = new EquipmentServiceRequest
                 {
@@ -52,7 +54,7 @@ namespace Equipments.Application.EquipmentsServiceRequest.Commands
                     WorkDescription = "Заявка была успешно создана, прямо сейчас она находится в обработке чтобы исполнитель мог приняться за работу"
                 };
 
-                _dbContext.RequestStatusChanges.+ Add(changeStatuseRequest);
+                _dbContext.RequestStatusChanges.Add(changeStatuseRequest);
 
                 await _dbContext.SaveChangesAsync(cancellationToken);
 

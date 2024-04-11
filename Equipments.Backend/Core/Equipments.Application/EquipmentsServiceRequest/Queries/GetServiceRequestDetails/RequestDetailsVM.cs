@@ -3,10 +3,6 @@ using Equipments.Application.Common.Mappings;
 using Equipments.Domain.Entities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Equipments.Application.EquipmentsServiceRequest.Queries
 {
@@ -21,6 +17,7 @@ namespace Equipments.Application.EquipmentsServiceRequest.Queries
             public string DetailedDescription { get; set; } = string.Empty;
             public string BrokenEquipmentDescription { get; set; } = string.Empty;
             public DateTime CreationDate { get; set; }
+            //public List<Request>
             public void Mapping(Profile profile)
             {
                 profile.CreateMap<EquipmentServiceRequest, RequestDetailsVM>()

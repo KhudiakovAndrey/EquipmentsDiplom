@@ -66,7 +66,7 @@ namespace Equipments.Api
             var responce = await _httpClient.PutAsync(_baseAddress + requestUrl, jsonContent);
             return await HandleResponse<T>(responce);
         }
-        public async Task<ApiResponse<bool>> DeleteAsync(string requestUrl)
+        public async Task<ApiResponse<T>> DeleteAsync<T>(string requestUrl)
         {
             if (!string.IsNullOrEmpty(AccessToken))
             {
@@ -74,7 +74,7 @@ namespace Equipments.Api
             }
 
             var response = await _httpClient.DeleteAsync(_baseAddress + requestUrl);
-            return await HandleResponse<bool>(response);
+            return await HandleResponse<T>(response);
         }
 
         public async Task<ApiResponse<T>> HandleResponse<T>(HttpResponseMessage response)
