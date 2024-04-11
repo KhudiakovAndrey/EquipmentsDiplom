@@ -1,11 +1,6 @@
 ﻿using AutoMapper;
 using Equipments.Application.Common.Mappings;
 using Equipments.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Equipments.Application.EquipmentsServiceRequest.Queries
 {

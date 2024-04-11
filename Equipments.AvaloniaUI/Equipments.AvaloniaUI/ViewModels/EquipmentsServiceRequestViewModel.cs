@@ -70,7 +70,7 @@ namespace Equipments.AvaloniaUI.ViewModels
         public async Task DeleteServiceRequest(Guid id)
         {
             var result = await App.MainMenuVM.ShowAskQuestionDialogAsync(
-                "Вы действителЬно хотите удалить заявку на обслуживание?JFSFDS FSIUSGIDSFHIUSDF IUDSGIUDFGGF",
+                "Вы действителЬно хотите удалить заявку на обслуживание?",
                 "Удаление заявки");
             if (result)
             {

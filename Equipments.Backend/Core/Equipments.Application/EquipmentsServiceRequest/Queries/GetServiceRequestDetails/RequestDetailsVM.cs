@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using Equipments.Application.Common.Mappings;
+using Equipments.Application.Models;
 using Equipments.Domain.Entities;
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace Equipments.Application.EquipmentsServiceRequest.Queries
 {
@@ -17,7 +19,7 @@ namespace Equipments.Application.EquipmentsServiceRequest.Queries
             public string DetailedDescription { get; set; } = string.Empty;
             public string BrokenEquipmentDescription { get; set; } = string.Empty;
             public DateTime CreationDate { get; set; }
-            //public List<Request>
+            public List<RequestStatusDto> Statues { get; set; } = new();
             public void Mapping(Profile profile)
             {
                 profile.CreateMap<EquipmentServiceRequest, RequestDetailsVM>()
@@ -32,9 +34,13 @@ namespace Equipments.Application.EquipmentsServiceRequest.Queries
                     .ForMember(reqVm => reqVm.BrokenEquipmentDescription,
                         opt => opt.MapFrom(req => req.BrokenEquipmentDescription))
                     .ForMember(reqVm => reqVm.CreationDate,
-                        opt => opt.MapFrom(req => req.CreationDate));
+                        opt => opt.MapFrom(req => req.CreationDate))
+                    .ForMember(reqVm => reqVm.Statues,
+                        opt => opt.MapFrom(req => req.RequestStatusChanges));
+
                 profile.CreateMap<Employee, EmployeDto>();
                 profile.CreateMap<ProblemType, ProblemTypeDto>();
+                profile.CreateMap<RequestStatus, RequestStatusDto>();
             }
         }
     }
