@@ -1,26 +1,27 @@
-﻿using HanumanInstitute.MvvmDialogs;
+﻿using Equipments.AvaloniaUI.Factorys;
+using HanumanInstitute.MvvmDialogs;
 using HanumanInstitute.MvvmDialogs.Avalonia.DialogHost;
 using Microsoft.Extensions.DependencyInjection;
 using ReactiveUI;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Reactive;
-using Avalonia.Controls.Primitives;
-using Equipments.AvaloniaUI.Views;
 using ReactiveUI.Fody.Helpers;
 using System;
-using System.Reactive.Disposables;
+using System.Linq;
+using System.Reactive;
+using System.Threading.Tasks;
 
 namespace Equipments.AvaloniaUI.ViewModels
 {
     public class MainMenuViewModel : ViewModelBase, IScreen
     {
-        public RoutingState Router { get; } = new RoutingState();
         private readonly IDialogService _dialogService;
+        private readonly ICreateServiceRequestViewModelFactory _createServiceRequestViewModelFactory;
         [Reactive] public RoutableViewModelBase? SelectedViewModel { get; set; }
-        public MainMenuViewModel(IDialogService dialogService)
+        public RoutingState Router { get; } = new RoutingState();
+        public MainMenuViewModel(IDialogService dialogService,
+            ICreateServiceRequestViewModelFactory createServiceRequestViewModelFactory)
         {
             _dialogService = dialogService;
+            _createServiceRequestViewModelFactory = createServiceRequestViewModelFactory;
             ShowEquipmentsServiceRequestView();
 
             Router.CurrentViewModel.Subscribe(view =>
@@ -29,11 +30,10 @@ namespace Equipments.AvaloniaUI.ViewModels
             });
         }
         public ReactiveCommand<Unit, IRoutableViewModel> GoBack => Router.NavigateBack!;
-        public void ShowCreateServiceRequestView() =>
-            Router.Navigate.Execute(App.ServiceProvider!.GetService<CreateServiceRequestViewModel>()!);
+        public void ShowCreateServiceRequestView(Guid? idRequest = null) =>
+            Router.Navigate.Execute(_createServiceRequestViewModelFactory.Create(idRequest ?? Guid.Empty));
         public void ShowEquipmentsServiceRequestView() =>
             NaviageIgnoreCopyUrl(App.ServiceProvider!.GetService<EquipmentsServiceRequestViewModel>()!);
-
         public void ShowEquipmentPurchaseRequestView() =>
             NaviageIgnoreCopyUrl(App.ServiceProvider!.GetService<EquipmentPurchaseRequestViewModel>()!);
 

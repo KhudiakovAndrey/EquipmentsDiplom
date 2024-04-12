@@ -64,7 +64,8 @@
 							<StackPanel Orientation="Horizontal" Spacing="5" Margin="3">
 								<Button Command="{Binding $parent[DataGrid].((vm:EquipmentsServiceRequestViewModel)DataContext).DeleteServiceRequestCommand}"
 										CommandParameter="{Binding ID}">У</Button>
-								<Button>Р</Button>
+								<Button Command="{Binding $parent[DataGrid].((vm:EquipmentsServiceRequestViewModel)DataContext).EditServiceRequestCommand}"
+										CommandParameter="{Binding ID}">Р</Button>
 							</StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>

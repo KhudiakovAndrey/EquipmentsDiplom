@@ -3,6 +3,7 @@ using DynamicData.Binding;
 using Equipments.AvaloniaUI.Models;
 using Equipments.AvaloniaUI.Services.API;
 using Equipments.AvaloniaUI.Services.Enums;
+using Microsoft.Extensions.DependencyInjection;
 using Nito.AsyncEx;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -21,7 +22,8 @@ namespace Equipments.AvaloniaUI.ViewModels
         private readonly ServiceRequestService _serviceRequestService;
         private readonly EmployeesService _employeesService;
 
-        public EquipmentsServiceRequestViewModel(ServiceRequestService serviceRequestService, EmployeesService employeesService)
+        public EquipmentsServiceRequestViewModel(ServiceRequestService serviceRequestService,
+            EmployeesService employeesService)
             : base(nameof(EquipmentPurchaseRequestViewModel).ToLowerInvariant())
         {
             _serviceRequestService = serviceRequestService;
@@ -63,13 +65,16 @@ namespace Equipments.AvaloniaUI.ViewModels
             BackPageCommand = ReactiveCommand.CreateFromTask(BackPage, isExecuteBackPageCommand);
             ClearFilterCommand = ReactiveCommand.Create(ClearFilter, isExecuteClearFilterCommand);
             DeleteServiceRequestCommand = ReactiveCommand.CreateFromTask<Guid>(DeleteServiceRequest);
-
+            EditServiceRequestCommand = ReactiveCommand.Create<Guid>(EditServiceRequest);
         }
-
+        public ReactiveCommand<Guid, Unit> EditServiceRequestCommand { get; private set; }
+        private void EditServiceRequest(Guid id) => App.ServiceProvider!.GetRequiredService<MainMenuViewModel>()
+            .ShowCreateServiceRequestView(id);
         public ReactiveCommand<Guid, Unit> DeleteServiceRequestCommand { get; private set; }
         public async Task DeleteServiceRequest(Guid id)
         {
-            var result = await App.MainMenuVM.ShowAskQuestionDialogAsync(
+            var result = await App.ServiceProvider!.GetRequiredService<MainMenuViewModel>()
+                .ShowAskQuestionDialogAsync(
                 "Вы действителЬно хотите удалить заявку на обслуживание?",
                 "Удаление заявки");
             if (result)

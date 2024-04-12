@@ -18,15 +18,19 @@ namespace Equipments.AvaloniaUI.ViewModels
         private readonly EmployeesService _employService;
         private readonly ProblemTypeService _problemTypeService;
         private readonly ServiceRequestService _serviceRequestService;
-        public CreateServiceRequestViewModel(EmployeesService employService, ProblemTypeService problemTypeService, ServiceRequestService serviceRequestService)
+        private readonly Guid _idRequest;
+        public CreateServiceRequestViewModel(EmployeesService employService,
+            ProblemTypeService problemTypeService,
+            ServiceRequestService serviceRequestService,
+            Guid idRequest)
             : base(nameof(CreateServiceRequestViewModel).ToLowerInvariant())
         {
             _employService = employService;
             _problemTypeService = problemTypeService;
             _serviceRequestService = serviceRequestService;
+            _idRequest = idRequest;
 
-            Notify = NotifyTaskCompletion.Create(GetAllEmployees);
-            Notify = NotifyTaskCompletion.Create(GetAllProblemTypes);
+            Notify = NotifyTaskCompletion.Create(InitializeAsync);
 
             this.WhenAnyValue(vm => vm.SelectedEquipmentType).Subscribe(_ =>
             {
@@ -47,6 +51,23 @@ namespace Equipments.AvaloniaUI.ViewModels
                 && !string.IsNullOrWhiteSpace(eqDescription));
             CreateRequestCommand = ReactiveCommand.CreateFromTask(CreateRequest, isExecuteCreateRequestCommand);
 
+
+
+        }
+        private async Task InitializeAsync()
+        {
+            await GetAllEmployees();
+            await GetAllProblemTypes();
+            if (_idRequest != Guid.Empty)
+            {
+                await GetServiceRequestDetailed(_idRequest);
+                Title = "Заяка";
+                NumberRequest = "№" + _idRequest;
+                InputText = "Сохранить изменения";
+                return;
+            }
+            Title = "Создание заявки на обслуживание оборудования";
+            InputText = "Подать заявку";
         }
         public ReactiveCommand<Unit, Unit> CreateRequestCommand { get; private set; }
         public async Task CreateRequest()
@@ -89,12 +110,25 @@ namespace Equipments.AvaloniaUI.ViewModels
                 EquipmentTypes = new ObservableCollection<string>(_problemTypes.Select(problem => problem.EquipmentType).Distinct());
             }
         }
-
-        public async void Show()
+        private async Task GetServiceRequestDetailed(Guid id)
         {
-            await App.MainMenuVM.ShowAskQuestionDialogAsync("dsa");
+            var response = await _serviceRequestService.GetDetailedServiceRequest(id);
+            if (response.IsSucces)
+            {
+                SelectedSystemAdministration = response.Data.SystemAdministrator;
+                SelectedResponsible = response.Data.Responsible;
+                SelectedEquipmentType = response.Data.ProblemType.EquipmentType;
+                SelectedProblemType = response.Data.ProblemType.Description;
+                DetailedDescription = response.Data.DetailedDescription;
+                BrokenEquipmentDescription = response.Data.BrokenEquipmentDescription;
+                Statuses = new ObservableCollection<RequestStatusModel>(response.Data.Statues);
+            }
         }
         #region Properties
+        [Reactive] public ObservableCollection<RequestStatusModel> Statuses { get; set; }
+        [Reactive] public string NumberRequest { get; private set; }
+        [Reactive] public string Title { get; set; } = string.Empty;
+        [Reactive] public string InputText { get; set; } = string.Empty;
         [Reactive] public string DetailedDescription { get; set; } = string.Empty;
         [Reactive] public string BrokenEquipmentDescription { get; set; } = string.Empty;
         [Reactive] public ObservableCollection<EmployeModel> Responsibles { get; set; } = new();

@@ -2,11 +2,7 @@
 using Equipments.AvaloniaUI.Models;
 using Equipments.AvaloniaUI.Resources;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace Equipments.AvaloniaUI.Services.API
 {
@@ -38,6 +34,12 @@ namespace Equipments.AvaloniaUI.Services.API
         public async Task<ApiResponse<object>> DeleteServiceRequest(Guid id)
         {
             var response = await DeleteAsync<object>(_appConfiguration.ServiceRequestsEndpoint + "/" + id.ToString());
+            return response;
+        }
+
+        public async Task<ApiResponse<DetailedEquipmentServiceRequestVm>> GetDetailedServiceRequest(Guid id)
+        {
+            var response = await GetAsync<DetailedEquipmentServiceRequestVm>(_appConfiguration.ServiceRequestsEndpoint + "/" + id);
             return response;
         }
     }

@@ -38,9 +38,9 @@ namespace Equipments.Application.EquipmentsServiceRequest.Queries
                     .ForMember(reqVm => reqVm.Statues,
                         opt => opt.MapFrom(req => req.RequestStatusChanges));
 
-                profile.CreateMap<Employee, EmployeDto>();
-                profile.CreateMap<ProblemType, ProblemTypeDto>();
-                profile.CreateMap<RequestStatus, RequestStatusDto>();
+                //profile.CreateMap<Employee, EmployeDto>();
+                //profile.CreateMap<ProblemType, ProblemTypeDto>();
+                //profile.CreateMap<RequestStatus, RequestStatusDto>();
             }
         }
     }

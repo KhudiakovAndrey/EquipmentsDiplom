@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Equipments.AvaloniaUI.Data;
+using Equipments.AvaloniaUI.Factory;
 using Equipments.AvaloniaUI.Resources;
 using Equipments.AvaloniaUI.Services.API;
 using Equipments.AvaloniaUI.ViewModels;
@@ -37,6 +38,8 @@ public partial class App : Application
             viewModelFactory: x => ServiceProvider!.GetRequiredService(x))
         );
 
+        //Загружаем фабрики для создания ViewModel с параметрами
+        services.AddFactory();
         //Добавляем все ViewModels
         services.AddViewModels();
 
@@ -46,6 +49,7 @@ public partial class App : Application
 
         //Загружаем сервисы для работы с апи
         services.AddApiServices(apiConfiguration);
+
 
         ServiceProvider = services.BuildServiceProvider();
 
