@@ -8,6 +8,7 @@
   "ServiceRequestsEndpoint": "service-request",
   "EmployeesEndpoint": "employees",
   "EquipmentTypesEndpoint": "equipment-types",
-  "ProblemTypesEndpoint": "problem-type"
+  "ProblemTypesEndpoint": "problem-type",
+  "RequestStatusChangesEndpoint": "request-status-changes"
 
 }

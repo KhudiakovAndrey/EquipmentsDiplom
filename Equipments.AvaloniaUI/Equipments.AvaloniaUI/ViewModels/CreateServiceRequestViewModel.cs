@@ -19,16 +19,19 @@ namespace Equipments.AvaloniaUI.ViewModels
         private readonly EmployeesService _employService;
         private readonly ProblemTypeService _problemTypeService;
         private readonly ServiceRequestService _serviceRequestService;
+        private readonly RequestStatusChangesService _requestStatusChangesService;
         private readonly Guid _idRequest;
         public CreateServiceRequestViewModel(EmployeesService employService,
             ProblemTypeService problemTypeService,
             ServiceRequestService serviceRequestService,
-            Guid idRequest)
+            Guid idRequest,
+            RequestStatusChangesService requestStatusChangesService)
             : base(nameof(CreateServiceRequestViewModel).ToLowerInvariant())
         {
             _employService = employService;
             _problemTypeService = problemTypeService;
             _serviceRequestService = serviceRequestService;
+            _requestStatusChangesService = requestStatusChangesService;
             _idRequest = idRequest;
 
             Notify = NotifyTaskCompletion.Create(InitializeAsync);
@@ -51,9 +54,6 @@ namespace Equipments.AvaloniaUI.ViewModels
                 && !string.IsNullOrEmpty(probType) && !string.IsNullOrWhiteSpace(detailed)
                 && !string.IsNullOrWhiteSpace(eqDescription));
             CreateRequestCommand = ReactiveCommand.CreateFromTask(EditRequest, isExecuteCreateRequestCommand);
-
-
-
         }
         private async Task InitializeAsync()
         {
@@ -72,12 +72,22 @@ namespace Equipments.AvaloniaUI.ViewModels
         }
         public ReactiveCommand<Unit, Unit> CreateRequestCommand { get; private set; }
         public ReactiveCommand<int, Unit> DeleteRequestStatusCommand { get; private set; }
-        private async Task DeleteRequestStatus()
+        private async Task DeleteRequestStatus(int id)
         {
-            var result = await App.ServiceProvider!.GetService<MainMenuViewModel>().ShowAskQuestionDialogAsync(
+            var mainVm = App.ServiceProvider!.GetService<MainMenuViewModel>()!;
+            var result = await mainVm.ShowAskQuestionDialogAsync(
                 "Вы уверены в удалении статуса?", "Удаление статуса.");
             if (result)
             {
+                var response = await _requestStatusChangesService.DeleteByiDAsync(id);
+                if (response.IsSucces)
+                {
+                    Statuses.Remove(Statuses.First(status => status.ID == id));
+                }
+                else
+                {
+                    await mainVm.ShowDialogHostAsync("Не удалось удалить объект");
+                }
 
             }
         }
