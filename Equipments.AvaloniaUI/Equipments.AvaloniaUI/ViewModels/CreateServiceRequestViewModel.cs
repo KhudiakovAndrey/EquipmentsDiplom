@@ -1,6 +1,7 @@
 ﻿using Equipments.AvaloniaUI.Models;
 using Equipments.AvaloniaUI.Services.API;
 using Equipments.AvaloniaUI.Services.Enums;
+using Microsoft.Extensions.DependencyInjection;
 using Nito.AsyncEx;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -49,7 +50,7 @@ namespace Equipments.AvaloniaUI.ViewModels
                 response != null && sys != null && !string.IsNullOrEmpty(eqType)
                 && !string.IsNullOrEmpty(probType) && !string.IsNullOrWhiteSpace(detailed)
                 && !string.IsNullOrWhiteSpace(eqDescription));
-            CreateRequestCommand = ReactiveCommand.CreateFromTask(CreateRequest, isExecuteCreateRequestCommand);
+            CreateRequestCommand = ReactiveCommand.CreateFromTask(EditRequest, isExecuteCreateRequestCommand);
 
 
 
@@ -70,26 +71,44 @@ namespace Equipments.AvaloniaUI.ViewModels
             InputText = "Подать заявку";
         }
         public ReactiveCommand<Unit, Unit> CreateRequestCommand { get; private set; }
-        public async Task CreateRequest()
+        public ReactiveCommand<int, Unit> DeleteRequestStatusCommand { get; private set; }
+        private async Task DeleteRequestStatus()
         {
-            var createServiceRequest = new CreateServiceRequestModel
+            var result = await App.ServiceProvider!.GetService<MainMenuViewModel>().ShowAskQuestionDialogAsync(
+                "Вы уверены в удалении статуса?", "Удаление статуса.");
+            if (result)
             {
-                IDResponsible = SelectedResponsible.ID,
-                IDSystemAdministrator = SelectedSystemAdministration.ID,
-                EquipmentType = SelectedEquipmentType!,
-                ProblemType = SelectedProblemType!,
-                DetailedDescription = this.DetailedDescription,
-                BrokenEquipmentDescription = this.BrokenEquipmentDescription
-            };
 
-            var response = await _serviceRequestService.CreateServiceRequest(createServiceRequest);
-            if (response.IsSucces)
+            }
+        }
+        private async Task EditRequest()
+        {
+
+            if (_idRequest == Guid.Empty)
             {
-                await App.MainMenuVM.ShowDialogHostAsync("Заявка успешно создана! В данный момент она находится в обработке")!;
+                var createServiceRequest = new CreateServiceRequestModel
+                {
+                    IDResponsible = SelectedResponsible.ID,
+                    IDSystemAdministrator = SelectedSystemAdministration.ID,
+                    EquipmentType = SelectedEquipmentType!,
+                    ProblemType = SelectedProblemType!,
+                    DetailedDescription = this.DetailedDescription,
+                    BrokenEquipmentDescription = this.BrokenEquipmentDescription
+                };
+
+                var response = await _serviceRequestService.CreateServiceRequest(createServiceRequest);
+                if (response.IsSucces)
+                {
+                    await App.MainMenuVM.ShowDialogHostAsync("Заявка успешно создана! В данный момент она находится в обработке")!;
+                }
+                else
+                {
+                    await App.MainMenuVM.ShowDialogHostAsync("Произошла ошибка во время создания заявки, повторите попытку позже");
+                }
             }
             else
             {
-                await App.MainMenuVM.ShowDialogHostAsync("Произошла ошибка во время создания заявки, повторите попытку позже");
+
             }
         }
         private async Task GetAllEmployees()

@@ -4,6 +4,9 @@
 		<Border Padding="20">
 			<StackPanel>
 				<Button Classes="hyperlink">Нажми на меня</Button>
+				<Button Classes="close">
+					<PathIcon Data="{StaticResource delete_regular}"/>
+				</Button>
 			</StackPanel>
 			<!-- Add Controls for Previewer Here -->
 		</Border>
@@ -31,5 +34,10 @@
 	<Style Selector="Button">
 		<Setter Property="HorizontalContentAlignment" Value="Center"/>
 		<Setter Property="VerticalContentAlignment" Value="Center"/>
+	</Style>
+
+	<Style Selector="Button.close">
+		<Setter Property="Background" Value="{DynamicResource Close}"/>
+		<Setter Property="Foreground" Value="White"/>
 	</Style>
 </Styles>

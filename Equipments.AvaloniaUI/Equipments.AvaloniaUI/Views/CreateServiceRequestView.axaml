@@ -7,7 +7,7 @@
 			 mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450"
              x:DataType="vm:CreateServiceRequestViewModel"
 			 x:Class="Equipments.AvaloniaUI.Views.CreateServiceRequestView" >
-	<Grid ColumnDefinitions="*,Auto">
+	<Grid ColumnDefinitions="*, 1,Auto">
 		<ScrollViewer VerticalScrollBarVisibility="Auto"
 					  ZIndex="0"
 					  IsVisible="{Binding Notify.IsCompleted}">
@@ -28,7 +28,6 @@
 								 ValueMemberBinding="{Binding (model:EmployeModel).FullName}"
 								 FilterMode="ContainsOrdinal"
 								 SelectedItem="{Binding SelectedResponsible}">
-					<!--FilterMode="ContainsOrdinal"-->
 					<AutoCompleteBox.ItemTemplate>
 						<DataTemplate DataType="model:EmployeModel">
 							<Grid RowDefinitions="*,*" ColumnDefinitions="*,*">
@@ -86,26 +85,57 @@
 						Content="{Binding InputText}"/>
 			</StackPanel>
 		</ScrollViewer>
-		<ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Column="1">
-			<ItemsRepeater ItemsSource="{Binding Statuses}" Width="300">
+
+		<GridSplitter Grid.Column="1"
+					  Background="{DynamicResource SystemAccentColor}"
+					  ResizeDirection="Columns"
+					  Width="1"
+					  IsVisible="{Binding Statuses.Count}"/>
+
+		<ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Column="2">
+			<ItemsRepeater ItemsSource="{Binding Statuses}"
+						   HorizontalAlignment="Stretch"
+						   Margin="15">
+				<ItemsRepeater.Layout>
+					<StackLayout Spacing="10"/>
+				</ItemsRepeater.Layout>
 				<ItemsRepeater.ItemTemplate>
 					<DataTemplate>
-						<Border BorderThickness="1"
+						<Button BorderThickness="2"
 								BorderBrush="{DynamicResource SystemAccentColor}"
-								CornerRadius="5">
-							<Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto">
-								<Rectangle Width="40" Height="40" Fill="Green"/>
-								<TextBlock Grid.Column="1">
+								CornerRadius="5"
+								HorizontalAlignment="Stretch"
+								Background="Transparent"
+								Name="PART_ButtonContainer">
+							<Grid ColumnDefinitions="Auto,*, Auto" RowDefinitions="Auto,Auto">
+								<Ellipse Width="25" Height="25" Fill="Green"/>
+								<TextBlock Margin="5 0" Grid.Column="1" VerticalAlignment="Center">
 									<TextBlock Text="{Binding ChangeStatusDate}"/>
 									<TextBlock Text="{Binding Status}"/>
 								</TextBlock>
-								<TextBlock Grid.Row="1" Grid.ColumnSpan="1" Text="{Binding Description}"/>
+								<TextBlock Grid.Row="1" Grid.ColumnSpan="3"
+										   Text="{Binding Description}"
+										   TextWrapping="Wrap"
+										   Margin="5"/>
+								<Button Classes="close"
+										Width="30" Height="30"
+										Grid.Column="2">
+									<Button.Transitions>
+										<Transitions>
+											<DoubleTransition Property="Opacity"
+															  Duration="0:0:0.2"/>
+										</Transitions>
+									</Button.Transitions>
+									<PathIcon Data="{StaticResource delete_regular}"/>
+								</Button>
+
 							</Grid>
-						</Border>
+						</Button>
 					</DataTemplate>
 				</ItemsRepeater.ItemTemplate>
 			</ItemsRepeater>
 		</ScrollViewer>
+
 		<ProgressBar ZIndex="1"
 					 IsIndeterminate="True"
 					 IsVisible="{Binding Notify.IsNotCompleted}"
@@ -113,6 +143,6 @@
 					 VerticalAlignment="Center"
 					 Width="100"
 					 Height="40"
-					 Grid.ColumnSpan="2"/>
+					 Grid.ColumnSpan="3"/>
 	</Grid>
 </UserControl>

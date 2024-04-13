@@ -1,0 +1,14 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+
+	<Design.PreviewWith>
+		<Border Padding="20" Width="350">
+			<Button
+				Background="{DynamicResource Close}"
+				Foreground="White">Закрыть</Button>
+		</Border>
+	</Design.PreviewWith>
+
+	<SolidColorBrush x:Key="Close">#fc0027</SolidColorBrush>
+</ResourceDictionary>
