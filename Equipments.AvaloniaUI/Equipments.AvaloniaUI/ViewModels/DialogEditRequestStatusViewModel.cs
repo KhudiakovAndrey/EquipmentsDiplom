@@ -1,9 +1,14 @@
 ﻿using Equipments.AvaloniaUI.Models;
 using Equipments.AvaloniaUI.Services.API;
 using HanumanInstitute.MvvmDialogs;
+using Nito.AsyncEx;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using Serilog;
 using System;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Net;
 using System.Reactive;
 using System.Threading.Tasks;
 
@@ -12,16 +17,42 @@ namespace Equipments.AvaloniaUI.ViewModels
     public class DialogEditRequestStatusViewModel : ViewModelBase, IModalDialogViewModel, ICloseable
     {
         private readonly RequestStatusChangesService _requestStatusChangesService;
+        private readonly RequestStatusesService _requestStatusesService;
         public bool? DialogResult { get; set; }
 
         public event EventHandler? RequestClose;
         [Reactive] public UpdateRequestStatusChangeModel Model { get; set; }
 
-        public DialogEditRequestStatusViewModel(UpdateRequestStatusChangeModel? model,
-            RequestStatusChangesService requestStatusChangesService)
+        public DialogEditRequestStatusViewModel(RequestStatusChangesService requestStatusChangesService,
+            RequestStatusesService requestStatusesService)
         {
             _requestStatusChangesService = requestStatusChangesService;
-            Model = model ?? new UpdateRequestStatusChangeModel { ID = 0 };
+            _requestStatusesService = requestStatusesService;
+        }
+        public void Intitialize()
+        {
+            Notify = NotifyTaskCompletion.Create(GetAllStatuses);
+        }
+        private async Task GetAllStatuses()
+        {
+            try
+            {
+                var response = await _requestStatusesService.GetAll();
+                if (response.IsSucces)
+                {
+                    Statuses = new ObservableCollection<RequestStatusModel>(response.Data);
+                    if (Model.Status != null)
+                    {
+                        var idModelStatus = Model.Status.ID;
+                        Model.Status = Statuses.FirstOrDefault(x => x.ID == idModelStatus)!;
+                    }
+                }
+            }
+            catch (WebException ex)
+            {
+                Log.Fatal(ex.Message);
+                RequestClose?.Invoke(this, EventArgs.Empty);
+            }
         }
 
         private ReactiveCommand<Unit, Unit>? _edit;
@@ -35,23 +66,41 @@ namespace Equipments.AvaloniaUI.ViewModels
                 var createDto = new CreateRequestStatusChangeModel
                 {
                     IDRequestService = Model.IDRequestService,
-                    IDStatus = Model.IDStatus,
+                    IDStatus = Model.Status.ID,
                     Description = Model.Description,
                 };
-                var response = await _requestStatusChangesService.CreateAsync(createDto);
-                if (!response.IsSucces)
+
+                try
                 {
-                    await mainVm.ShowDialogHostAsync(
-                        "Не удалось создать объект");
+                    var response = await _requestStatusChangesService.CreateAsync(createDto);
+                    if (!response.IsSucces)
+                    {
+                        await mainVm.ShowDialogHostAsync(
+                            "Не удалось создать объект");
+                    }
+                }
+                catch (WebException ex)
+                {
+                    Log.Fatal(ex.Message);
+                    RequestClose?.Invoke(this, EventArgs.Empty);
                 }
             }
             else
             {
-                var response = await _requestStatusChangesService.UpdateAsync(Model);
-                if (!response.IsSucces)
+                try
                 {
-                    await mainVm.ShowDialogHostAsync(
-                        "Не удалось обновить объект");
+                    var response = await _requestStatusChangesService.UpdateAsync(Model);
+                    if (!response.IsSucces)
+                    {
+                        await mainVm.ShowDialogHostAsync(
+                            "Не удалось обновить объект");
+                    }
+                }
+                catch (WebException ex)
+                {
+
+                    Log.Fatal(ex.Message);
+                    RequestClose?.Invoke(this, EventArgs.Empty);
                 }
             }
             DialogResult = true;
@@ -66,5 +115,11 @@ namespace Equipments.AvaloniaUI.ViewModels
             DialogResult = false;
             RequestClose?.Invoke(this, EventArgs.Empty);
         }
+
+        #region Properties
+
+        [Reactive] public ObservableCollection<RequestStatusModel> Statuses { get; private set; } = new();
+
+        #endregion
     }
 }

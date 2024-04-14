@@ -24,14 +24,14 @@ namespace Equipments.Application.RequestStatusChanges.Commands
 
             public async Task<int> Handle(Command request, CancellationToken cancellationToken)
             {
-                var requestService = await _dbContext.EquipmentServiceRequests.FindAsync(request.IDRequestService, cancellationToken);
+                var requestService = await _dbContext.EquipmentServiceRequests.FindAsync(new object[] { request.IDRequestService }, cancellationToken);
 
                 if (requestService == null)
                 {
                     throw new NotFoundException(nameof(EquipmentServiceRequest), request.IDRequestService);
                 }
 
-                var status = await _dbContext.RequestStatuses.FindAsync(request.IDStatus, cancellationToken);
+                var status = await _dbContext.RequestStatuses.FindAsync(new object[] { request.IDStatus }, cancellationToken);
                 if (status == null)
                 {
                     throw new NotFoundException(nameof(RequestStatus), request.IDStatus);
@@ -40,6 +40,7 @@ namespace Equipments.Application.RequestStatusChanges.Commands
                 var newChangeStatus = new RequestStatusChange
                 {
                     IdequipmentServiceRequest = request.IDRequestService,
+                    Status = request.IDStatus,
                     StatusChangeDate = DateTime.Now,
                     WorkDescription = request.Description
                 };

@@ -9,7 +9,7 @@ namespace Equipments.WebAPI.Models
     {
         public int ID { get; set; }
         public Guid IDRequestService { get; set; }
-        public int IDStatus { get; set; }
+        public RequestStatusDto Status { get; set; }
         public string? Description { get; set; }
         public void Mapping(Profile profile)
         {
@@ -19,7 +19,7 @@ namespace Equipments.WebAPI.Models
                 .ForMember(updateCommand => updateCommand.IDRequestService,
                     opt => opt.MapFrom(dto => dto.IDRequestService))
                 .ForMember(updateCommand => updateCommand.IDStatus,
-                    opt => opt.MapFrom(dto => dto.IDStatus))
+                    opt => opt.MapFrom(dto => dto.Status.ID))
                 .ForMember(updateCommand => updateCommand.Description,
                     opt => opt.MapFrom(dto => dto.Description));
         }

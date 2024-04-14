@@ -50,7 +50,7 @@ namespace Equipments.Application.EquipmentsServiceRequest.Queries
                     .Include(s => s.StatusNavigation)
                     .Where(s => s.IdequipmentServiceRequest == request.ID);
 
-                detailsDto.Statues = _mapper.Map<List<RequestStatusDto>>(requestStatuses);
+                detailsDto.Statues = _mapper.Map<List<Models.RequestDetailsVM>>(requestStatuses);
 
                 return detailsDto;
 

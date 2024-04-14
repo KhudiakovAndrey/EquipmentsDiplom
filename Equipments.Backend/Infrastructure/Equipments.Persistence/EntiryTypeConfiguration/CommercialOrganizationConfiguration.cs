@@ -9,29 +9,29 @@ namespace Equipments.Persistence.EntityTypeConfiguration
         public void Configure(EntityTypeBuilder<CommercialOrganization> entity)
         {
             entity.HasKey(e => e.Id)
-                  .HasName("commercial_organizations_pkey");
+                  .HasName("CommercialOrganizations_pkey");
 
-            entity.ToTable("commercial_organizations");
+            entity.ToTable("CommercialOrganizations");
 
-            entity.HasIndex(e => new { e.Name, e.Phone, e.Email, e.Website }, "commercial_organizations_index");
+            entity.HasIndex(e => new { e.Name, e.Phone, e.Email, e.Website }, "index");
 
-            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("ID");
 
             entity.Property(e => e.Email)
                 .HasMaxLength(255)
-                .HasColumnName("email");
+                .HasColumnName("Email");
 
             entity.Property(e => e.Name)
                 .HasMaxLength(255)
-                .HasColumnName("name");
+                .HasColumnName("Name");
 
             entity.Property(e => e.Phone)
                 .HasMaxLength(255)
-                .HasColumnName("phone");
+                .HasColumnName("Phone");
 
             entity.Property(e => e.Website)
                 .HasMaxLength(255)
-                .HasColumnName("website");
+                .HasColumnName("Website");
         }
     }
 }

@@ -2,7 +2,40 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+	         xmlns:vm="clr-namespace:Equipments.AvaloniaUI.ViewModels"
+			 mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="400"
+			 MaxWidth="500"
+	         x:DataType="vm:DialogEditRequestStatusViewModel"
              x:Class="Equipments.AvaloniaUI.Views.DialogEditRequestStatusView">
-  Welcome to Avalonia!
+	<StackPanel Spacing="15">
+		<TextBlock Classes="h2" TextWrapping="Wrap">Взаимодействие со статусом</TextBlock>
+		<StackPanel>
+			<TextBlock>Статус:</TextBlock>
+			<ComboBox PlaceholderText="Установите статус"
+					  ItemsSource="{Binding Statuses}"
+					  SelectedItem="{Binding Model.Status}">
+				<ComboBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding Name}"/>
+					</DataTemplate>
+				</ComboBox.ItemTemplate>
+			</ComboBox>
+		</StackPanel>
+		<StackPanel>
+			<TextBlock>Описание проделанной работы:</TextBlock>
+			<TextBox AcceptsReturn="True"
+				 Height="100"
+				 Watermark="Опиши всю работу которую вы провели после последнего этапа"
+				 TextWrapping="Wrap"
+					 Text="{Binding Model.Description}"/>
+		</StackPanel>
+		<Grid Margin="10" ColumnDefinitions="*,*">
+			<Button HorizontalAlignment="Stretch"
+					Classes="accent"
+					Command="{Binding Edit}">Сохранить</Button>
+			<Button Grid.Column="1"
+					HorizontalAlignment="Stretch"
+					Command="{Binding Cancel}">Отмена</Button>
+		</Grid>
+	</StackPanel>
 </UserControl>

@@ -2,7 +2,6 @@
 using Equipments.Application.RequestStatusChanges.Commands;
 using Equipments.WebAPI.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata;
 using System.Threading.Tasks;
 
 namespace Equipments.WebAPI.Controllers

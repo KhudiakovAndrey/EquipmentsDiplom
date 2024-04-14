@@ -12,6 +12,6 @@ namespace Equipments.AvaloniaUI.Models
         public string DetailedDescription { get; set; } = string.Empty;
         public string BrokenEquipmentDescription { get; set; } = string.Empty;
         public DateTime CreationDate { get; set; }
-        public List<RequestStatusModel> Statues { get; set; } = new();
+        public List<RequestStatusChangeModel> Statues { get; set; } = new();
     }
 }

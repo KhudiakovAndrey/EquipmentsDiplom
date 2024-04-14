@@ -24,35 +24,34 @@ namespace Equipments.Application.RequestStatusChanges.Commands
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                var entity = await _dbContext.RequestStatusChanges.FindAsync(request.ID, cancellationToken);
+                var entity = await _dbContext.RequestStatusChanges.FindAsync(new object[] { request.ID }, cancellationToken);
 
                 if (entity == null)
                 {
                     throw new NotFoundException(nameof(RequestStatusChange), request.ID);
                 }
 
-                var requestService = await _dbContext.EquipmentServiceRequests.FindAsync(request.IDRequestService, cancellationToken);
+                var requestService = await _dbContext.EquipmentServiceRequests.FindAsync(new object[] { request.IDRequestService }, cancellationToken);
 
                 if (requestService == null)
                 {
                     throw new NotFoundException(nameof(EquipmentServiceRequest), request.IDRequestService);
                 }
 
-                var status = await _dbContext.RequestStatuses.FindAsync(request.IDStatus, cancellationToken);
+                var status = await _dbContext.RequestStatuses.FindAsync(new object[] { request.IDStatus }, cancellationToken);
                 if (status == null)
                 {
                     throw new NotFoundException(nameof(RequestStatus), request.IDStatus);
                 }
 
-                var updateRequestStatusChange = new RequestStatusChange
-                {
-                    Id = request.ID,
-                    IdequipmentServiceRequest = request.IDRequestService,
-                    StatusChangeDate = DateTime.Now,
-                    WorkDescription = request.Description
-                };
 
-                _dbContext.RequestStatusChanges.Update(updateRequestStatusChange);
+                entity.Id = request.ID;
+                entity.IdequipmentServiceRequest = request.IDRequestService;
+                entity.Status = request.IDStatus;
+                entity.StatusChangeDate = DateTime.Now;
+                entity.WorkDescription = request.Description;
+
+                _dbContext.RequestStatusChanges.Update(entity);
                 await _dbContext.SaveChangesAsync(cancellationToken);
 
                 return Unit.Value;

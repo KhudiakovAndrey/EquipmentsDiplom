@@ -66,5 +66,14 @@ namespace Equipments.WebAPI.Controllers
 
             return Ok();
         }
+
+        [HttpPut]
+        public async Task<ActionResult> Update(UpdateServiceRequestDto dto)
+        {
+            var command = _mapper.Map<UpdateServiceRequest.Command>(dto);
+            await Mediator.Send(command);
+
+            return Ok();
+        }
     }
 }

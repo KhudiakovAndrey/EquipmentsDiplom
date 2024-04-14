@@ -9,7 +9,7 @@ namespace Equipments.AvaloniaUI.Services.API
     {
         private readonly AppConfiguration _appConfiguration;
         public RequestStatusChangesService(AppConfiguration appConfiguration)
-            : base(appConfiguration.RequestStatusChangesEndpoint)
+            : base(appConfiguration.WebApiUrl)
         {
             _appConfiguration = appConfiguration;
         }

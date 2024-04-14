@@ -1,4 +1,5 @@
 ﻿using Equipments.AvaloniaUI.Factorys;
+using Equipments.AvaloniaUI.Models;
 using HanumanInstitute.MvvmDialogs;
 using HanumanInstitute.MvvmDialogs.Avalonia.DialogHost;
 using Microsoft.Extensions.DependencyInjection;
@@ -58,6 +59,11 @@ namespace Equipments.AvaloniaUI.ViewModels
         public async Task<bool> ShowAskQuestionDialogAsync(string message, string? title = null)
         {
             bool result = await _dialogService.AskQuestionAsync(this, message, title);
+            return result;
+        }
+        public async Task<bool?> ShowDialogEditRequestStatusChange(UpdateRequestStatusChangeModel? model)
+        {
+            var result = await _dialogService.ShowEditRequestStatusChange(this, model);
             return result;
         }
     }

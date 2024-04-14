@@ -1,4 +1,5 @@
-﻿using Equipments.AvaloniaUI.ViewModels;
+﻿using Equipments.AvaloniaUI.Models;
+using Equipments.AvaloniaUI.ViewModels;
 using HanumanInstitute.MvvmDialogs;
 using HanumanInstitute.MvvmDialogs.Avalonia.DialogHost;
 using System;
@@ -21,5 +22,21 @@ namespace Equipments.AvaloniaUI
             await service.ShowDialogHostAsync(ownerViewModel, settings).ConfigureAwait(true);
             return vm.DialogResult ?? false;
         }
+
+        public static async Task<bool?> ShowEditRequestStatusChange(this IDialogService service,
+            INotifyPropertyChanged ownerViewModel, UpdateRequestStatusChangeModel model)
+        {
+            if (ownerViewModel == null) throw new ArgumentNullException(nameof(ownerViewModel));
+
+            var vm = service.CreateViewModel<DialogEditRequestStatusViewModel>();
+            vm.Model = model;
+            vm.Intitialize();
+            var settings = new DialogHostSettings(vm);
+            await service.ShowDialogHostAsync(ownerViewModel, settings).ConfigureAwait(true);
+            return vm.DialogResult ?? false;
+
+
+        }
+
     }
 }

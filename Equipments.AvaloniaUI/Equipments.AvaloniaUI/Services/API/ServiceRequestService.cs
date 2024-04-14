@@ -1,7 +1,9 @@
-﻿using Equipments.Api;
+﻿using Avalonia.Diagnostics;
+using Equipments.Api;
 using Equipments.AvaloniaUI.Models;
 using Equipments.AvaloniaUI.Resources;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Equipments.AvaloniaUI.Services.API
@@ -34,6 +36,12 @@ namespace Equipments.AvaloniaUI.Services.API
         public async Task<ApiResponse<object>> DeleteServiceRequest(Guid id)
         {
             var response = await DeleteAsync<object>(_appConfiguration.ServiceRequestsEndpoint + "/" + id.ToString());
+            return response;
+        }
+
+        public async Task<ApiResponse<object>> UpdateAsync(UpdateEquipmentServiceRequestModel body)
+        {
+            var response = await PutAsync<object>(_appConfiguration.ServiceRequestsEndpoint, body);
             return response;
         }
 

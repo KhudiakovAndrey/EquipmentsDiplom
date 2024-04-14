@@ -19,7 +19,7 @@ namespace Equipments.Application.EquipmentsServiceRequest.Queries
             public string DetailedDescription { get; set; } = string.Empty;
             public string BrokenEquipmentDescription { get; set; } = string.Empty;
             public DateTime CreationDate { get; set; }
-            public List<RequestStatusDto> Statues { get; set; } = new();
+            public List<Models.RequestDetailsVM> Statues { get; set; } = new();
             public void Mapping(Profile profile)
             {
                 profile.CreateMap<EquipmentServiceRequest, RequestDetailsVM>()
@@ -37,10 +37,6 @@ namespace Equipments.Application.EquipmentsServiceRequest.Queries
                         opt => opt.MapFrom(req => req.CreationDate))
                     .ForMember(reqVm => reqVm.Statues,
                         opt => opt.MapFrom(req => req.RequestStatusChanges));
-
-                //profile.CreateMap<Employee, EmployeDto>();
-                //profile.CreateMap<ProblemType, ProblemTypeDto>();
-                //profile.CreateMap<RequestStatus, RequestStatusDto>();
             }
         }
     }

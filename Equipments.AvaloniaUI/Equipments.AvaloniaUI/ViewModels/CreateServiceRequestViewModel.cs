@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Equipments.AvaloniaUI.ViewModels
@@ -53,7 +54,10 @@ namespace Equipments.AvaloniaUI.ViewModels
                 response != null && sys != null && !string.IsNullOrEmpty(eqType)
                 && !string.IsNullOrEmpty(probType) && !string.IsNullOrWhiteSpace(detailed)
                 && !string.IsNullOrWhiteSpace(eqDescription));
+
             CreateRequestCommand = ReactiveCommand.CreateFromTask(EditRequest, isExecuteCreateRequestCommand);
+            DeleteRequestStatusCommand = ReactiveCommand.CreateFromTask<int>(DeleteRequestStatus);
+            EditRequestStatusChangeCommand = ReactiveCommand.CreateFromTask<RequestStatusChangeModel?>(EditRequestStatusChange);
         }
         private async Task InitializeAsync()
         {
@@ -72,6 +76,31 @@ namespace Equipments.AvaloniaUI.ViewModels
         }
         public ReactiveCommand<Unit, Unit> CreateRequestCommand { get; private set; }
         public ReactiveCommand<int, Unit> DeleteRequestStatusCommand { get; private set; }
+        public ReactiveCommand<RequestStatusChangeModel?, Unit> EditRequestStatusChangeCommand { get; private set; }
+        private async Task EditRequestStatusChange(RequestStatusChangeModel? model)
+        {
+            UpdateRequestStatusChangeModel? inputModel = new UpdateRequestStatusChangeModel();
+            if (model != null)
+            {
+                inputModel = new UpdateRequestStatusChangeModel();
+                inputModel.ID = model.ID;
+                inputModel.IDRequestService = _idRequest;
+                inputModel.Status = model.Status;
+                inputModel.Description = model.Description;
+            }
+            else
+            {
+                inputModel.ID = 0;
+                inputModel.IDRequestService = _idRequest;
+            }
+            var result = await App.MainMenuVM.ShowDialogEditRequestStatusChange(inputModel);
+            if (result == null)
+            {
+                await App.MainMenuVM.ShowDialogHostAsync("При добавлении объекта что то пошло не так. Пожалуйста повторите попытку позже");
+                return;
+            }
+            await GetServiceRequestDetailed(_idRequest);
+        }
         private async Task DeleteRequestStatus(int id)
         {
             var mainVm = App.ServiceProvider!.GetService<MainMenuViewModel>()!;
@@ -110,6 +139,7 @@ namespace Equipments.AvaloniaUI.ViewModels
                 if (response.IsSucces)
                 {
                     await App.MainMenuVM.ShowDialogHostAsync("Заявка успешно создана! В данный момент она находится в обработке")!;
+
                 }
                 else
                 {
@@ -118,7 +148,21 @@ namespace Equipments.AvaloniaUI.ViewModels
             }
             else
             {
-
+                var updateBody = new UpdateEquipmentServiceRequestModel
+                {
+                    ID = _idRequest,
+                    IDResponsible = SelectedResponsible.ID,
+                    IDSystemAdministration = SelectedSystemAdministration.ID,
+                    EquipmentType = SelectedEquipmentType!,
+                    ProblemType = SelectedProblemType!,
+                    Description = this.DetailedDescription,
+                    BrokenEquipmentDescription = this.BrokenEquipmentDescription
+                };
+                var response = await _serviceRequestService.UpdateAsync(updateBody);
+                if (!response.IsSucces)
+                {
+                    await App.MainMenuVM.ShowDialogHostAsync("Произошла ошибка во время обновления заявки, повторите попытку позже");
+                }
             }
         }
         private async Task GetAllEmployees()
@@ -150,11 +194,11 @@ namespace Equipments.AvaloniaUI.ViewModels
                 SelectedProblemType = response.Data.ProblemType.Description;
                 DetailedDescription = response.Data.DetailedDescription;
                 BrokenEquipmentDescription = response.Data.BrokenEquipmentDescription;
-                Statuses = new ObservableCollection<RequestStatusModel>(response.Data.Statues);
+                Statuses = new ObservableCollection<RequestStatusChangeModel>(response.Data.Statues);
             }
         }
         #region Properties
-        [Reactive] public ObservableCollection<RequestStatusModel> Statuses { get; set; }
+        [Reactive] public ObservableCollection<RequestStatusChangeModel> Statuses { get; set; } = new();
         [Reactive] public string NumberRequest { get; private set; }
         [Reactive] public string Title { get; set; } = string.Empty;
         [Reactive] public string InputText { get; set; } = string.Empty;
