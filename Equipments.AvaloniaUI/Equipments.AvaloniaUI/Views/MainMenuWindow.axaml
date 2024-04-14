@@ -12,18 +12,19 @@
 
 	<Grid RowDefinitions="Auto,*">
 		<StackPanel Orientation="Horizontal">
+			<StackPanel.Styles>
+				<Style Selector="Button">
+					<Setter Property="Background" Value="Transparent"/>
+				</Style>
+			</StackPanel.Styles>
 			<Button Command="{Binding ShowEquipmentsServiceRequestView}"
 					>Обслуживание</Button>
-			<Button Command="{Binding ShowEquipmentPurchaseRequestView}">Кнопка1</Button>
-			<Button>Кнопка1</Button>
+			<Button Command="{Binding ShowEquipmentPurchaseRequestView}">Закупка</Button>
+			<Button>Закупка</Button>
 			<Button>Кнопка1</Button>
 		</StackPanel>
 		<rxui:RoutedViewHost Grid.Row="1" Margin="20"
 							 Router="{Binding Router}">
-
-			<!--<rxui:RoutedViewHost.ViewLocator>
-				<local:AppViewLocator/>
-			</rxui:RoutedViewHost.ViewLocator>-->
 
 		</rxui:RoutedViewHost>
 		<TransitioningContentControl

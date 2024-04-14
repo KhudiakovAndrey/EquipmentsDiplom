@@ -10,6 +10,7 @@
   "EquipmentTypesEndpoint": "equipment-types",
   "ProblemTypesEndpoint": "problem-type",
   "RequestStatusChangesEndpoint": "request-status-changes",
-  "RequestStatusesEndpoint": "request-statuses"
+  "RequestStatusesEndpoint": "request-statuses",
+  "PurchaseRequestsEndpoint": "purchase-requests"
 
 }

@@ -107,7 +107,8 @@
 					  Width="1"
 					  IsVisible="{Binding Statuses.Count}"/>
 
-		<ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Column="2">
+		<ScrollViewer VerticalScrollBarVisibility="Auto"
+					  Grid.Column="2">
 			<ItemsRepeater ItemsSource="{Binding Statuses}"
 						   HorizontalAlignment="Stretch"
 						   Margin="15">
@@ -123,10 +124,9 @@
 								Background="Transparent"
 								Name="PART_ButtonContainer"
 								Command="{Binding $parent[ItemsRepeater].((vm:CreateServiceRequestViewModel)DataContext).EditRequestStatusChangeCommand}"
-								CommandParameter="{Binding}"
-								MaxWidth="330">
+								CommandParameter="{Binding}">
 							<Grid ColumnDefinitions="Auto,*, Auto" RowDefinitions="Auto,Auto">
-								<Ellipse Width="25" Height="25"
+								<Ellipse Width="15" Height="15"
 										 Fill="{Binding Status.Name, 
 										 Converter={StaticResource ColorFromStatusConverter}}"/>
 								<TextBlock Margin="5 0" Grid.Column="1" VerticalAlignment="Center">
