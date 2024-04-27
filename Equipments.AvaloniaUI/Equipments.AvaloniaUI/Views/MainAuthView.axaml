@@ -8,7 +8,9 @@
 		Width="450" Height="450"
         x:Class="Equipments.AvaloniaUI.Views.MainAuthView"
 		x:DataType="vm:MainAuthViewModel"
-        Title="MainAuthWindow">
+        Title="Авторизация"
+		Icon="/Assets/laptop-logo.ico"
+		WindowStartupLocation="CenterScreen">
 	<Window.Styles>
 		<Style Selector="TransitioningContentControl.views-container">
 			<Setter Property="VerticalAlignment" Value="Center"/>
@@ -23,8 +25,8 @@
 				<PageSlide Orientation="Horizontal" Duration="0:00:00.300" />
 			</TransitioningContentControl.PageTransition>
 		</TransitioningContentControl>
-		<ToggleSwitch VerticalAlignment="Bottom"
-					  Command="{Binding ChangeThemeCommand}">Дневной режим</ToggleSwitch>
+		<!--<ToggleSwitch VerticalAlignment="Bottom"
+					  Command="{Binding ChangeThemeCommand}">Дневной режим</ToggleSwitch>-->
 
 	</Grid>
 </Window>

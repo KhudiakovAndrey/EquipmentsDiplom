@@ -44,6 +44,6 @@
 						CommandParameter="{Binding EmailConfirm}">Подтвердите почту.</Button>
 			</TextBlock>
 		</Border>
-		<Button Command="{Binding ShowDialog}">Вызвать диалог</Button>
+		<!--<Button Command="{Binding ShowDialog}">Вызвать диалог</Button>-->
 	</StackPanel>
 </UserControl>

@@ -8,6 +8,7 @@ namespace Equipments.AvaloniaUI.Factory
         public static IServiceCollection AddFactory(this IServiceCollection services)
         {
             services.AddTransient<ICreateServiceRequestViewModelFactory, CreateServiceRequestViewModelFactory>();
+            services.AddTransient<IEditEquipmentPurchaseRequestViewModelFactory, EditEquipmentPurchaseRequestViewModelFactory>();
 
             return services;
         }

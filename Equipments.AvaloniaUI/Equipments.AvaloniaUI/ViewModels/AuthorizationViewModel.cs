@@ -69,7 +69,6 @@ namespace Equipments.AvaloniaUI.ViewModels
                 {
                     //Ошибка авторизации. 
 
-
                     if (response.Message.ErrorCode == Api.ErrorCodes.email_not_confirmed)
                     {
                         //Электронная почта не подтверждена.

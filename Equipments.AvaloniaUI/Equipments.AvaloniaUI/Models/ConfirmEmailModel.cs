@@ -8,7 +8,6 @@ namespace Equipments.AvaloniaUI.Models
     public class ConfirmEmailModel : ReactiveObject
     {
         [DataMember]
-        [Required(ErrorMessage = "Код обязательно должен быть введён")]
         [StringLength(6, MinimumLength = 6, ErrorMessage = "Длина кода 6 символом")]
         [Reactive] public string Code { get; set; } = string.Empty;
     }

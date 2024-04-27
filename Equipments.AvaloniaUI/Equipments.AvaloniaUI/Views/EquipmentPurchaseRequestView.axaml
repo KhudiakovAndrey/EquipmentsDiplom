@@ -3,17 +3,65 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:Equipments.AvaloniaUI.ViewModels"
+			 xmlns:model="clr-namespace:Equipments.AvaloniaUI.Models"
 			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:DataType="vm:EquipmentPurchaseRequestViewModel"
 			 x:Class="Equipments.AvaloniaUI.Views.EquipmentPurchaseRequestView">
-	<StackPanel>
+	<StackPanel Spacing="10">
 
-		<StackPanel>
-			<!--Фильтрация-->
+		<StackPanel Orientation="Horizontal" Spacing="10">
+
+			<ComboBox ItemsSource="{Binding EmployeesFilterList}"
+					  SelectedItem="{Binding SelectedEmploye}">
+				<ComboBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding FullName}"/>
+					</DataTemplate>
+				</ComboBox.ItemTemplate>
+			</ComboBox>
+
+			<CalendarDatePicker Watermark="Выберите дату создания"
+								SelectedDate="{Binding SelectedDateFilter}"/>
+			<Button Command="{Binding ClearFilterCommand}">Очистить фильтр</Button>
+		</StackPanel>
+
+		<StackPanel Orientation="Horizontal">
+			<Button Classes="accent"
+					Command="{Binding ShowEditRequestCommand}">Создать заявку</Button>
 		</StackPanel>
 
 		<DataGrid ItemsSource="{Binding Purchases}"
-				  AutoGenerateColumns="True">
+				  AutoGenerateColumns="False"
+				  IsReadOnly="True"
+				  CanUserResizeColumns="True"
+				  CanUserReorderColumns="False"
+				  GridLinesVisibility="Horizontal"
+				  VerticalAlignment="Stretch">
+			<DataGrid.Columns>
+				<DataGridTextColumn Header="Системный администратор"
+									Width="*"
+									Binding="{Binding SystemAdministration.FullName}"/>
+				<DataGridTextColumn Header="Дата создания"
+									Width="Auto"
+									Binding="{Binding CreationDate}"/>
+				<DataGridTextColumn Header="Срок приобритения"
+									Width="Auto"
+									Binding="{Binding PurchaseDeadline}"/>
+				<DataGridTemplateColumn Header="Действие"
+										Width="Auto">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate DataType="model:PurchaseRequestModel">
+							<StackPanel Orientation="Horizontal" Spacing="5" Margin="3">
+								<Button>У</Button>
+								<Button
+									Command="{Binding $parent[DataGrid].((vm:EquipmentPurchaseRequestViewModel)DataContext).ShowEditRequestCommand}"
+									CommandParameter="{Binding ID}">Р</Button>
+							</StackPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+
+				</DataGridTemplateColumn>
+			</DataGrid.Columns>
 			<!--Таблица: 
 			Можно сделать Expander для отображения 
 			закупочного оборудования и

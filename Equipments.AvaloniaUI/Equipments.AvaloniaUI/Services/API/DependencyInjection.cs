@@ -13,6 +13,7 @@ namespace Equipments.AvaloniaUI.Services.API
             services.AddSingleton(new EmployeesService(apiConfiguration));
             services.AddSingleton(new RequestStatusChangesService(apiConfiguration));
             services.AddSingleton(new RequestStatusesService(apiConfiguration));
+            services.AddSingleton(new EquipmentPurchaseRequestService(apiConfiguration));
 
             return services;
         }

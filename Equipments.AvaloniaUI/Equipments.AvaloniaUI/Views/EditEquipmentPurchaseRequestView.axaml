@@ -1,0 +1,29 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:Equipments.AvaloniaUI.ViewModels"
+			 mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="450"
+             x:DataType="vm:EditEquipmentPurchaseRequestViewModel"
+			 x:Class="Equipments.AvaloniaUI.Views.EditEquipmentPurchaseRequestView">
+	<Grid>
+		<StackPanel>
+			<Button FontSize="16" Classes="accent"
+			Command="{Binding ((vm:MainMenuViewModel)DataContext).GoBack,
+							RelativeSource={RelativeSource AncestorType={x:Type Window}}}">←Назад</Button>
+			<TextBlock>
+				<TextBlock Classes="h1">Заяка</TextBlock>
+			</TextBlock>
+		</StackPanel>
+
+		<ProgressBar ZIndex="1"
+				 IsIndeterminate="True"
+				 IsVisible="{Binding Notify.IsNotCompleted}"
+				 HorizontalAlignment="Center"
+				 VerticalAlignment="Center"
+				 Width="100"
+				 Height="40"
+				 Grid.ColumnSpan="3"/>
+	</Grid>
+
+</UserControl>

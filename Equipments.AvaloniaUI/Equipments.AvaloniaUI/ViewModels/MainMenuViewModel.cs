@@ -1,4 +1,5 @@
-﻿using Equipments.AvaloniaUI.Factorys;
+﻿using Equipments.AvaloniaUI.Factory;
+using Equipments.AvaloniaUI.Factorys;
 using Equipments.AvaloniaUI.Models;
 using HanumanInstitute.MvvmDialogs;
 using HanumanInstitute.MvvmDialogs.Avalonia.DialogHost;
@@ -16,13 +17,17 @@ namespace Equipments.AvaloniaUI.ViewModels
     {
         private readonly IDialogService _dialogService;
         private readonly ICreateServiceRequestViewModelFactory _createServiceRequestViewModelFactory;
+        private readonly IEditEquipmentPurchaseRequestViewModelFactory _purchaseRequestViewModelFactory;
         [Reactive] public RoutableViewModelBase? SelectedViewModel { get; set; }
         public RoutingState Router { get; } = new RoutingState();
         public MainMenuViewModel(IDialogService dialogService,
-            ICreateServiceRequestViewModelFactory createServiceRequestViewModelFactory)
+            ICreateServiceRequestViewModelFactory createServiceRequestViewModelFactory,
+            IEditEquipmentPurchaseRequestViewModelFactory purchaseRequestViewModelFactory)
         {
             _dialogService = dialogService;
             _createServiceRequestViewModelFactory = createServiceRequestViewModelFactory;
+            _purchaseRequestViewModelFactory = purchaseRequestViewModelFactory;
+
             ShowEquipmentsServiceRequestView();
 
             Router.CurrentViewModel.Subscribe(view =>
@@ -37,6 +42,11 @@ namespace Equipments.AvaloniaUI.ViewModels
             NaviageIgnoreCopyUrl(App.ServiceProvider!.GetService<EquipmentsServiceRequestViewModel>()!);
         public void ShowEquipmentPurchaseRequestView() =>
             NaviageIgnoreCopyUrl(App.ServiceProvider!.GetService<EquipmentPurchaseRequestViewModel>()!);
+        public void ShowDashboardView() =>
+            NaviageIgnoreCopyUrl(new DashboardViewModel());
+        public void ShowEditEquipmentPurchaseRequestView(Guid? id) =>
+            Router.Navigate.Execute(_purchaseRequestViewModelFactory.Create(id ?? Guid.Empty));
+
 
         private void NaviageIgnoreCopyUrl(IRoutableViewModel vm)
         {

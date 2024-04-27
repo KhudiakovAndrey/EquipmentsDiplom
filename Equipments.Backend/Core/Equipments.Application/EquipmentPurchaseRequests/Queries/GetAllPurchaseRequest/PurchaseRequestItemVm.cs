@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Equipments.Application.Common.Mappings;
+using Equipments.Application.EquipmentsServiceRequest.Queries;
 using Equipments.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace Equipments.Application.EquipmentPurchaseRequests.Queries
         public class PurchaseRequestItemVm : IMapWith<EquipmentPurchaseRequest>
         {
             public Guid ID { get; set; }
-            public Guid IDSystemAdministration { get; set; }
+            public EmployeDto SystemAdministration { get; set; }
             public string PurchaseReason { get; set; } = string.Empty;
             public DateTime CreationDate { get; set; }
             public string PurchaseDeadline { get; set; } = string.Empty;
@@ -23,8 +24,8 @@ namespace Equipments.Application.EquipmentPurchaseRequests.Queries
                 profile.CreateMap<EquipmentPurchaseRequest, PurchaseRequestItemVm>()
                     .ForMember(vm => vm.ID,
                         opt => opt.MapFrom(entity => entity.Id))
-                    .ForMember(vm => vm.IDSystemAdministration,
-                        opt => opt.MapFrom(entity => entity.IdsystemAdministrator))
+                    .ForMember(vm => vm.SystemAdministration,
+                        opt => opt.MapFrom(entity => entity.IdsystemAdministratorNavigation))
                     .ForMember(vm => vm.PurchaseReason,
                         opt => opt.MapFrom(entity => entity.PurchaseReason))
                     .ForMember(vm => vm.CreationDate,

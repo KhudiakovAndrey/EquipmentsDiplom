@@ -1,14 +1,36 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					>
 
 
 	<Design.PreviewWith>
-		<Border Padding="20" Width="350">
-			<Button
-				Background="{DynamicResource Close}"
-				Foreground="White">Закрыть</Button>
+		<Border Width="300" Padding="20" >
+			<WrapPanel >
+				<WrapPanel.Styles>
+					<Style Selector="Border">
+						<Setter Property="CornerRadius" Value="5"/>
+						<Setter Property="Width" Value="30"/>
+						<Setter Property="Height" Value="30"/>
+						<Setter Property="Margin" Value="5 0 0 0"/>
+					</Style>
+				</WrapPanel.Styles>
+
+				<Border CornerRadius="5" Background="{StaticResource Close}"/>
+
+
+			</WrapPanel>
 		</Border>
 	</Design.PreviewWith>
 
 	<SolidColorBrush x:Key="Close">#fc0027</SolidColorBrush>
+
+	<ResourceDictionary.ThemeDictionaries>
+		<ResourceDictionary x:Key="Light">
+
+		</ResourceDictionary>
+		<ResourceDictionary x:Key="Dark">
+
+		</ResourceDictionary>
+	</ResourceDictionary.ThemeDictionaries>
+
 </ResourceDictionary>

@@ -1,0 +1,65 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:Equipments.AvaloniaUI.ViewModels"
+			 xmlns:lvc="using:LiveChartsCore.SkiaSharpView.Avalonia"
+			 mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450"
+             x:DataType="vm:DashboardViewModel"
+	         x:Class="Equipments.AvaloniaUI.Views.DashboardView"
+			 >
+
+	<Grid RowDefinitions="Auto,*" ColumnDefinitions="*,*">
+		<StackPanel Orientation="Horizontal" Spacing="15">
+			<StackPanel.Styles>
+				<Style Selector="Border">
+					<Setter Property="CornerRadius" Value="10"/>
+					<Setter Property="Width" Value="200"/>
+					<Setter Property="Height" Value="100"/>
+				</Style>
+				<Style Selector="TextBlock.header">
+					<Setter Property="TextWrapping" Value="Wrap"/>
+					<Setter Property="Margin" Value="5"/>
+				</Style>
+				<Style Selector="TextBlock.content">
+					<Setter Property="TextWrapping" Value="Wrap"/>
+					<Setter Property="HorizontalAlignment" Value="Center"/>
+					<Setter Property="VerticalAlignment" Value="Center"/>
+					<Setter Property="FontWeight" Value="Black"/>
+					<Setter Property="FontSize" Value="20"/>
+				</Style>
+			</StackPanel.Styles>
+			<Border Background="Aquamarine">
+				<Grid RowDefinitions="Auto,*">
+					<TextBlock Classes="header">Количество выполненных заявок</TextBlock>
+					<TextBlock Grid.Row="1"
+							   Classes="content"
+							   >56</TextBlock>
+				</Grid>
+			</Border>
+			<Border Background="Yellow">
+				<Grid RowDefinitions="Auto,*">
+					<TextBlock Classes="header">Среднее время выполнение заяки</TextBlock>
+					<TextBlock Grid.Row="1"
+							   Classes="content"
+							   >2 часа</TextBlock>
+				</Grid>
+			</Border>
+			<Border Background="Red">
+				<Grid RowDefinitions="Auto,*">
+					<TextBlock Classes="header">Количество отменённых заявок</TextBlock>
+					<TextBlock Grid.Row="1"
+							   Classes="content"
+							   >10</TextBlock>
+				</Grid>
+			</Border>
+		</StackPanel>
+
+		<lvc:CartesianChart Series="{Binding OneSeries}"
+							Grid.Row="1">
+		</lvc:CartesianChart>
+		<lvc:PieChart Series="{Binding PieSeries}"
+					  Grid.Row="1" Grid.Column="1">
+		</lvc:PieChart>
+	</Grid>
+</UserControl>

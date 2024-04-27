@@ -23,7 +23,9 @@ namespace Equipments.Application.EquipmentPurchaseRequests.Queries
 
             public async Task<PurchaseRequestsVm> Handle(Query request, CancellationToken cancellationToken)
             {
-                var entities = await _dbContext.EquipmentPurchaseRequests.ToListAsync(cancellationToken);
+                var entities = await _dbContext.EquipmentPurchaseRequests
+                    .Include(x => x.IdsystemAdministratorNavigation)
+                    .ToListAsync(cancellationToken);
 
                 var requestVm = new PurchaseRequestsVm
                 {

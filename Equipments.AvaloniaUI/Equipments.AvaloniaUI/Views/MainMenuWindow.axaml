@@ -8,7 +8,9 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Equipments.AvaloniaUI.Views.MainMenuWindow"
 		x:DataType="vm:MainMenuViewModel"
-        Title="MainMenuWindow">
+        Title="КПК Главное меню"
+		Icon="/Assets/laptop-logo.ico"
+		WindowStartupLocation="CenterScreen">
 
 	<Grid RowDefinitions="Auto,*">
 		<StackPanel Orientation="Horizontal">
@@ -20,8 +22,17 @@
 			<Button Command="{Binding ShowEquipmentsServiceRequestView}"
 					>Обслуживание</Button>
 			<Button Command="{Binding ShowEquipmentPurchaseRequestView}">Закупка</Button>
-			<Button>Закупка</Button>
-			<Button>Кнопка1</Button>
+			<!--<Button>Закупка</Button>-->
+			<Button>Экспорт</Button>
+			<Button Command="{Binding ShowDashboardView}">Статистика</Button>
+			<Button>Настройки</Button>
+			<Button Content="Content">
+				<Button.Flyout>
+					<Flyout>
+
+					</Flyout>
+				</Button.Flyout>
+			</Button>
 		</StackPanel>
 		<rxui:RoutedViewHost Grid.Row="1" Margin="20"
 							 Router="{Binding Router}">

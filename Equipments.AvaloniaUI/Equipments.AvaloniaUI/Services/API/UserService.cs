@@ -33,7 +33,7 @@ namespace Equipments.AvaloniaUI.Services.API
         }
         public async Task<ApiResponse<object>> ConfirmEmail(ConfirmEmailModel code)
         {
-            var response = await PostAsync<object>(_appConfiguration.AuthEndpoint + "/confirm-email", new { Code = code });
+            var response = await PostAsync<object>(_appConfiguration.AuthEndpoint + "/confirm-email", code);
             return response;
         }
         public async Task<ApiResponse<object>> RegistrationUserAsync(RegViewModel model)

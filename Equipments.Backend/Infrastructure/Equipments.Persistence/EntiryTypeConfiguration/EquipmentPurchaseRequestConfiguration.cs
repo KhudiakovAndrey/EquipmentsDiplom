@@ -15,7 +15,7 @@ namespace Equipments.Persistence.EntityTypeConfiguration
 
             entity.HasIndex(e => new { e.PurchaseReason, e.CreationDate, e.PurchaseDeadline }, "EquipmentPurchaseRequest_INDEX");
 
-            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("ID");
 
             entity.Property(e => e.IdsystemAdministrator).HasColumnName("IDSystemAdministrator");
 

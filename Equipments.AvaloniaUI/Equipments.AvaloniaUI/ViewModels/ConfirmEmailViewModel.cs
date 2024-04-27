@@ -41,7 +41,7 @@ namespace Equipments.AvaloniaUI.ViewModels
                 var response = await _loginService.ConfirmEmail(ConfirmEmail);
                 if (response.IsSucces)
                 {
-                    //Успешно
+                    App.MainAuthVM.ShowAuthorizationView();
                 }
                 else
                 {

@@ -11,7 +11,7 @@
 	</UserControl.Styles>
 
 	<StackPanel Classes="confirm-container">
-		<TextBlock Classes="h1" FontWeight="Black">Подтвердите Email</TextBlock>
+		<TextBlock Classes="h1" FontWeight="Black" TextWrapping="Wrap">Подтвердите Email</TextBlock>
 		<TextBlock Classes="message-block">
 			Мы выслали вам 6-ти значный код на
 			<TextBlock FontWeight="Black" Text="{Binding Email}"/>

@@ -1,11 +1,19 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 	<Design.PreviewWith>
-		<Border Padding="20">
+		<Border Padding="20" Height="200">
 			<StackPanel>
 				<Button Classes="hyperlink">Нажми на меня</Button>
 				<Button Classes="close">
 					<PathIcon Data="{StaticResource delete_regular}"/>
+				</Button>
+				<Button Content="Закупки" Classes="split"
+						Background="Transparent" CornerRadius="5">
+					<Button.Flyout>
+						<Flyout Placement="BottomEdgeAlignedLeft">
+							<TextBlock>hel</TextBlock>
+						</Flyout>
+					</Button.Flyout>
 				</Button>
 			</StackPanel>
 			<!-- Add Controls for Previewer Here -->
@@ -39,5 +47,85 @@
 	<Style Selector="Button.close">
 		<Setter Property="Background" Value="{DynamicResource Close}"/>
 		<Setter Property="Foreground" Value="White"/>
+	</Style>
+
+
+
+	<Style Selector="Button.split">
+		<Setter Property="Transitions">
+			<Transitions>
+				<TransformOperationsTransition Property="RenderTransform" Duration="0:0:1"/>
+			</Transitions>
+		</Setter>
+		<Setter Property="Template">
+			<ControlTemplate>
+				<Border x:Name="PART_Border"
+							  Background="{TemplateBinding Background}"
+							  BorderBrush="{TemplateBinding BorderBrush}"
+							  Padding="{TemplateBinding Padding}"
+							  BorderThickness="{TemplateBinding BorderThickness}"
+							  CornerRadius="{TemplateBinding CornerRadius}">
+
+					<Grid x:Name="PART_Container" ColumnDefinitions="*,Auto">
+
+						<ContentPresenter x:Name="PART_ContentPresenter"
+								  RecognizesAccessKey="True"
+								  Content="{TemplateBinding Content}"
+								  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+								  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+								  ContentTemplate="{TemplateBinding ContentTemplate}"
+								  Grid.Column="0"/>
+						<PathIcon x:Name="PART_PathIcon"
+							Height="10" Width="10"
+								  Margin="7 0 0 0"
+								  Grid.Column="1"
+								  Data="M1939 486L2029 576L1024 1581L19 576L109 486L1024 1401L1939 486Z" />
+					</Grid>
+				</Border>
+			</ControlTemplate>
+		</Setter>
+
+		<Style Selector="^ /template/ PathIcon#PART_PathIcon">
+			<Setter Property="Transitions">
+				<Transitions>
+					<TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.2"/>
+				</Transitions>
+			</Setter>
+		</Style>
+
+		<Style Selector="^:pointerover /template/ Border#PART_Border">
+			<Setter Property="Background" Value="{DynamicResource ButtonBackgroundPointerOver}" />
+			<Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushPointerOver}" />
+		</Style>
+
+		<Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+			<Setter Property="Background" Value="Transparent" />
+			<Setter Property="Foreground" Value="{DynamicResource ButtonForegroundPointerOver}" />
+		</Style>
+
+		<Style Selector="^:pressed /template/ Border#PART_Border">
+			<Setter Property="RenderTransform" Value="scale(0.95)" />
+		</Style>
+
+		<Style Selector="^:pressed  /template/ Border#PART_Border">
+			<Setter Property="Background" Value="{DynamicResource ButtonBackgroundPressed}" />
+			<Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushPressed}" />
+		</Style>
+
+		<Style Selector="^:pressed  /template/ ContentPresenter#PART_ContentPresenter">
+			<Setter Property="Foreground" Value="{DynamicResource ButtonForegroundPressed}" />
+		</Style>
+
+		<Style Selector="^:disabled /template/ Border#PART_Border">
+			<Setter Property="Background" Value="{DynamicResource ButtonBackgroundDisabled}" />
+			<Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushDisabled}" />
+		</Style>
+
+		<Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+			<Setter Property="Foreground" Value="{DynamicResource ButtonForegroundDisabled}" />
+		</Style>
+		<Style Selector="^:flyout-open /template/ PathIcon#PART_PathIcon">
+			<Setter Property="RenderTransform" Value="rotate(180deg)"/>
+		</Style>
 	</Style>
 </Styles>
