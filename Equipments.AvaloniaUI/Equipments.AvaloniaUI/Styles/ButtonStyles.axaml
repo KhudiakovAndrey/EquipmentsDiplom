@@ -1,5 +1,7 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+		>
 	<Design.PreviewWith>
 		<Border Padding="20" Height="200">
 			<StackPanel>
@@ -15,6 +17,10 @@
 						</Flyout>
 					</Button.Flyout>
 				</Button>
+				<Button Classes="icon">
+					<materialIcons:MaterialIcon Kind="CogOutline"/>
+				</Button>
+
 			</StackPanel>
 			<!-- Add Controls for Previewer Here -->
 		</Border>
@@ -104,7 +110,7 @@
 		</Style>
 
 		<Style Selector="^:pressed /template/ Border#PART_Border">
-			<Setter Property="RenderTransform" Value="scale(0.95)" />
+			<Setter Property="RenderTransform" Value="scale(1)" />
 		</Style>
 
 		<Style Selector="^:pressed  /template/ Border#PART_Border">
@@ -128,4 +134,13 @@
 			<Setter Property="RenderTransform" Value="rotate(180deg)"/>
 		</Style>
 	</Style>
+
+	<Style Selector="Button.icon">
+		<Setter Property="Opacity" Value="0.5"/>
+		<Setter Property="Padding" Value="4"/>
+		<Style Selector="^:pointerover">
+			<Setter Property="Opacity" Value="1"/>
+		</Style>
+	</Style>
+
 </Styles>

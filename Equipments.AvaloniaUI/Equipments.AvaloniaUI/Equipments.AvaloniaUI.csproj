@@ -29,6 +29,7 @@
 		<PackageReference Include="HanumanInstitute.MvvmDialogs.Avalonia.DialogHost" Version="2.0.0" />
 		<PackageReference Include="HanumanInstitute.MvvmDialogs.Avalonia.MessageBox" Version="2.0.0" />
 		<PackageReference Include="LiveChartsCore.SkiaSharpView.Avalonia" Version="2.0.0-rc2" />
+		<PackageReference Include="Material.Icons.Avalonia" Version="2.1.9" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.17" />
 		<PackageReference Include="Nito.AsyncEx" Version="3.0.1" />
 		<PackageReference Include="ReactiveUI.Fody" Version="18.3.1" />

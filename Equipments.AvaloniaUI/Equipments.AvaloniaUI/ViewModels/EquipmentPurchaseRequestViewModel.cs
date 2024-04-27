@@ -58,10 +58,11 @@ namespace Equipments.AvaloniaUI.ViewModels
         }
         private bool Filtered(PurchaseRequestModel model)
         {
-            bool isSysAdminValid = SelectedEmploye?.ID == Guid.Empty ? true : model.SystemAdministration.ID == SelectedEmploye?.ID;
-            bool isCreationDateValid = SelectedDateFilter == null ? true : model.CreationDate == SelectedDateFilter.Value;
+            //bool isSysAdminValid = SelectedEmploye?.ID == Guid.Empty ? true : model.IDSystemAdministration == SelectedEmploye?.ID;
+            //bool isCreationDateValid = SelectedDateFilter == null ? true : model.CreationDate == SelectedDateFilter.Value;
 
-            return isSysAdminValid && isCreationDateValid;
+            //return isSysAdminValid && isCreationDateValid;
+            return true;
         }
 
         private async Task Initialize()
@@ -70,23 +71,23 @@ namespace Equipments.AvaloniaUI.ViewModels
         }
         private async Task InitializePurchaseRequests()
         {
-            var response = await _equipmentPurchaseRequestService.GetAllAsync();
-            if (!response.IsSucces)
-                return;
-            _source.Edit(source =>
-            {
-                source.Clear();
-                source.AddOrUpdate(response.Data.Items);
-            });
-            var employees = response.Data.Items.Select(x => x.SystemAdministration).OrderByDescending(x => x.ID).ToList();
-            EmployeesFilterList.Clear();
-            EmployeesFilterList.Add(new EmployeModel
-            {
-                ID = Guid.Empty,
-                FullName = "Все"
-            });
-            EmployeesFilterList.Add(employees);
-            SelectedEmploye = EmployeesFilterList.First();
+            //var response = await _equipmentPurchaseRequestService.GetAllAsync();
+            //if (!response.IsSucces)
+            //    return;
+            //_source.Edit(source =>
+            //{
+            //    source.Clear();
+            //    source.AddOrUpdate(response.Data.Items);
+            //});
+            //var employees = response.Data.Items.OrderByDescending(x => x.ID).ToList();
+            //EmployeesFilterList.Clear();
+            //EmployeesFilterList.Add(new EmployeModel
+            //{
+            //    ID = Guid.Empty,
+            //    FullName = "Все"
+            //});
+            //EmployeesFilterList.Add(employees);
+            //SelectedEmploye = EmployeesFilterList.First();
         }
         #region Properties
         [Reactive] public DateTime? SelectedDateFilter { get; set; }

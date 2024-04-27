@@ -5,27 +5,58 @@
 		xmlns:rxui="http://reactiveui.net"
 		xmlns:vm="clr-namespace:Equipments.AvaloniaUI.ViewModels"
 		xmlns:local="clr-namespace:Equipments.AvaloniaUI"
+		xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Equipments.AvaloniaUI.Views.MainMenuWindow"
 		x:DataType="vm:MainMenuViewModel"
         Title="КПК Главное меню"
+		ExtendClientAreaTitleBarHeightHint="70"
+		ExtendClientAreaToDecorationsHint="True"
+		Padding="{Binding $self.OffScreenMargin}"
 		Icon="/Assets/laptop-logo.ico"
 		WindowStartupLocation="CenterScreen">
+	<!--TopLevel.SystemBarColor=""-->
 
-	<Grid RowDefinitions="Auto,*">
-		<StackPanel Orientation="Horizontal">
+	<Window.Styles>
+		<StyleInclude Source="/Styles/SpecialViewStyles/MainMenuWindowStyles.axaml"/>
+		<Style Selector="Window TitleBar">
+			<Setter Property="Height" Value="40"/>
+		</Style>
+	</Window.Styles>
+
+	<Grid RowDefinitions="Auto,*" >
+		<StackPanel Orientation="Horizontal"
+					VerticalAlignment="Center"
+					Height="30"
+					Background="Gray">
 			<StackPanel.Styles>
 				<Style Selector="Button">
 					<Setter Property="Background" Value="Transparent"/>
 				</Style>
 			</StackPanel.Styles>
-			<Button Command="{Binding ShowEquipmentsServiceRequestView}"
-					>Обслуживание</Button>
-			<Button Command="{Binding ShowEquipmentPurchaseRequestView}">Закупка</Button>
+			<Button Classes="split"
+					Content="Обслуживание">
+				<Button.Flyout>
+					<Flyout>
+						<Button Command="{Binding ShowEquipmentsServiceRequestView}"
+								>Список заявок</Button>
+					</Flyout>
+				</Button.Flyout>
+			</Button>
+			<Button Classes="split" Content="Закупка">
+				<Button.Flyout>
+					<Flyout>
+						<Button Command="{Binding ShowEquipmentPurchaseRequestView}"
+								>Список закупок</Button>
+					</Flyout>
+				</Button.Flyout>
+			</Button>
 			<!--<Button>Закупка</Button>-->
 			<Button>Экспорт</Button>
 			<Button Command="{Binding ShowDashboardView}">Статистика</Button>
-			<Button>Настройки</Button>
+			<Button Classes="icon" >
+				<materialIcons:MaterialIcon Kind="CogOutline"/>
+			</Button>
 			<Button Content="Content">
 				<Button.Flyout>
 					<Flyout>
