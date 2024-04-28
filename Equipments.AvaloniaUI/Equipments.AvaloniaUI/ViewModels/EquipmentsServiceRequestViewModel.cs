@@ -13,6 +13,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
+using System.Reflection.Emit;
 using System.Threading.Tasks;
 
 namespace Equipments.AvaloniaUI.ViewModels
@@ -29,6 +30,13 @@ namespace Equipments.AvaloniaUI.ViewModels
             _serviceRequestService = serviceRequestService;
             _employeesService = employeesService;
 
+            ChangeHeightDataGridRowItems = new()
+            {
+                new ChangeHeightDataGridRowModel(40, "table_row_tree_regular"),
+                new ChangeHeightDataGridRowModel(48, "table_row_four_regular"),
+                new ChangeHeightDataGridRowModel(56, "table_row_five_regular")
+            };
+            SelectedHeightDataGridRow = ChangeHeightDataGridRowItems[0];
             Page = new PaginationEquipmentsServiceRequestVM();
 
             var cancelletion = _sourceCache.Connect()
@@ -175,6 +183,9 @@ namespace Equipments.AvaloniaUI.ViewModels
         }
 
         #region Properties
+        [Reactive] public ChangeHeightDataGridRowModel SelectedHeightDataGridRow { get; set; }
+        public ObservableCollection<ChangeHeightDataGridRowModel> ChangeHeightDataGridRowItems { get; private set; }
+
         private PaginationEquipmentsServiceRequestVM _page;
         public PaginationEquipmentsServiceRequestVM Page
         {

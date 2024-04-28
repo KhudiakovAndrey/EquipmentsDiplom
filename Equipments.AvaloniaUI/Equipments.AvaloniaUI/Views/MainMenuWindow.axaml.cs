@@ -1,6 +1,10 @@
+using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Input;
+using Avalonia.Platform;
 using Equipments.AvaloniaUI.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace Equipments.AvaloniaUI.Views
 {
@@ -11,6 +15,8 @@ namespace Equipments.AvaloniaUI.Views
             InitializeComponent();
             var vm = App.ServiceProvider!.GetRequiredService<MainMenuViewModel>();
             DataContext = vm;
+            //DataGridRow row = new DataGridRow();
+            //row.IsFocused = true;
         }
     }
 }

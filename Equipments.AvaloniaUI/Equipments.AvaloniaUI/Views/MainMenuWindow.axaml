@@ -6,38 +6,29 @@
 		xmlns:vm="clr-namespace:Equipments.AvaloniaUI.ViewModels"
 		xmlns:local="clr-namespace:Equipments.AvaloniaUI"
 		xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        xmlns:titlebars="clr-namespace:CustomTitleBarTemplate.Views.CustomTitleBars"
+		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Equipments.AvaloniaUI.Views.MainMenuWindow"
 		x:DataType="vm:MainMenuViewModel"
         Title="КПК Главное меню"
-		ExtendClientAreaTitleBarHeightHint="70"
-		ExtendClientAreaToDecorationsHint="True"
 		Padding="{Binding $self.OffScreenMargin}"
-		Icon="/Assets/laptop-logo.ico"
+		Icon="/Assets/Icon.ico"
 		WindowStartupLocation="CenterScreen">
+	<!--ExtendClientAreaChromeHints="NoChrome"-->
+	<!--ExtendClientAreaChromeHints="PreferSystemChrome"-->
 	<!--TopLevel.SystemBarColor=""-->
 
 	<Window.Styles>
 		<StyleInclude Source="/Styles/SpecialViewStyles/MainMenuWindowStyles.axaml"/>
-		<Style Selector="Window TitleBar">
-			<Setter Property="Height" Value="40"/>
-		</Style>
+
 	</Window.Styles>
 
 	<Grid RowDefinitions="Auto,*" >
-		<StackPanel Orientation="Horizontal"
-					VerticalAlignment="Center"
-					Height="30"
-					Background="Gray">
-			<StackPanel.Styles>
-				<Style Selector="Button">
-					<Setter Property="Background" Value="Transparent"/>
-				</Style>
-			</StackPanel.Styles>
+		<StackPanel Classes="menu_container">
 			<Button Classes="split"
 					Content="Обслуживание">
 				<Button.Flyout>
-					<Flyout>
+					<Flyout Placement="BottomEdgeAlignedLeft">
 						<Button Command="{Binding ShowEquipmentsServiceRequestView}"
 								>Список заявок</Button>
 					</Flyout>
@@ -45,7 +36,7 @@
 			</Button>
 			<Button Classes="split" Content="Закупка">
 				<Button.Flyout>
-					<Flyout>
+					<Flyout Placement="BottomEdgeAlignedLeft">
 						<Button Command="{Binding ShowEquipmentPurchaseRequestView}"
 								>Список закупок</Button>
 					</Flyout>
@@ -57,13 +48,10 @@
 			<Button Classes="icon" >
 				<materialIcons:MaterialIcon Kind="CogOutline"/>
 			</Button>
-			<Button Content="Content">
-				<Button.Flyout>
-					<Flyout>
-
-					</Flyout>
-				</Button.Flyout>
-			</Button>
+			<ToggleButton IsChecked="{Binding IsDarkTheme}"
+						  Command="{Binding ChangeThemeCommand}">
+				<materialIcons:MaterialIcon Kind="WeatherNight"/>
+			</ToggleButton>
 		</StackPanel>
 		<rxui:RoutedViewHost Grid.Row="1" Margin="20"
 							 Router="{Binding Router}">

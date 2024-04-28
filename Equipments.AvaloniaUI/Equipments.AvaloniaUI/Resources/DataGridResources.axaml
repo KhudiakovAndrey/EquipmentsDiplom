@@ -1,0 +1,27 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:beh="clr-namespace:Equipments.AvaloniaUI.Behaviors"
+					xmlns:sys="clr-namespace:System;assembly=mscorlib"
+					xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib"
+					xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System">
+
+	<DataTemplate x:Key="DataGridColumnsVisibilityDataTemplate">
+		<DataTemplate.DataType>
+			<x:Type TypeName="sco:ObservableCollection" x:TypeArguments="DataGridColumn"/>
+		</DataTemplate.DataType>
+		<ItemsControl ItemsSource="{Binding}">
+			<ItemsControl.ItemTemplate>
+				<DataTemplate DataType="{x:Type DataGridColumn}">
+					<StackPanel Orientation="Horizontal"
+								IsVisible="{Binding !(beh:DataGridColumnManipulatonBehavior.IsCanRemoveColumn)}">
+						<CheckBox IsChecked="{Binding IsVisible}"
+								  VerticalAlignment="Center"/>
+						<TextBlock Text="{Binding Header}"
+								   VerticalAlignment="Center"
+								   Margin="5,0,0,0"/>
+					</StackPanel>
+				</DataTemplate>
+			</ItemsControl.ItemTemplate>
+		</ItemsControl>
+	</DataTemplate>
+</ResourceDictionary>

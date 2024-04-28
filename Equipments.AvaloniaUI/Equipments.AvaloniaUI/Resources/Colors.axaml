@@ -16,6 +16,7 @@
 				</WrapPanel.Styles>
 
 				<Border CornerRadius="5" Background="{StaticResource Close}"/>
+				<Border CornerRadius="5" Background="{DynamicResource BaseTheme}"/>
 
 
 			</WrapPanel>
@@ -26,9 +27,12 @@
 
 	<ResourceDictionary.ThemeDictionaries>
 		<ResourceDictionary x:Key="Light">
-
+			<SolidColorBrush x:Key="BaseTheme">#f9f0f1</SolidColorBrush>
+			<SolidColorBrush x:Key="SecondaryRowBackgroundBrush">#F5F5F5</SolidColorBrush>
 		</ResourceDictionary>
 		<ResourceDictionary x:Key="Dark">
+			<SolidColorBrush x:Key="BaseTheme">#202020</SolidColorBrush>
+			<SolidColorBrush x:Key="SecondaryRowBackgroundBrush">#424242</SolidColorBrush>
 
 		</ResourceDictionary>
 	</ResourceDictionary.ThemeDictionaries>

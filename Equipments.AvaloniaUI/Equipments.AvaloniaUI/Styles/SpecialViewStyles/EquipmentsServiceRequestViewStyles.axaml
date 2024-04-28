@@ -1,0 +1,79 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+	<Style Selector="DockPanel.main_container">
+		<Setter Property="Margin" Value="10 10 10 0"/>
+		<Setter Property="HorizontalAlignment" Value="Stretch"/>
+		<Setter Property="VerticalAlignment" Value="Stretch"/>
+
+		<Style Selector="^ Grid.header">
+			<Setter Property="VerticalAlignment" Value="Top"/>
+			<Style Selector="^ TextBlock">
+				<Setter Property="VerticalAlignment" Value="Center"/>
+			</Style>
+		</Style>
+	</Style>
+
+	<Style Selector="TextBlock.h4">
+		<Setter Property="FontWeight" Value="Black"/>
+	</Style>
+
+	<Style Selector="Border.content_container">
+		<Setter Property="Background" Value="{DynamicResource BaseTheme}"/>
+		<Setter Property="Margin" Value="0 15 0 0"/>
+		<Setter Property="CornerRadius" Value="10 10 0 0"/>
+	</Style>
+
+	<Style Selector="Grid.tools_container">
+		<Setter Property="Margin" Value="15"/>
+		<Setter Property="Height" Value="30"/>
+		<Setter Property="VerticalAlignment" Value="Top"/>
+	</Style>
+
+	<Style Selector="ItemsRepeater.row_height_change_tools_container">
+		<Style Selector="^ RadioButton">
+			<Setter Property="Opacity" Value="0.7"/>
+		</Style>
+		<Style Selector="^ RadioButton:pointerover">
+			<Setter Property="Opacity" Value="1"/>
+		</Style>
+		<Style Selector="^ RadioButton:checked">
+			<Setter Property="Opacity" Value="1"/>
+		</Style>
+		<Style Selector="^ RadioButton:nth-child(1)">
+			<Setter Property="CornerRadius" Value="5 0 0 5"/>
+		</Style>
+		<Style Selector="^ RadioButton:nth-child(2)">
+			<Setter Property="CornerRadius" Value="0"/>
+		</Style>
+		<Style Selector="^ RadioButton:nth-child(3)">
+			<Setter Property="CornerRadius" Value="0 5 5 0"/>
+		</Style>
+	</Style>
+
+	<Style Selector="ListBox.height_rows">
+		<Setter Property="CornerRadius" Value="5"/>
+		<Style Selector="^ VirtualizingStackPanel">
+			<Setter Property="Orientation" Value="Horizontal"/>
+		</Style>
+		<Style Selector="^ ListBoxItem">
+			<Setter Property="Height" Value="30"/>
+			<Setter Property="Width" Value="30"/>
+			<Setter Property="CornerRadius" Value="0"/>
+			<Setter Property="Opacity" Value="0.7"/>
+			<Style Selector="^:pointerover">
+				<Setter Property="Opacity" Value="1"/>
+			</Style>
+			<Style Selector="^:selected">
+				<Setter Property="Opacity" Value="1"/>
+			</Style>
+		</Style>
+		<Style Selector="^ ListBoxItem:nth-child(1)">
+			<Setter Property="CornerRadius" Value="5 0 0 5"/>
+		</Style>
+		<Style Selector="^ ListBoxItem:nth-last-child(1)">
+			<Setter Property="CornerRadius" Value="0 5 5 0"/>
+		</Style>
+	</Style>
+
+</Styles>

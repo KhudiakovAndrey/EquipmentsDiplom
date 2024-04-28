@@ -1,4 +1,5 @@
-﻿using Equipments.AvaloniaUI.Factory;
+﻿using Avalonia.Styling;
+using Equipments.AvaloniaUI.Factory;
 using Equipments.AvaloniaUI.Factorys;
 using Equipments.AvaloniaUI.Models;
 using HanumanInstitute.MvvmDialogs;
@@ -30,6 +31,8 @@ namespace Equipments.AvaloniaUI.ViewModels
 
             ShowEquipmentsServiceRequestView();
 
+            IsDarkTheme = App.Current!.RequestedThemeVariant == ThemeVariant.Dark;
+            ChangeThemeCommand = ReactiveCommand.Create(ChangeTheme);
             Router.CurrentViewModel.Subscribe(view =>
             {
                 SelectedViewModel = (RoutableViewModelBase?)view;
@@ -47,7 +50,13 @@ namespace Equipments.AvaloniaUI.ViewModels
         public void ShowEditEquipmentPurchaseRequestView(Guid? id) =>
             Router.Navigate.Execute(_purchaseRequestViewModelFactory.Create(id ?? Guid.Empty));
 
-
+        [Reactive] public bool IsDarkTheme { get; set; }
+        public ReactiveCommand<Unit, Unit> ChangeThemeCommand { get; private set; }
+        private void ChangeTheme()
+        {
+            App.Current!.RequestedThemeVariant = App.Current.RequestedThemeVariant == ThemeVariant.Dark ? ThemeVariant.Light : ThemeVariant.Dark;
+            IsDarkTheme = !IsDarkTheme;
+        }
         private void NaviageIgnoreCopyUrl(IRoutableViewModel vm)
         {
             Router.NavigationStack.Clear();

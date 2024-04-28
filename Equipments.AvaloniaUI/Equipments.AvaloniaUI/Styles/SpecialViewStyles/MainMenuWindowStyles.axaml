@@ -9,19 +9,29 @@
 
 	</Styles.Resources>
 
+
+	<Style Selector="StackPanel.menu_container">
+		<Setter Property="Height" Value="30"/>
+		<Setter Property="Orientation" Value="Horizontal"/>
+		<Setter Property="VerticalAlignment" Value="Center"/>
+		<Setter Property="HorizontalAlignment" Value="Stretch"/>
+		<Style Selector="^ Button">
+			<Setter Property="Background" Value="{DynamicResource BaseTheme}"/>
+		</Style>
+	</Style>
+
 	<Style  Selector="Button">
 		<Style Selector="^.icon">
 			<Setter Property="Width" Value="35"/>
 			<Setter Property="Height" Value="35"/>
 		</Style>
 
+		<Style Selector="^.menu">
+			<Setter Property="Background" Value="Transparent"/>
+		</Style>
+
 		<Style Selector="^.split">
 			<Setter Property="Height" Value="35"/>
-
-			<Style Selector="^ Flyout">
-				<Setter Property="Placement" Value="BottomEdgeAlignedLeft"/>
-			</Style>
-
 
 			<Style Selector="^ FlyoutPresenter">
 				<Setter Property="Padding" Value="5"/>

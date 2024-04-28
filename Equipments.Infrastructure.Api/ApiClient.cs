@@ -5,7 +5,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using System.Collections.Specialized;
 using Equipments.Api.Extensions;
 
 namespace Equipments.Api
@@ -84,7 +83,10 @@ namespace Equipments.Api
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
-                apiResponse.Data = JsonConvert.DeserializeObject<T>(content)!;
+                apiResponse.Data = JsonConvert.DeserializeObject<T>(content, new JsonSerializerSettings
+                {
+                    DefaultValueHandling = DefaultValueHandling.Ignore
+                })!;
                 apiResponse.IsSucces = true;
             }
             else

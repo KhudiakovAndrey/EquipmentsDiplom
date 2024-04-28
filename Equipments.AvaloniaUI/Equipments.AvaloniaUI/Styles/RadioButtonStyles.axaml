@@ -1,0 +1,80 @@
+﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    >
+	<Design.PreviewWith>
+		<Border Padding="20">
+			<StackPanel Spacing="-2" Orientation="Horizontal">
+				<RadioButton Classes="toggle" Height="30" Width="30" CornerRadius="5 0 0 5">
+					<PathIcon Height="13" Width="13" Data="{DynamicResource table_row_tree_regular}" Foreground="White"/>
+				</RadioButton>
+				<RadioButton Classes="toggle" Height="30" Width="30" CornerRadius="0">
+					<PathIcon Data="{DynamicResource table_row_five_regular}" Height="13" Width="13"/>
+				</RadioButton>
+				<RadioButton Classes="toggle" Height="30" Width="30" CornerRadius="0 5 5 0">
+					<PathIcon Data="{DynamicResource table_row_four_regular}" Width="13" Height="13"/>
+				</RadioButton>
+			</StackPanel>
+		</Border>
+	</Design.PreviewWith>
+
+	<Style Selector="RadioButton.toggle">
+		<Setter Property="Background" Value="{DynamicResource ToggleButtonBackground}" />
+		<Setter Property="Foreground" Value="{DynamicResource RadioButtonForeground}" />
+		<Setter Property="BorderBrush" Value="{DynamicResource ToggleButtonBorderBrush}" />
+		<Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
+		<Setter Property="Padding" Value="3" />
+		<Setter Property="HorizontalAlignment" Value="Center" />
+		<Setter Property="VerticalAlignment" Value="Center" />
+		<Setter Property="HorizontalContentAlignment" Value="Center" />
+		<Setter Property="VerticalContentAlignment" Value="Center" />
+		<Setter Property="FontSize" Value="{DynamicResource ControlContentThemeFontSize}" />
+		<Setter Property="Width" Value="28" />
+		<Setter Property="Height" Value="28" />
+		<Setter Property="Template">
+			<ControlTemplate TargetType="RadioButton">
+				<Border
+					Name="RootBorder"
+					Background="{TemplateBinding Background}"
+					BorderBrush="{TemplateBinding BorderBrush}"
+					BorderThickness="{TemplateBinding BorderThickness}"
+					CornerRadius="{TemplateBinding CornerRadius}">
+					<ContentPresenter
+						Name="PART_ContentPresenter"
+						Margin="{TemplateBinding Padding}"
+						HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+						VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+						Content="{TemplateBinding Content}"
+						ContentTemplate="{TemplateBinding ContentTemplate}"
+						Foreground="{TemplateBinding Foreground}"
+						RecognizesAccessKey="True" />
+				</Border>
+			</ControlTemplate>
+		</Setter>
+
+		<!--  PointerOver State  -->
+		<Style Selector="^:pointerover">
+			<Setter Property="Background" Value="{DynamicResource ToggleButtonBackgroundPointerOver}" />
+			<Setter Property="Foreground" Value="{DynamicResource ToggleButtonForegroundPointerOver}" />
+		</Style>
+
+		<Style Selector="^:pointerover /template/ Border#RootBorder">
+			<Setter Property="BorderThickness" Value="1" />
+		</Style>
+
+
+		<!--  Pressed State  -->
+		<Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
+			<Setter Property="Foreground" Value="{DynamicResource RadioButtonForegroundPressed}" />
+		</Style>
+
+		<Style Selector="^:pressed /template/ Border#RootBorder">
+			<Setter Property="BorderThickness" Value="2" />
+		</Style>
+
+		<!--  Checked State  -->
+		<Style Selector="^:checked">
+			<Setter Property="Background" Value="{DynamicResource ToggleButtonBackgroundChecked}" />
+			<Setter Property="BorderBrush" Value="{DynamicResource ToggleButtonBorderBrushChecked}" />
+			<Setter Property="Foreground" Value="{DynamicResource ToggleButtonForegroundChecked}" />
+		</Style>
+	</Style>
+</Styles>

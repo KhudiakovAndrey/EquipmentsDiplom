@@ -1,0 +1,107 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+	<Style Selector="DataGrid DataGridRow:nth-child(2n+1)">
+		<Setter Property="Background" Value="{DynamicResource SecondaryRowBackgroundBrush}"/>
+	</Style>
+
+	<Style Selector="DataGrid DataGridRow">
+		<Style Selector="^ Button.action_row">
+			<Setter Property="Background" Value="Transparent"/>
+			<Setter Property="IsVisible" Value="False"/>
+			<Setter Property="Opacity" Value="0.6"/>
+			<Style Selector="^:pointerover">
+				<Setter Property="Opacity" Value="1"/>
+			</Style>
+		</Style>
+		<Style Selector="^:selected Button.action_row">
+			<Setter Property="IsVisible" Value="True"/>
+		</Style>
+	</Style>
+	<Style Selector="DataGrid.selection DataGridColumnHeader:nth-child(1)">
+		<Setter Property="Padding" Value="0"/>
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate>
+					<Border x:Name="HeaderBorder"
+					  Background="{TemplateBinding Background}"
+					  BorderBrush="{TemplateBinding BorderBrush}"
+					  BorderThickness="{TemplateBinding BorderThickness}"
+					  CornerRadius="{TemplateBinding CornerRadius}">
+						<Grid Name="PART_ColumnHeaderRoot" ColumnDefinitions="*,Auto">
+
+							<Panel Margin="{TemplateBinding Padding}"
+								  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+								  VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+								<Grid>
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="*" />
+									</Grid.ColumnDefinitions>
+
+									<ContentPresenter Content="{TemplateBinding Content}"
+													  ContentTemplate="{TemplateBinding ContentTemplate}"/>
+								</Grid>
+							</Panel>
+
+							<Rectangle Name="VerticalSeparator"
+									   Grid.Column="1"
+									   Width="1"
+									   VerticalAlignment="Stretch"
+									   Fill="{TemplateBinding SeparatorBrush}"
+									   IsVisible="{TemplateBinding AreSeparatorsVisible}" />
+
+						</Grid>
+					</Border>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style Selector="DataGridCell:focus /template/ Grid#FocusVisual">
+		<Setter Property="IsVisible" Value="False"/>
+	</Style>
+
+	<Style Selector="DataGridColumnHeader">
+		<Setter Property="AreSeparatorsVisible" Value="False"/>
+	</Style>
+
+	<Style Selector="DataGridRowHeader">
+		<Setter Property="AreSeparatorsVisible" Value="True"/>
+		<Setter Property="Template">
+			<ControlTemplate>
+				<Grid x:Name="PART_Root"
+					  RowDefinitions="*,*,Auto"
+					  ColumnDefinitions="Auto,*">
+					<Border Grid.RowSpan="3"
+							Grid.ColumnSpan="2"
+							BorderBrush="{TemplateBinding SeparatorBrush}"
+							BorderThickness="0,0,0,0">
+						<Grid Background="{TemplateBinding Background}">
+							<Rectangle x:Name="RowInvalidVisualElement"
+									   Opacity="0"
+									   Fill="{DynamicResource DataGridRowInvalidBrush}"
+									   Stretch="Fill" />
+							<Rectangle x:Name="BackgroundRectangle"
+									   Fill="{DynamicResource DataGridRowBackgroundBrush}"
+									   Stretch="Fill" />
+						</Grid>
+					</Border>
+					<Rectangle x:Name="HorizontalSeparator"
+							   Grid.Row="2"
+							   Grid.ColumnSpan="2"
+							   Height="1"
+							   Margin="1,0,1,0"
+							   HorizontalAlignment="Stretch"
+							   Fill="{TemplateBinding SeparatorBrush}"
+							   IsVisible="{TemplateBinding AreSeparatorsVisible}" />
+
+					<ContentPresenter Grid.RowSpan="2"
+									  Grid.Column="1"
+									  HorizontalAlignment="Center"
+									  VerticalAlignment="Center"
+									  Content="{TemplateBinding Content}" />
+				</Grid>
+			</ControlTemplate>
+		</Setter>
+	</Style>
+</Styles>

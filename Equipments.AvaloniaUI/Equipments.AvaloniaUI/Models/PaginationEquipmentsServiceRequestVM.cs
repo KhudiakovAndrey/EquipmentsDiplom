@@ -1,4 +1,6 @@
-﻿using ReactiveUI.Fody.Helpers;
+﻿using Newtonsoft.Json;
+using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
@@ -20,13 +22,21 @@ namespace Equipments.AvaloniaUI.Models
 
     }
 
-    public class EquipmentsServiceRequestVM
+    [DataContract]
+    public class EquipmentsServiceRequestVM : ReactiveObject, ISelectableModel
     {
+        [DataMember]
         public Guid ID { get; set; }
+        [DataMember]
         public string Responsible { get; set; } = string.Empty;
+        [DataMember]
         public string SystemAdministration { get; set; } = string.Empty;
+        [DataMember]
         public string ProblemType { get; set; } = string.Empty;
+        [DataMember]
         public DateTime CreationDate { get; set; }
 
+        [JsonIgnore]
+        [Reactive] public bool IsSelected { get; set; } = false;
     }
 }
