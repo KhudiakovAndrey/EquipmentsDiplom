@@ -1,4 +1,5 @@
 ﻿using Equipments.Api;
+using Equipments.AvaloniaUI.Data;
 using Equipments.AvaloniaUI.Resources;
 using System;
 using System.Collections.Generic;
@@ -13,9 +14,11 @@ namespace Equipments.AvaloniaUI.Services.API
     {
         private readonly AppConfiguration _appConfiguration;
 
-        public HealthService(AppConfiguration appConfiguration, HttpClient client) : base(appConfiguration.IdentityUrl)
+        public HealthService(AppConfiguration appConfiguration, SettingsDbContext settingsDbContext)
+            : base(appConfiguration.WebApiUrl, settingsDbContext)
         {
             _appConfiguration = appConfiguration;
+            TokenExpiredEventHandler.RegisterApiService(this);
         }
 
         public async Task<bool> CheckServerStatusAsync()

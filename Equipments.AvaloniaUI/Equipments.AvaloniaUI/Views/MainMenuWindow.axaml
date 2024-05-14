@@ -4,63 +4,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:rxui="http://reactiveui.net"
 		xmlns:vm="clr-namespace:Equipments.AvaloniaUI.ViewModels"
-		xmlns:local="clr-namespace:Equipments.AvaloniaUI"
-		xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
-        xmlns:titlebars="clr-namespace:CustomTitleBarTemplate.Views.CustomTitleBars"
+		xmlns:views="clr-namespace:Equipments.AvaloniaUI.Views"
 		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Equipments.AvaloniaUI.Views.MainMenuWindow"
-		x:DataType="vm:MainMenuViewModel"
         Title="КПК Главное меню"
 		Padding="{Binding $self.OffScreenMargin}"
 		Icon="/Assets/Icon.ico"
+		x:DataType="vm:MainMenuWindowViewModel"
 		WindowStartupLocation="CenterScreen">
-	<!--ExtendClientAreaChromeHints="NoChrome"-->
-	<!--ExtendClientAreaChromeHints="PreferSystemChrome"-->
-	<!--TopLevel.SystemBarColor=""-->
-
-	<Window.Styles>
-		<StyleInclude Source="/Styles/SpecialViewStyles/MainMenuWindowStyles.axaml"/>
-
-	</Window.Styles>
-
-	<Grid RowDefinitions="Auto,*" >
-		<StackPanel Classes="menu_container">
-			<Button Classes="split"
-					Content="Обслуживание">
-				<Button.Flyout>
-					<Flyout Placement="BottomEdgeAlignedLeft">
-						<Button Command="{Binding ShowEquipmentsServiceRequestView}"
-								>Список заявок</Button>
-					</Flyout>
-				</Button.Flyout>
-			</Button>
-			<Button Classes="split" Content="Закупка">
-				<Button.Flyout>
-					<Flyout Placement="BottomEdgeAlignedLeft">
-						<Button Command="{Binding ShowEquipmentPurchaseRequestView}"
-								>Список закупок</Button>
-					</Flyout>
-				</Button.Flyout>
-			</Button>
-			<!--<Button>Закупка</Button>-->
-			<Button>Экспорт</Button>
-			<Button Command="{Binding ShowDashboardView}">Статистика</Button>
-			<Button Classes="icon" >
-				<materialIcons:MaterialIcon Kind="CogOutline"/>
-			</Button>
-			<ToggleButton IsChecked="{Binding IsDarkTheme}"
-						  Command="{Binding ChangeThemeCommand}">
-				<materialIcons:MaterialIcon Kind="WeatherNight"/>
-			</ToggleButton>
-		</StackPanel>
-		<rxui:RoutedViewHost Grid.Row="1" Margin="20"
-							 Router="{Binding Router}">
-
-		</rxui:RoutedViewHost>
-		<TransitioningContentControl
-			Grid.Row="1" Margin="20"
-			Content="{Binding SelectedViewModel}">
-
-		</TransitioningContentControl>
-	</Grid>
+	<views:MainMenuView/>
 </Window>

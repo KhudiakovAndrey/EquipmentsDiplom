@@ -31,18 +31,6 @@ namespace Equipments.WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddAuthentication(config =>
-            {
-                config.DefaultAuthenticateScheme =
-                    JwtBearerDefaults.AuthenticationScheme;
-                config.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-                .AddJwtBearer("Bearer", options =>
-                {
-                    options.Authority = "https://localhost:5001/";
-                    options.TokenValidationParameters.ValidateAudience = false;
-                    options.TokenValidationParameters.ValidTypes = new[] { "at+jwt" };
-                });
 
 
             //Настройка аутомаппера
@@ -68,6 +56,17 @@ namespace Equipments.WebAPI
                     policy.AllowAnyOrigin();
                 });
             });
+            services.AddAuthentication("Bearer")
+                .AddJwtBearer("Bearer", options =>
+                {
+                    options.Authority = "https://localhost:5001";
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateAudience = false,
+                        ValidateLifetime = true,
+                    };
+                });
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -84,7 +83,6 @@ namespace Equipments.WebAPI
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Equipments.WebAPI v1"));
             }
-
 
             app.UseCustomExceptionHandler();
 

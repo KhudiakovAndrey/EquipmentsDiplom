@@ -1,0 +1,22 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<Design.PreviewWith>
+		<Border Padding="20" Height="200" >
+			<ComboBox SelectedIndex="0" Classes="nonBackground">
+				<ComboBoxItem>1</ComboBoxItem>
+				<ComboBoxItem>2</ComboBoxItem>
+				<ComboBoxItem>3</ComboBoxItem>
+				<ComboBoxItem>4</ComboBoxItem>
+				<ComboBoxItem>5</ComboBoxItem>
+			</ComboBox>
+		</Border>
+	</Design.PreviewWith>
+
+	<Style Selector="ComboBox.nonBackground">
+		<Setter Property="Background" Value="Transparent"/>
+		<Setter Property="BorderThickness" Value="0"/>
+		<Style Selector="^:pointerover /template/ Border#Background">
+			<Setter Property="Opacity" Value="0.2"/>
+		</Style>
+	</Style>
+</Styles>

@@ -1,6 +1,7 @@
 ﻿using Equipments.Api;
 using Equipments.Identity.Models;
 using Equipments.Identity.Services.EmailSender;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +22,7 @@ namespace Equipments.Identity.Controllers
     public class AuthController : ControllerBase
     {
         private readonly UserManager<AppUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IEmailSender _emailSender;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly IConfiguration _configuration;
@@ -27,13 +30,16 @@ namespace Equipments.Identity.Controllers
         public AuthController(UserManager<AppUser> userManager,
                                 IEmailSender emailSender,
                                 SignInManager<AppUser> signInManager,
-                                IConfiguration configuration)
+                                IConfiguration configuration,
+                                RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _emailSender = emailSender;
             _signInManager = signInManager;
             _configuration = configuration;
+            _roleManager = roleManager;
         }
+
 
         [HttpPost("login")]
         public async Task<ActionResult> Login([FromBody] LoginUserModel model)
@@ -42,47 +48,65 @@ namespace Equipments.Identity.Controllers
             {
                 return BadRequest(new ErrorResponse("Объект не прошёл проверку данных"));
             }
-            var result = await _signInManager.PasswordSignInAsync(model.Username, model.Password, false, false);
-            if (result.Succeeded)
+
+            var user = await _userManager.FindByNameAsync(model.Username);
+            if (user == null)
             {
-                var user = await _userManager.FindByNameAsync(model.Username);
-                if (user != null && !user.EmailConfirmed)
-                {
-                    var errorResponse = new ErrorResponse(ErrorCodes.email_not_confirmed, user.Email);
-                    return BadRequest(errorResponse);
-                }
-                if (user != null && user.LockoutEnabled)
-                {
-                    var errorResponse = new ErrorResponse(ErrorCodes.account_locked, $"Учётная запись заблокирована до {user?.LockoutEnd.Value.ToString("dd.MM.yyyy")}");
-                    return BadRequest(errorResponse);
-                }
-                var claims = new[]
-                {
-                    new Claim(JwtRegisteredClaimNames.Sub, user!.Id),
-                    new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-                };
-
-                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
-                var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-                var expires = DateTime.UtcNow.AddDays(Convert.ToDouble(_configuration["Jwt:ExpireDays"]));
-
-                var token = new JwtSecurityToken(
-                    _configuration["Jwt:Issuer"],
-                    _configuration["Jwt:Audience"],
-                    claims,
-                    expires: expires,
-                    signingCredentials: creds
-                    );
-                return Ok(
-                    new
-                    {
-                        token = new JwtSecurityTokenHandler().WriteToken(token),
-                        expiration = expires
-                    });
+                return BadRequest(new ErrorResponse(ErrorCodes.user_not_found, "Пользователь не найден"));
             }
 
-            return BadRequest(new ErrorResponse("Неправильный логин или пароль"));
+            var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
+            if (!result.Succeeded)
+            {
+                return BadRequest(new ErrorResponse(ErrorCodes.invalid_password, "Неправильный пароль"));
+            }
+
+            if (!user.EmailConfirmed)
+            {
+                return BadRequest(new ErrorResponse(ErrorCodes.email_not_confirmed, user.Email));
+            }
+
+            if (user.LockoutEnabled)
+            {
+                return BadRequest(new ErrorResponse(ErrorCodes.account_locked, $"Учётная запись заблокирована до {user.LockoutEnd.Value.ToString("dd.MM.yyyy")}"));
+            }
+
+            var userRoles = await _userManager.GetRolesAsync(user);
+            var roleClaims = userRoles.Select(role => new Claim(ClaimTypes.Role, role)).ToList();
+
+            var claims = new List<Claim>
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id),
+                new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(JwtRegisteredClaimNames.Aud, "https://localhost:5001"),
+                new Claim(JwtRegisteredClaimNames.Email, user.Email),
+            };
+
+            claims.AddRange(roleClaims);
+
+            var token = await GenerateJwtTokenAsync(claims);
+            var tokenHandler = new JwtSecurityTokenHandler();
+
+            return Ok(new { token = tokenHandler.WriteToken(token), expiration = token.ValidTo });
+        }
+
+        private async Task<JwtSecurityToken> GenerateJwtTokenAsync(List<Claim> claims)
+        {
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var expires = DateTime.UtcNow.AddDays(Convert.ToDouble(_configuration["Jwt:ExpireDays"]));
+
+
+            var token = new JwtSecurityToken(
+                _configuration["Jwt:Issuer"],
+                _configuration["Jwt:Audience"],
+                claims,
+                expires: expires,
+                signingCredentials: creds
+            );
+
+            return token;
         }
 
         [HttpPost("register")]
@@ -117,14 +141,11 @@ namespace Equipments.Identity.Controllers
                 return BadRequest(new ErrorResponse("Не удалось зарегистрировать пользователя"));
             }
 
-            var resultClaim = await _userManager.AddClaimsAsync(user, new List<Claim>()
+
+            var addRole = await _userManager.AddToRoleAsync(user, "Гость");
+            if (!addRole.Succeeded)
             {
-                new Claim(ClaimTypes.Name, user.UserName),
-                //new Claim(ClaimTypes.Role, user.Role.Name)
-            });
-            if (!resultClaim.Succeeded)
-            {
-                return BadRequest(new ErrorResponse("Не удалось создать претензии"));
+                return BadRequest(new ErrorResponse("Не удалось создать роль"));
             }
 
             return Ok();
@@ -212,6 +233,5 @@ namespace Equipments.Identity.Controllers
 
             return Ok();
         }
-
     }
 }

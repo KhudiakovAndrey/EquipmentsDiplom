@@ -10,6 +10,7 @@ using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;

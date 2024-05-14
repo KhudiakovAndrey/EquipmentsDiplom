@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Avalonia.Media.Imaging;
+using System;
+using System.Text.Json.Serialization;
+using System.Threading.Tasks;
 
 namespace Equipments.AvaloniaUI.Models
 {
@@ -10,5 +13,8 @@ namespace Equipments.AvaloniaUI.Models
         public string Department { get; set; } = string.Empty;
         public string Photo { get; set; } = string.Empty;
         public int RoleID { get; set; }
+
+        [JsonIgnore]
+        public Task<Bitmap?> ImageUrl => ImageHelper.LoadFromWeb(new Uri($"https://localhost:44304/api/employees/{ID}/image"));
     }
 }

@@ -19,12 +19,20 @@ namespace Equipments.WebAPI.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("page")]
-        public async Task<ActionResult> GetPage([FromQuery] GetPageServiceRequestDto model)
+        [HttpPost("page")]
+        public async Task<ActionResult> GetPage(GetPageServiceRequestDto model)
         {
-            var query = _mapper.Map<GetPageServiceReqeust.Query>(model);
-            var vm = await Mediator.Send(query);
-            return Ok(vm);
+            try
+            {
+                var query = _mapper.Map<GetPageServiceReqeust.Query>(model);
+                var vm = await Mediator.Send(query);
+                return Ok(vm);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(DateTime.Now + ": " + ex.Message);
+                return StatusCode(500);
+            }
         }
 
         [HttpGet("page/responsible/")]

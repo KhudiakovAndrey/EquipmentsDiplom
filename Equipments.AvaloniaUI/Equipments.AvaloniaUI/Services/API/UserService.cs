@@ -1,8 +1,8 @@
 ﻿using Equipments.Api;
+using Equipments.AvaloniaUI.Data;
 using Equipments.AvaloniaUI.Models;
 using Equipments.AvaloniaUI.Resources;
-using System;
-using System.Net.Http;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Equipments.AvaloniaUI.Services.API
@@ -11,10 +11,11 @@ namespace Equipments.AvaloniaUI.Services.API
     {
         private readonly AppConfiguration _appConfiguration;
 
-        public UserService(AppConfiguration appConfiguration) : base(appConfiguration.IdentityUrl)
+        public UserService(AppConfiguration appConfiguration, SettingsDbContext settingsDbContext)
+            : base(appConfiguration.IdentityUrl, settingsDbContext)
         {
-            AccessToken = AppConfiguration.AccesToken;
             _appConfiguration = appConfiguration;
+            TokenExpiredEventHandler.RegisterApiService(this);
         }
 
         public async Task<ApiResponse<TokenResponse>> LoginAsync(LoginViewModel model)
@@ -39,6 +40,11 @@ namespace Equipments.AvaloniaUI.Services.API
         public async Task<ApiResponse<object>> RegistrationUserAsync(RegViewModel model)
         {
             var response = await PostAsync<object>(_appConfiguration.AuthEndpoint + "/register", model);
+            return response;
+        }
+        public async Task<ApiResponse<UserModel>> GetMeUser()
+        {
+            var response = await GetAsync<UserModel>(_appConfiguration.UsersEndpoint + "/me");
             return response;
         }
     }

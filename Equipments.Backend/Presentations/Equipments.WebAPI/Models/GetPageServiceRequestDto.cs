@@ -10,10 +10,11 @@ namespace Equipments.WebAPI.Models
     public class GetPageServiceRequestDto : IMapWith<GetPageServiceReqeust.Query>
     {
         [Required]
-        public PaginationQuery Pagination { get; set; } = new();
+        public PaginationQuery Pagination { get; set; }
         public Guid? IDResponsible { get; set; }
         public Guid? IDSystemAdministration { get; set; }
-        public DateTime? CreationDate { get; set; }
+        public DateTime? CreationStartDate { get; set; }
+        public DateTime? CreationEndDate { get; set; }
         public void Mapping(Profile profile)
         {
             profile.CreateMap<GetPageServiceRequestDto, GetPageServiceReqeust.Query>()
@@ -23,8 +24,10 @@ namespace Equipments.WebAPI.Models
                     opt => opt.MapFrom(pageDto => pageDto.IDResponsible))
                 .ForMember(pageQuery => pageQuery.IDSystemAdministration,
                     opt => opt.MapFrom(pageDto => pageDto.IDSystemAdministration))
-                 .ForMember(pageQuery => pageQuery.CreationDate,
-                    opt => opt.MapFrom(pageDto => pageDto.CreationDate));
+                 .ForMember(pageQuery => pageQuery.CreationStartDate,
+                    opt => opt.MapFrom(pageDto => pageDto.CreationStartDate))
+                 .ForMember(pageQuery => pageQuery.CreationEndDate,
+                    opt => opt.MapFrom(pageDto => pageDto.CreationEndDate));
         }
 
     }

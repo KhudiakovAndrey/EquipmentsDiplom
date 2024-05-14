@@ -24,6 +24,7 @@
 	</Design.PreviewWith>
 
 	<SolidColorBrush x:Key="Close">#fc0027</SolidColorBrush>
+	<SolidColorBrush x:Key="Accent">#f7630c</SolidColorBrush>
 
 	<ResourceDictionary.ThemeDictionaries>
 		<ResourceDictionary x:Key="Light">

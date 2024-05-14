@@ -1,4 +1,4 @@
-<Window xmlns="https://github.com/avaloniaui"
+<UserControl xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -7,16 +7,13 @@
 		mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="450"
 		Width="450" Height="450"
         x:Class="Equipments.AvaloniaUI.Views.MainAuthView"
-		x:DataType="vm:MainAuthViewModel"
-        Title="Авторизация"
-		Icon="/Assets/laptop-logo.ico"
-		WindowStartupLocation="CenterScreen">
-	<Window.Styles>
+		x:DataType="vm:MainAuthViewModel">
+	<UserControl.Styles>
 		<Style Selector="TransitioningContentControl.views-container">
 			<Setter Property="VerticalAlignment" Value="Center"/>
 			<Setter Property="Width" Value="300"/>
 		</Style>
-	</Window.Styles>
+	</UserControl.Styles>
 	<Grid>
 		<TransitioningContentControl
 			Classes="views-container"
@@ -29,4 +26,4 @@
 					  Command="{Binding ChangeThemeCommand}">Дневной режим</ToggleSwitch>-->
 
 	</Grid>
-</Window>
+</UserControl>

@@ -11,7 +11,8 @@ namespace Equipments.Application.EquipmentsServiceRequest.Queries
             public PaginationQuery Pagination { get; set; } = new();
             public Guid? IDResponsible { get; set; }
             public Guid? IDSystemAdministration { get; set; }
-            public DateTime? CreationDate { get; set; }
+            public DateTime? CreationStartDate { get; set; }
+            public DateTime? CreationEndDate { get; set; }
         }
     }
 }

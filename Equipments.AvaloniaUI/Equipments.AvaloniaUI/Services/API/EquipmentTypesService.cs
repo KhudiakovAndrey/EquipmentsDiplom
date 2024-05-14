@@ -1,4 +1,5 @@
 ﻿using Equipments.Api;
+using Equipments.AvaloniaUI.Data;
 using Equipments.AvaloniaUI.Models;
 using Equipments.AvaloniaUI.Resources;
 using System;
@@ -13,10 +14,11 @@ namespace Equipments.AvaloniaUI.Services.API
     {
         private readonly AppConfiguration _appConfiguration;
 
-        public EquipmentTypesService(AppConfiguration appConfiguration)
-            : base(appConfiguration.WebApiUrl)
+        public EquipmentTypesService(AppConfiguration appConfiguration, SettingsDbContext settingsDbContext)
+            : base(appConfiguration.WebApiUrl, settingsDbContext)
         {
             _appConfiguration = appConfiguration;
+            TokenExpiredEventHandler.RegisterApiService(this);
         }
 
         public async Task<ApiResponse<List<EquipmentTypeModel>>> GetEquipmentTypes()

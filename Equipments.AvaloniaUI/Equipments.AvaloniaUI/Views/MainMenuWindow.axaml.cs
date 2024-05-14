@@ -1,9 +1,13 @@
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Input;
 using Avalonia.Platform;
+using Equipments.AvaloniaUI.Resources;
+using Equipments.AvaloniaUI.Services;
 using Equipments.AvaloniaUI.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
+using ReactiveUI;
 using System;
 
 namespace Equipments.AvaloniaUI.Views
@@ -13,10 +17,23 @@ namespace Equipments.AvaloniaUI.Views
         public MainMenuWindow()
         {
             InitializeComponent();
-            var vm = App.ServiceProvider!.GetRequiredService<MainMenuViewModel>();
+            var vm = App.ServiceProvider!.GetService<MainMenuWindowViewModel>();
             DataContext = vm;
-            //DataGridRow row = new DataGridRow();
-            //row.IsFocused = true;
+        }
+
+
+        public void ShowAuthView()
+        {
+            var content = new MainAuthView();
+            this.Content = content;
+        }
+        public void ShowMainMenu()
+        {
+            var content = new MainMenuView();
+            var vm = content.DataContext as MainMenuViewModel;
+            this.Content = content;
+            vm?.Initialize();
+
         }
     }
 }

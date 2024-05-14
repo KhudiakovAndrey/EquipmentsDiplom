@@ -10,11 +10,16 @@ using Equipments.AvaloniaUI.ViewModels;
 using Equipments.AvaloniaUI.Views;
 using HanumanInstitute.MvvmDialogs;
 using HanumanInstitute.MvvmDialogs.Avalonia;
+using IdentityModel.Client;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
 using System.Linq;
+using System.Net.Cache;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Reflection;
 
 namespace Equipments.AvaloniaUI;
@@ -48,7 +53,7 @@ public partial class App : Application
         services.AddSingleton(apiConfiguration);
 
         //Загружаем сервисы для работы с апи
-        services.AddApiServices(apiConfiguration);
+        services.AddApiServices();
 
 
         ServiceProvider = services.BuildServiceProvider();
@@ -57,54 +62,46 @@ public partial class App : Application
         DbInitializer.Initialize(ServiceProvider!.GetRequiredService<SettingsDbContext>());
     }
 
-    public override void OnFrameworkInitializationCompleted()
+    public override async void OnFrameworkInitializationCompleted()
     {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            var settingsDbContext = ServiceProvider?.GetService<SettingsDbContext>();
-
-            var settings = SettingsDbContext?.Settings.First();
-            if (settings?.AccessToken != null && settings?.ExpirationToken!.Value > DateTime.Now)
+            using (var client = new HttpClient())
             {
-                AppConfiguration.AccesToken = settings.AccessToken!;
-                AppConfiguration.ExpirationToken = settings.ExpirationToken;
-
-                var mainMenuWindow = new MainMenuWindow();
-                desktop.MainWindow = mainMenuWindow;
+                client.SetBearerToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwYzYxNGE1NS0zNzJjLTRkZjItYjYzYS1hYWJhY2Q5MDA1NDIiLCJ1bmlxdWVfbmFtZSI6ImFuZHJleSIsImp0aSI6IjQwODRlZjA1LWI4N2QtNDgzNi04YjdmLTZkNGM5MGQzNThkMyIsImF1ZCI6WyJodHRwczovL2xvY2FsaG9zdDo1MDAxIiwiRXF1aXBtZW50cy5BdmFsb25pYVVJIl0sImVtYWlsIjoiMTIzQDEyMy5ydSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6ItCQ0LTQvNC40L3QuNGB0YLRgNCw0YLQvtGAIiwiZXhwIjoxNzE2OTk5NzcxLCJpc3MiOiJFcXVpcG1lbnRzLklkZW50aXR5LlNlcnZlciJ9.F0tvGjCJn8gS0DwbZt7YgK5s4XmmYKcV3AeLD6Ld9UM");
+                
+                var response = client.GetAsync("https://localhost:5001/api/users/me").Result;
             }
-            else
-            {
-                var authWindow = new MainAuthView();
-                desktop.MainWindow = authWindow;
-                authWindow.Closing += (s, e) =>
-                {
-                    var mainMenuWindow = new MainMenuWindow();
-                    desktop.MainWindow = mainMenuWindow;
 
-                    mainMenuWindow.Show();
-                };
-            }
+            //var settingsDbContext = ServiceProvider?.GetService<SettingsDbContext>();
+
+            //var menuWindow = new MainMenuWindow();
+            //desktop.MainWindow = menuWindow;
+
+            //var settings = settingsDbContext?.Settings.First();
+
+            //if (settings?.AccessToken != null && settings?.ExpirationToken != null)
+            //{
+            //    AppConfiguration.AccesToken = settings.AccessToken;
+            //    AppConfiguration.ExpirationToken = settings.ExpirationToken;
+
+            //    var content = menuWindow.Content as MainMenuView;
+            //    var vm = content?.DataContext as MainMenuViewModel;
+            //    vm?.Initialize();
+            //}
+            //else
+            //{
+            //    menuWindow.Content = new MainAuthView();
+            //}
         }
 
         base.OnFrameworkInitializationCompleted();
     }
 
-    private void AuthWindow_Closed(object? sender, System.EventArgs e)
-    {
-        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-        {
-            var mainMenuWindow = new MainMenuWindow();
-            desktop.MainWindow = mainMenuWindow;
-
-            mainMenuWindow.Show();
-
-            (sender as Window)?.Close();
-        }
-    }
 
     public static ServiceProvider? ServiceProvider { get; private set; }
     public static MainAuthViewModel? MainAuthVM => ServiceProvider!.GetService<MainAuthViewModel>();
-    public static MainMenuViewModel MainMenuVM => ServiceProvider!.GetService<MainMenuViewModel>()!;
+    public static MainMenuWindowViewModel MainMenuVM => ServiceProvider!.GetService<MainMenuWindowViewModel>()!;
     public static SettingsDbContext? SettingsDbContext => ServiceProvider?.GetService<SettingsDbContext>();
     private AppConfiguration LoadConfiguration()
     {

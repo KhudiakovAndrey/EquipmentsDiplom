@@ -7,18 +7,20 @@ using System.Runtime.Serialization;
 
 namespace Equipments.AvaloniaUI.Models
 {
-    public class PaginationEquipmentsServiceRequestVM
+    public class PaginationEquipmentsServiceRequestVM : ReactiveObject
     {
         [DataMember]
         [Reactive] public List<EquipmentsServiceRequestVM> Items { get; set; } = new();
         [DataMember]
         [Reactive] public int PageNumber { get; set; } = 1;
         [DataMember]
-        [Reactive] public int PageSize { get; set; } = 3;
+        [Reactive] public int PageSize { get; set; }
         [DataMember]
         [Reactive] public int TotalCount { get; set; }
         [DataMember]
         [Reactive] public int TotalPages { get; set; }
+        [DataMember]
+        [Reactive] public int CountFound { get; set; }
 
     }
 
@@ -28,9 +30,9 @@ namespace Equipments.AvaloniaUI.Models
         [DataMember]
         public Guid ID { get; set; }
         [DataMember]
-        public string Responsible { get; set; } = string.Empty;
+        public EmployeModel Responsible { get; set; }
         [DataMember]
-        public string SystemAdministration { get; set; } = string.Empty;
+        public EmployeModel SystemAdministration { get; set; }
         [DataMember]
         public string ProblemType { get; set; } = string.Empty;
         [DataMember]

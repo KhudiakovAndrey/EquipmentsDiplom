@@ -3,6 +3,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:vm="clr-namespace:Equipments.AvaloniaUI.ViewModels"
+			 		xmlns:views="clr-namespace:Equipments.AvaloniaUI.Views"
+
 			 mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="450"
 			 x:DataType="vm:AuthorizationViewModel"
              x:Class="Equipments.AvaloniaUI.Views.AuthorizationView">
@@ -25,8 +27,9 @@
 		<TextBlock Classes="reg-block">
 			<TextBlock>Не удаётся войти?</TextBlock>
 			<Button Classes="hyperlink"
+					
 					Command="{Binding ((vm:MainAuthViewModel)DataContext).ShowRegistrationViewCommand,
-							RelativeSource={RelativeSource AncestorType={x:Type Window}}}">Зарегистрируйтесь</Button>
+							RelativeSource={RelativeSource AncestorType={x:Type views:MainAuthView}}}">Зарегистрируйтесь</Button>
 		</TextBlock>
 
 		<Border Classes="message-error-block" IsVisible="{Binding ErrorMessage,
@@ -39,8 +42,8 @@
 			<TextBlock Classes="error-text-block">
 				<Run Text="{Binding ErrorEmailNotConfirmMessage}"/>
 				<Button Classes="hyperlink"
-						Command="{Binding ((vm:MainAuthViewModel)DataContext).ShowConfirmEmailView,
-						RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+				Command="{Binding ((vm:MainAuthViewModel)DataContext).ShowConfirmEmailView,
+						RelativeSource={RelativeSource AncestorType={x:Type views:MainAuthView}}}"
 						CommandParameter="{Binding EmailConfirm}">Подтвердите почту.</Button>
 			</TextBlock>
 		</Border>

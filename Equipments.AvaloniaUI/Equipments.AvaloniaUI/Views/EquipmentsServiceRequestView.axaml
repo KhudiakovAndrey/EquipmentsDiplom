@@ -29,19 +29,37 @@
 			<StackPanel Orientation="Horizontal"
 						Grid.Column="4"
 						Spacing="5">
-				<TextBlock VerticalAlignment="Center">20</TextBlock>
-				<Button ToolTip.Tip="Предыдущая страница">
+				<TextBlock>На странице:</TextBlock>
+				<ComboBox ItemsSource="{Binding PageSizes}"
+						  SelectedItem="{Binding Page.PageSize}"
+						  SelectedIndex="0"
+						  Classes="nonBackground">
+				</ComboBox>
+
+
+				<TextBlock VerticalAlignment="Center">
+					Всего
+					<TextBlock Text="{Binding Page.CountFound}"/>
+				</TextBlock>
+
+				<Button ToolTip.Tip="Предыдущая страница"
+						Command="{Binding BackPageCommand}">
 					<materialIcons:MaterialIcon Kind="ArrowLeftBold"/>
 				</Button>
 
 				<!--Доработать-->
-				<Button IsEnabled="False" Width="32">1</Button>
+				<Button IsEnabled="False" Width="32">
+					<TextBlock Text="{Binding Page.PageNumber, FallbackValue=1}"/>
+				</Button>
 				<!--Доработать-->
 
-				<Button ToolTip.Tip="Следующая страница">
+				<Button ToolTip.Tip="Следующая страница"
+						Command="{Binding NextPageCommand}">
 					<materialIcons:MaterialIcon Kind="ArrowRightBold"/>
 				</Button>
-				<TextBlock>из 100 страниц</TextBlock>
+				<TextBlock>
+					из <TextBlock Text="{Binding Page.TotalCount}"/>
+				</TextBlock>
 			</StackPanel>
 		</Grid>
 
@@ -63,7 +81,146 @@
 							</DataTemplate>
 						</ListBox.ItemTemplate>
 					</ListBox>
-					<TextBox Watermark="Найти заявителя" Grid.Column="2"/>
+
+					<Button Grid.Column="3" Command="{Binding ShowTest}">Загрузка файла</Button>
+
+					<StackPanel Spacing="10" Orientation="Horizontal" Grid.Column="2">
+						<AutoCompleteBox Watermark="Найти заявителя" MinWidth="200"
+										 Classes="clearButton"
+										 ItemsSource="{Binding Responsibles}"
+										 ValueMemberBinding="{Binding (model:EmployeModel).FullName}"
+										 FilterMode="ContainsOrdinal"
+										 SelectedItem="{Binding SelectedResponsible}">
+							<AutoCompleteBox.ItemTemplate>
+								<DataTemplate DataType="model:EmployeModel">
+									<Grid RowDefinitions="Auto, Auto" ColumnDefinitions="Auto,5,*">
+										<TextBlock Grid.Column="2" Text="{Binding FullName}"/>
+										<TextBlock Grid.Row="1" Grid.Column="2" FontWeight="ExtraLight">
+											<TextBlock Text="{Binding Post}"/>
+											<TextBlock Text="{Binding Department}"/>
+										</TextBlock>
+										<Border Background="Transparent"
+												Grid.RowSpan="2"
+												ClipToBounds="True"
+												CornerRadius="10"
+												Width="40" Height="40">
+											<Image Source="{Binding ImageUrl^}	"
+										   />
+										</Border>
+									</Grid>
+								</DataTemplate>
+							</AutoCompleteBox.ItemTemplate>
+						</AutoCompleteBox>
+
+						<AutoCompleteBox Watermark="Найти исполнителя" MinWidth="200"
+										 Classes="clearButton"
+										 ItemsSource="{Binding SystemAdministrations}"
+										 ValueMemberBinding="{Binding (model:EmployeModel).FullName}"
+										 FilterMode="ContainsOrdinal"
+										 SelectedItem="{Binding SelectedSystemAdministrator}">
+							<AutoCompleteBox.ItemTemplate>
+								<DataTemplate DataType="model:EmployeModel">
+									<Grid RowDefinitions="Auto, Auto" ColumnDefinitions="Auto,5,*">
+										<TextBlock Grid.Column="2" Text="{Binding FullName}"/>
+										<TextBlock Grid.Row="1" Grid.Column="2" FontWeight="ExtraLight">
+											<TextBlock Text="{Binding Post}"/>
+											<TextBlock Text="{Binding Department}"/>
+										</TextBlock>
+										<Border Background="Transparent"
+												Grid.RowSpan="2"
+												ClipToBounds="True"
+												CornerRadius="10"
+												Width="40" Height="40">
+											<Image Source="{Binding ImageUrl^}"/>
+										</Border>
+									</Grid>
+								</DataTemplate>
+							</AutoCompleteBox.ItemTemplate>
+						</AutoCompleteBox>
+
+						<ToggleButton Classes="split">
+							<ToggleButton.IsChecked>
+								<MultiBinding Converter="{x:Static BoolConverters.Or}">
+									<MultiBinding.Bindings>
+										<Binding Path="SelectedStartDate" Converter="{x:Static ObjectConverters.IsNotNull}"/>
+										<Binding Path="SelectedEndDate" Converter="{x:Static ObjectConverters.IsNotNull}"/>
+									</MultiBinding.Bindings>
+								</MultiBinding>
+							</ToggleButton.IsChecked>
+							<StackPanel Orientation="Horizontal"
+										Spacing="5" >
+								<materialIcons:MaterialIcon VerticalAlignment="Bottom"
+															Kind="CalendarArrowRight"/>
+								<TextBlock>
+									<Grid>
+										<TextBlock>
+											<TextBlock IsVisible="{Binding SelectedStartDate, 
+													   Converter={x:Static ObjectConverters.IsNotNull}}">
+												с <TextBlock Text="{Binding SelectedStartDate, StringFormat=dd.MM.yyyy}"/>
+											</TextBlock>
+
+											<TextBlock IsVisible="{Binding SelectedEndDate,
+													   Converter={x:Static ObjectConverters.IsNotNull}}">
+												по <TextBlock Text="{Binding SelectedEndDate, StringFormat=dd.MM.yyyy}"/>
+											</TextBlock>
+										</TextBlock>
+										<TextBlock>
+											<TextBlock.IsVisible>
+												<MultiBinding Converter="{x:Static BoolConverters.And}">
+													<MultiBinding.Bindings>
+														<Binding Path="SelectedStartDate"
+																 Converter="{x:Static ObjectConverters.IsNull}"/>
+														<Binding Path="SelectedEndDate"
+																 Converter="{x:Static ObjectConverters.IsNull}"/>
+													</MultiBinding.Bindings>
+												</MultiBinding>
+											</TextBlock.IsVisible>
+											Любая дата
+										</TextBlock>
+									</Grid>
+
+								</TextBlock>
+							</StackPanel>
+							<Button.Flyout>
+								<Flyout Placement="BottomEdgeAlignedLeft">
+									<DockPanel LastChildFill="True">
+										<Button DockPanel.Dock="Bottom"
+												HorizontalAlignment="Stretch"
+												Margin="0 5 0 0"
+												Background="Transparent"
+												Command="{Binding ClearDateFilterCommand}">Очистить</Button>
+										<Grid RowDefinitions="Auto,Auto"
+											  ColumnDefinitions="Auto,15,Auto">
+											<!--ROW 0-->
+											<TextBlock Grid.Column="0" FontWeight="SemiLight">С</TextBlock>
+											<TextBlock Grid.Column="2" FontWeight="SemiLight">По</TextBlock>
+
+											<!--ROW 1-->
+											<CalendarDatePicker Grid.Row="1"
+																Grid.Column="0"
+																SelectedDateFormat="Custom"
+																CustomDateFormatString="dd.MM.yyyy"
+																SelectedDate="{Binding SelectedStartDate}"
+																Watermark="дд.ММ.гггг"/>
+											<Separator Grid.Row="1"
+													   Grid.Column="1"
+													   Height="2" Width="10"
+												   />
+											<CalendarDatePicker Grid.Row="1"
+																Grid.Column="2"
+																SelectedDateFormat="Custom"
+																CustomDateFormatString="dd.MM.yyyy"
+																SelectedDate="{Binding SelectedEndDate}"
+																Watermark="дд.ММ.гггг"/>
+										</Grid>
+									</DockPanel>
+								</Flyout>
+							</Button.Flyout>
+						</ToggleButton>
+
+					</StackPanel>
+
+
 					<Button Classes="accent" Grid.Column="4">Создать заявку</Button>
 				</Grid>
 
@@ -81,13 +238,41 @@
 						  RowHeight="{Binding SelectedHeightDataGridRow.Height}">
 					<i:Interaction.Behaviors>
 						<beh:DataGridAddColumnCheckSelectionBehavior/>
-						<beh:DataGridNumberRowsBehavior/>
 					</i:Interaction.Behaviors>
 					<DataGrid.Columns>
-						<DataGridTextColumn Header="Заявитель" Width="*"
-											Binding="{Binding Responsible}"/>
-						<DataGridTextColumn Header="Исполнитель" Width="*"
-											Binding="{Binding SystemAdministration}"/>
+						<DataGridTemplateColumn Header="Заявитель" Width="*">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<StackPanel Orientation="Horizontal"
+												Spacing="5">
+										<Border ClipToBounds="True"
+												CornerRadius="10"
+												Width="30" Height="30"
+												Background="Transparent">
+											<Image Source="{Binding Responsible.ImageUrl^}"/>
+										</Border>
+										<TextBlock VerticalAlignment="Center" Text="{Binding Responsible.FullName}"/>
+									</StackPanel>
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
+						<DataGridTemplateColumn Header="Исполнитель" Width="*">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<Grid VerticalAlignment="Center" RowDefinitions="Auto" ColumnDefinitions="Auto,5,*">
+										<Border ClipToBounds="True"
+												CornerRadius="10"
+												Background="Transparent"
+												Width="30" Height="30"
+												Grid.RowSpan="2">
+											<Image Source="{Binding SystemAdministration.ImageUrl^}"/>
+										</Border>
+										<TextBlock VerticalAlignment="Center"
+												   Grid.Column="2" Text="{Binding SystemAdministration.FullName}"/>
+									</Grid>
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
 						<DataGridTextColumn Header="Проблема" Width="Auto"
 											Binding="{Binding ProblemType}"/>
 						<DataGridTextColumn Header="Дата подачи" Width="Auto"
@@ -132,80 +317,4 @@
 		</Border>
 
 	</DockPanel>
-
-
-	<!--<Grid RowDefinitions="Auto,Auto,,Auto,*,Auto">
-		<StackPanel Orientation="Horizontal" Spacing="10">
-			<ComboBox PlaceholderText="Выберите заявителя"
-					  ItemsSource="{Binding Responsibles}"
-					  SelectedItem="{Binding SelectedResponsible}">
-				<ComboBox.ItemTemplate>
-					<DataTemplate>
-						<TextBlock Text="{Binding FullName}"/>
-					</DataTemplate>
-				</ComboBox.ItemTemplate>
-			</ComboBox>
-			<ComboBox PlaceholderText="Выберите исполнителя"
-					  ItemsSource="{Binding SystemAdministrations}"
-					  SelectedItem="{Binding SelectedSystemAdministrator}">
-				<ComboBox.ItemTemplate>
-					<DataTemplate>
-						<TextBlock Text="{Binding FullName}"/>
-					</DataTemplate>
-				</ComboBox.ItemTemplate>
-			</ComboBox>
-			<CalendarDatePicker Watermark="Выберите дату подачи"
-							    SelectedDate="{Binding SelectedDate}"/>
-			<Button Command="{Binding ClearFilterCommand}">Очистить</Button>
-		</StackPanel>
-		<StackPanel Orientation="Horizontal" Grid.Row="1">
-			<Button Classes="accent"
-					Command="{Binding ((vm:MainMenuViewModel)DataContext).ShowCreateServiceRequestView,
-					RelativeSource={RelativeSource AncestorType={x:Type Window}}}">Создать</Button>
-		</StackPanel>
-		<TextBlock Grid.Row="2">
-			<TextBlock Text="{Binding Page.Items.Count}" FontWeight="Black"/>
-			<TextBlock>из</TextBlock>
-			<TextBlock Text="{Binding Page.TotalCount}" FontWeight="Black"/>
-		</TextBlock>
-		<DataGrid AutoGenerateColumns="False" Grid.Row="3"
-				  IsReadOnly="True"
-				  CanUserResizeColumns="True"
-				  CanUserReorderColumns="False"
-				  GridLinesVisibility="Horizontal"
-				  ItemsSource="{Binding Requests}">
-
-			<DataGrid.Columns>
-				<DataGridTextColumn Header="Заявитель" Width="*"
-									Binding="{Binding Responsible}"/>
-				<DataGridTextColumn Header="Исполнитель" Width="*"
-									Binding="{Binding SystemAdministration}"/>
-				<DataGridTextColumn Header="Проблема" Width="Auto"
-									Binding="{Binding ProblemType}"/>
-				<DataGridTextColumn Header="Дата подачи" Width="Auto"
-									Binding="{Binding CreationDate}"/>
-				<DataGridTemplateColumn Width="Auto" CanUserResize="False">
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate DataType="model:EquipmentsServiceRequestVM">
-							<StackPanel Orientation="Horizontal" Spacing="5" Margin="3">
-								<Button Command="{Binding $parent[DataGrid].((vm:EquipmentsServiceRequestViewModel)DataContext).DeleteServiceRequestCommand}"
-										CommandParameter="{Binding ID}">У</Button>
-								<Button Command="{Binding $parent[DataGrid].((vm:EquipmentsServiceRequestViewModel)DataContext).EditServiceRequestCommand}"
-										CommandParameter="{Binding ID}">Р</Button>
-							</StackPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-			</DataGrid.Columns>
-		</DataGrid>
-		<StackPanel Grid.Row="4"
-					Orientation="Horizontal"
-					Spacing="10"
-					HorizontalAlignment="Right">
-			<Button Command="{Binding BackPageCommand}">Назад</Button>
-			<TextBlock Text="{Binding Page.PageNumber}" VerticalAlignment="Center" TextAlignment="Center"/>
-
-			<Button Command="{Binding NextPageCommand}">Вперёд</Button>
-		</StackPanel>
-	</Grid>-->
 </UserControl>

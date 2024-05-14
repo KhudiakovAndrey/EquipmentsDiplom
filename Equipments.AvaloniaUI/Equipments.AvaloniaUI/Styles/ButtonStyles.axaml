@@ -22,7 +22,6 @@
 				</Button>
 
 			</StackPanel>
-			<!-- Add Controls for Previewer Here -->
 		</Border>
 	</Design.PreviewWith>
 
@@ -32,6 +31,23 @@
 				<TextBlock Text="{TemplateBinding Content}"
 						   Foreground="{StaticResource SystemAccentColor}"
 						   TextDecorations="Underline"
+						   TextWrapping="Wrap">
+					<TextBlock.Styles>
+						<Style Selector="TextBlock:pointerover">
+							<Setter Property="Foreground" Value="{StaticResource SystemAccentColorLight1}"/>
+						</Style>
+					</TextBlock.Styles>
+				</TextBlock>
+			</ControlTemplate>
+		</Setter>
+		<Setter Property="Background" Value="Transparent"/>
+		<Setter Property="BorderThickness" Value="0"/>
+	</Style>
+	<Style Selector="Button.text">
+		<Setter Property="Template">
+			<ControlTemplate>
+				<TextBlock Text="{TemplateBinding Content}"
+						   Foreground="{StaticResource SystemAccentColor}"
 						   TextWrapping="Wrap">
 					<TextBlock.Styles>
 						<Style Selector="TextBlock:pointerover">

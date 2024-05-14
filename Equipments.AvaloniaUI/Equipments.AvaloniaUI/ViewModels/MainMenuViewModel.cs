@@ -2,8 +2,8 @@
 using Equipments.AvaloniaUI.Factory;
 using Equipments.AvaloniaUI.Factorys;
 using Equipments.AvaloniaUI.Models;
+using Equipments.AvaloniaUI.Services.API;
 using HanumanInstitute.MvvmDialogs;
-using HanumanInstitute.MvvmDialogs.Avalonia.DialogHost;
 using Microsoft.Extensions.DependencyInjection;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -16,27 +16,47 @@ namespace Equipments.AvaloniaUI.ViewModels
 {
     public class MainMenuViewModel : ViewModelBase, IScreen
     {
-        private readonly IDialogService _dialogService;
         private readonly ICreateServiceRequestViewModelFactory _createServiceRequestViewModelFactory;
         private readonly IEditEquipmentPurchaseRequestViewModelFactory _purchaseRequestViewModelFactory;
+        private readonly EmployeesService _employeesService;
+        private readonly UserService _userService;
         [Reactive] public RoutableViewModelBase? SelectedViewModel { get; set; }
         public RoutingState Router { get; } = new RoutingState();
-        public MainMenuViewModel(IDialogService dialogService,
-            ICreateServiceRequestViewModelFactory createServiceRequestViewModelFactory,
-            IEditEquipmentPurchaseRequestViewModelFactory purchaseRequestViewModelFactory)
+        public MainMenuViewModel(ICreateServiceRequestViewModelFactory createServiceRequestViewModelFactory,
+            IEditEquipmentPurchaseRequestViewModelFactory purchaseRequestViewModelFactory,
+            EmployeesService employeesService,
+            UserService userService)
         {
-            _dialogService = dialogService;
             _createServiceRequestViewModelFactory = createServiceRequestViewModelFactory;
             _purchaseRequestViewModelFactory = purchaseRequestViewModelFactory;
-
+            _employeesService = employeesService;
+            _userService = userService;
+        }
+        public async void Initialize()
+        {
             ShowEquipmentsServiceRequestView();
-
+            User = await GetMyUser();
             IsDarkTheme = App.Current!.RequestedThemeVariant == ThemeVariant.Dark;
             ChangeThemeCommand = ReactiveCommand.Create(ChangeTheme);
             Router.CurrentViewModel.Subscribe(view =>
             {
                 SelectedViewModel = (RoutableViewModelBase?)view;
             });
+
+        }
+        private async Task<UserModel> GetMyUser()
+        {
+            var resultMyUser = await _userService.GetMeUser();
+            if (resultMyUser.IsSucces)
+            {
+                var resultMyEmploye = await _employeesService.GetMeEmploye();
+                if (resultMyEmploye.IsSucces)
+                {
+                    resultMyUser.Data.Employe = resultMyEmploye.Data;
+                    return resultMyUser.Data;
+                }
+            }
+            return null;
         }
         public ReactiveCommand<Unit, IRoutableViewModel> GoBack => Router.NavigateBack!;
         public void ShowCreateServiceRequestView(Guid? idRequest = null) =>
@@ -65,25 +85,7 @@ namespace Equipments.AvaloniaUI.ViewModels
             Router.Navigate.Execute(vm);
         }
 
-        public async Task ShowDialogHostAsync(string message)
-        {
-            await _dialogService.ShowDialogHostAsync(
-                    this,
-                    new DialogHostSettings(message)
-                    {
-                        CloseOnClickAway = true
-                    }).ConfigureAwait(true);
-        }
+        [Reactive] public UserModel User { get; set; }
 
-        public async Task<bool> ShowAskQuestionDialogAsync(string message, string? title = null)
-        {
-            bool result = await _dialogService.AskQuestionAsync(this, message, title);
-            return result;
-        }
-        public async Task<bool?> ShowDialogEditRequestStatusChange(UpdateRequestStatusChangeModel? model)
-        {
-            var result = await _dialogService.ShowEditRequestStatusChange(this, model);
-            return result;
-        }
     }
 }

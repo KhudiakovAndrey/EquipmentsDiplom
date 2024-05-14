@@ -1,0 +1,140 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:vm="clr-namespace:Equipments.AvaloniaUI.ViewModels"
+			 xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             xmlns:converters="clr-namespace:Equipments.AvaloniaUI.Converters"
+			 mc:Ignorable="d" d:DesignWidth="460" d:DesignHeight="450"
+			 MinWidth="460"
+			 MaxWidth="600"
+			 x:DataType="vm:DialogUploadFileViewModel"
+             x:Class="Equipments.AvaloniaUI.Views.DialogUploadFileView"
+			 CornerRadius="20">
+	<Design.DataContext>
+		<vm:DialogUploadFileViewModel/>
+	</Design.DataContext>
+	<UserControl.Styles>
+		<StyleInclude Source="/Styles/SpecialViewStyles/DialogUploadFileViewStyles.axaml"/>
+	</UserControl.Styles>
+	<UserControl.Resources>
+		<converters:FileNameTruncationConverter x:Key="FileTruncationConverter"/>
+	</UserControl.Resources>
+	<DockPanel Margin="20">
+		<StackPanel DockPanel.Dock="Top" Spacing="5">
+			<Grid VerticalAlignment="Top"
+				  HorizontalAlignment="Stretch"
+				  ColumnDefinitions="Auto,*">
+				<Ellipse Width="50" Height="50"
+						 Fill="{StaticResource Accent}"
+						 Opacity="0.3"/>
+				<materialIcons:MaterialIcon Kind="FolderOpen"
+											Foreground="{StaticResource Accent}"
+											Width="30" Height="30"/>
+				<Button VerticalAlignment="Top"
+						HorizontalAlignment="Right"
+						Grid.Column="1" Background="Transparent"
+						Command="{Binding Cancel}">
+					<materialIcons:MaterialIcon Kind="Close" Height="20" Width="20"/>
+				</Button>
+			</Grid>
+			<TextBlock Margin="0 15 0 0" FontWeight="Black">Загрузка файла</TextBlock>
+			<TextBlock FontWeight="ExtraLight">Загрузите файл ниже</TextBlock>
+		</StackPanel>
+
+		<Grid DockPanel.Dock="Bottom"
+			  Margin="0 15 0 0"
+			  ColumnDefinitions="*,Auto,5,Auto">
+			<Button Grid.Column="0" Classes="text"
+					Click="OpenFileDialogButton_Click"
+					IsVisible="{Binding Files.Count}">+ Добавить ещё один файл</Button>
+			<Button Grid.Column="1" Padding="10"
+					Command="{Binding Cancel}">Отмена</Button>
+			<Button Grid.Column="3" Padding="10" Classes="accent"
+					Command="{Binding Ok}">Загрузить файл</Button>
+			<Button Grid.Column="3" Padding="10" Classes="accent"
+					Command="{Binding Ok}"
+					IsVisible="{Binding SelectedFiles.Count}">
+				<TextBlock>
+					Загрузить
+					<TextBlock Text="{Binding SelectedFiles.Count}"/>
+					файл(ов)
+				</TextBlock>
+			</Button>
+		</Grid>
+
+		<Grid Margin="0 15 0 0" MinHeight="200">
+			<Rectangle StrokeDashArray="10"
+					   Stroke="Gray"
+					   StrokeThickness="1"
+					   Name="DragDropFilesRectangle"
+					   DragDrop.AllowDrop="True"
+					   Fill="Transparent" Classes="test"/>
+			<TextBlock HorizontalAlignment="Center"
+					   VerticalAlignment="Center"
+					   TextAlignment="Center"
+					   IsVisible="{Binding !Files.Count}">
+				<materialIcons:MaterialIcon Kind="FileUploadOutline"
+											Height="60" Width="60"/>
+				<LineBreak/>
+				<TextBlock Margin="0 15 0 0" FontWeight="Black">Перетащите файл(ы) для загрузки</TextBlock>
+				<LineBreak/>
+				<TextBlock Margin="0 5 0 0" FontWeight="UltraLight" >Кроме того, вы можете выбрать файл</TextBlock>
+				<LineBreak/>
+				<Button Classes="text"
+						Click="OpenFileDialogButton_Click"
+						>нажав сюда.</Button>
+			</TextBlock>
+			<ListBox Margin="5"
+					 Classes="files"
+					 ItemsSource="{Binding Files}"
+					 Background="Transparent"
+					 IsVisible="{Binding Files.Count}"
+					 SelectionMode="Multiple,Toggle"
+					 SelectedItems="{Binding SelectedFiles}">
+				<ListBox.ItemsPanel>
+					<ItemsPanelTemplate>
+						<WrapPanel Orientation="Horizontal"/>
+					</ItemsPanelTemplate>
+				</ListBox.ItemsPanel>
+				<ListBox.ItemTemplate>
+					<DataTemplate>
+						<Grid Name="FileItemGrid"
+								ToolTip.Tip="{Binding Name}"
+								ToolTip.Placement="Bottom"
+								ToolTip.ShowDelay="0">
+							<StackPanel>
+								<materialIcons:MaterialIcon Kind="FileCheckOutline"
+															Height="30" Width="30"/>
+								<TextBlock Text="{Binding Name,
+									   Converter={StaticResource FileTruncationConverter}}"
+										   HorizontalAlignment="Center"
+										   FontSize="12"/>
+							</StackPanel>
+							<Button VerticalAlignment="Top"
+									HorizontalAlignment="Right"
+									Classes="split icon"
+									Height="20" Width="20">
+								<materialIcons:MaterialIcon Kind="DotsVertical"/>
+								<Button.Flyout>
+									<Flyout Placement="RightEdgeAlignedTop">
+										<StackPanel Orientation="Vertical">
+											<Button Command="{Binding $parent[ListBox].((vm:DialogUploadFileViewModel)DataContext).DeleteFile}"
+													CommandParameter="{Binding .}"
+													Classes="icon"
+													Height="20" Width="20"
+													ToolTip.Tip="Удалить"
+													ToolTip.ShowDelay="0">
+												<materialIcons:MaterialIcon Kind="DeleteEmpty"/>
+											</Button>
+										</StackPanel>
+									</Flyout>
+								</Button.Flyout>
+							</Button>
+						</Grid>
+					</DataTemplate>
+				</ListBox.ItemTemplate>
+			</ListBox>
+		</Grid>
+	</DockPanel>
+</UserControl>

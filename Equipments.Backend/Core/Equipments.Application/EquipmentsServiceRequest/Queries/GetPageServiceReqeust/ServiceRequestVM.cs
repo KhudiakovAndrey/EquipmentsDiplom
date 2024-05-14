@@ -10,17 +10,17 @@ namespace Equipments.Application.EquipmentsServiceRequest.Queries
         public class ServiceRequestVM : IMapWith<EquipmentServiceRequest>
         {
             public Guid ID { get; set; }
-            public string Responsible { get; set; } = string.Empty;
-            public string SystemAdministration { get; set; } = string.Empty;
+            public EmployeDto Responsible { get; set; }
+            public EmployeDto SystemAdministration { get; set; }
             public string ProblemType { get; set; } = string.Empty;
             public DateTime CreationDate { get; set; }
             public void Mapping(Profile profile)
             {
                 profile.CreateMap<EquipmentServiceRequest, ServiceRequestVM>()
                     .ForMember(reqDto => reqDto.Responsible,
-                        opt => opt.MapFrom(req => req.IdresponsibleNavigation.FullName))
+                        opt => opt.MapFrom(req => req.IdresponsibleNavigation))
                     .ForMember(reqDto => reqDto.SystemAdministration,
-                        opt => opt.MapFrom(req => req.IdsystemAdministratorNavigation.FullName))
+                        opt => opt.MapFrom(req => req.IdsystemAdministratorNavigation))
                     .ForMember(reqDto => reqDto.ProblemType,
                         opt => opt.MapFrom(req => req.IdproblemTypeNavigation.IdequipmentTypeNavigation.Name
                         + " "

@@ -16,15 +16,19 @@ namespace Equipments.AvaloniaUI.ViewModels
         private readonly IDialogService _dialogService;
 
         [Reactive]
-        public UserControl SelectedView { get; set; } = new AuthorizationView();
+        public UserControl SelectedView { get; set; }
 
         public MainAuthViewModel(IDialogService dialogService)
         {
             _dialogService = dialogService;
+            Initialized();
+        }
+        public void Initialized()
+        {
             ShowRegistrationViewCommand = ReactiveCommand.Create(ShowRegistrationView);
             ShowAuthorizationViewCommand = ReactiveCommand.Create(ShowAuthorizationView);
             ChangeThemeCommand = ReactiveCommand.Create(ChangeTheme);
-
+            SelectedView = new AuthorizationView();
         }
 
         public ReactiveCommand<Unit, Unit> ChangeThemeCommand { get; private set; }

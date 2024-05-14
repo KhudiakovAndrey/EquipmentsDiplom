@@ -25,6 +25,8 @@ namespace Equipments.Api
     public enum ErrorCodes
     {
         email_not_confirmed,
-        account_locked
+        account_locked,
+        user_not_found,
+        invalid_password,
     }
 }

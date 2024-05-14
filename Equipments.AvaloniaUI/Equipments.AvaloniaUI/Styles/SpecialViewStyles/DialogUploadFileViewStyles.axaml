@@ -1,0 +1,21 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<Design.PreviewWith>
+		<Border Padding="20">
+			<!-- Add Controls for Previewer Here -->
+		</Border>
+	</Design.PreviewWith>
+
+	<Style Selector="Grid#FileItemGrid">
+		<Setter Property="Margin" Value="5"/>
+		<Setter Property="Width" Value="100"/>
+		<Setter Property="Background" Value="Transparent"/>
+		<Style Selector="^ Button.split /template/ PathIcon#PART_PathIcon">
+			<Setter Property="IsVisible" Value="False"/>
+		</Style>
+		<Style Selector="^ Button.split FlyoutPresenter">
+			<Setter Property="MinWidth" Value="20"/>
+			<Setter Property="MinHeight" Value="20"/>
+		</Style>
+	</Style>
+</Styles>

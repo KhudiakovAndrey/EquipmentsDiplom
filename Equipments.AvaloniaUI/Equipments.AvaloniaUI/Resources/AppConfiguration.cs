@@ -15,6 +15,7 @@ namespace Equipments.AvaloniaUI.Resources
         public string RequestStatusChangesEndpoint { get; set; } = string.Empty;
         public string RequestStatusesEndpoint { get; set; } = string.Empty;
         public string PurchaseRequestsEndpoint { get; set; } = string.Empty;
+        public string UsersEndpoint { get; set; } = string.Empty;
 
         public static string AccesToken { get; set; } = string.Empty;
         public static DateTime? ExpirationToken { get; set; }

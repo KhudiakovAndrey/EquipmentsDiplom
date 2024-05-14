@@ -37,5 +37,11 @@
 		<StyleInclude Source="/Styles/TextStyles.axaml"/>
 		<StyleInclude Source="/Styles/DataGridStyles.axaml"/>
 		<StyleInclude Source="/Styles/RadioButtonStyles.axaml"/>
+		<StyleInclude Source="/Styles/RectangleStyles.axaml"/>
+		<StyleInclude Source="/Styles/ListBoxStyles.axaml"/>
+		<StyleInclude Source="/Styles/FlyoutStyles.axaml"/>
+		<StyleInclude Source="/Styles/AutoCompleteBoxStyles.axaml"/>
+		<StyleInclude Source="/Styles/ToggleButtonStyles.axaml"/>
+		<StyleInclude Source="/Styles/ComboBoxStyles.axaml"/>
 	</Application.Styles>
 </Application>

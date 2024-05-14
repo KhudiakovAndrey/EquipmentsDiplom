@@ -1,4 +1,5 @@
 ﻿using Equipments.Identity.Models;
+using IdentityServer4.Extensions;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
 using Microsoft.AspNetCore.Identity;
@@ -22,10 +23,13 @@ namespace Equipments.Identity
         //Класс для установки притензий в токен
         public async Task GetProfileDataAsync(ProfileDataRequestContext context)
         {
-            string id = context.Subject.FindFirst("sub")?.Value;
-            var user = await _userManager.FindByIdAsync(id);
-            var claims = await _userManager.GetClaimsAsync(user);
-            context.IssuedClaims = (List<Claim>)claims;
+            var claims = new List<Claim>
+            {
+                new Claim("sub", context.Subject.GetSubjectId())
+            };
+
+            context.IssuedClaims.AddRange(claims);
+
         }
 
         public Task IsActiveAsync(IsActiveContext context)

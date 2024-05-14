@@ -16,10 +16,12 @@ namespace Equipments.AvaloniaUI.ViewModels
             services.AddTransient<EquipmentsServiceRequestViewModel>();
             services.AddTransient<AskQuestionViewModel>();
             services.AddTransient<DialogEditRequestStatusViewModel>();
+            services.AddTransient<DialogUploadFileViewModel>();
+            services.AddTransient<MainAuthViewModel>();
+            services.AddTransient<MainMenuViewModel>();
 
             //Регистрируем классы создающиеся один раз при запуске
-            services.AddSingleton<MainAuthViewModel>();
-            services.AddSingleton<MainMenuViewModel>();
+            services.AddSingleton<MainMenuWindowViewModel>();
 
             return services;
         }

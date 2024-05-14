@@ -6,6 +6,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Equipments.Api.Extensions;
+using Equipments.AvaloniaUI.Services;
 
 namespace Equipments.Api
 {
@@ -14,27 +15,32 @@ namespace Equipments.Api
         private readonly string _baseAddress;
         private readonly HttpClient _httpClient;
         public string? AccessToken { get; set; }
+        public event EventHandler TokenExpired;
         public ApiClient(string baseAddress)
         {
             _baseAddress = baseAddress;
             _httpClient = new HttpClient { BaseAddress = new Uri(_baseAddress) };
         }
+        public ApiClient(string baseAddress, string accessToken)
+        {
+            _baseAddress = baseAddress;
+            _httpClient = new HttpClient { BaseAddress = new Uri(_baseAddress) };
+            AccessToken = accessToken;
+        }
         public async Task<ApiResponse<T>> GetAsync<T>(string requestUrl)
         {
-            if (!string.IsNullOrEmpty(AccessToken))
-            {
-                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AccessToken);
-            }
+            bool succes = SetDefaultRequestHeadersAuthorization();
+            if (!succes)
+                return new ApiResponse<T>();
 
             var response = await _httpClient.GetAsync(_baseAddress + requestUrl);
             return await HandleResponse<T>(response);
         }
         public async Task<ApiResponse<T>> GetAsync<T>(string requestUrl, object content)
         {
-            if (!string.IsNullOrEmpty(AccessToken))
-            {
-                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AccessToken);
-            }
+            bool succes = SetDefaultRequestHeadersAuthorization();
+            if (!succes)
+                return new ApiResponse<T>();
 
             string query = content.ToQueryString();
             var response = await _httpClient.GetAsync(_baseAddress + requestUrl + "?" + query);
@@ -43,11 +49,9 @@ namespace Equipments.Api
 
         public async Task<ApiResponse<T>> PostAsync<T>(string requestUrl, object content)
         {
-            if (!string.IsNullOrEmpty(AccessToken))
-            {
-                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AccessToken);
-            }
-
+            bool succes = SetDefaultRequestHeadersAuthorization();
+            if (!succes)
+                return new ApiResponse<T>();
             var jsonContent = new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json");
             string res = jsonContent.ReadAsStringAsync().Result;
             var response = await _httpClient.PostAsync(_baseAddress + requestUrl, jsonContent);
@@ -55,10 +59,9 @@ namespace Equipments.Api
         }
         public async Task<ApiResponse<T>> PutAsync<T>(string requestUrl, object content)
         {
-            if (!string.IsNullOrEmpty(AccessToken))
-            {
-                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AccessToken);
-            }
+            bool succes = SetDefaultRequestHeadersAuthorization();
+            if (!succes)
+                return new ApiResponse<T>();
 
             var jsonContent = new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json");
             Console.WriteLine(jsonContent.ReadAsStringAsync());
@@ -67,11 +70,9 @@ namespace Equipments.Api
         }
         public async Task<ApiResponse<T>> DeleteAsync<T>(string requestUrl)
         {
-            if (!string.IsNullOrEmpty(AccessToken))
-            {
-                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AccessToken);
-            }
-
+            bool succes = SetDefaultRequestHeadersAuthorization();
+            if (!succes)
+                return new ApiResponse<T>();
             var response = await _httpClient.DeleteAsync(_baseAddress + requestUrl);
             return await HandleResponse<T>(response);
         }
@@ -99,6 +100,20 @@ namespace Equipments.Api
             apiResponse.StatusCode = (int)response.StatusCode;
 
             return apiResponse;
+        }
+
+        private bool SetDefaultRequestHeadersAuthorization()
+        {
+            if (!string.IsNullOrEmpty(AccessToken))
+            {
+                if (!TokenService.ValidToToken(AccessToken))
+                {
+                    TokenExpired?.Invoke(this, EventArgs.Empty);
+                    return false;
+                }
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AccessToken);
+            }
+            return true;
         }
     }
 }

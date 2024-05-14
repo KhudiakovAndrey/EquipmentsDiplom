@@ -1,0 +1,85 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			xmlns:vm="clr-namespace:Equipments.AvaloniaUI.ViewModels"
+		    xmlns:local="clr-namespace:Equipments.AvaloniaUI"
+		    xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+            xmlns:titlebars="clr-namespace:CustomTitleBarTemplate.Views.CustomTitleBars"
+		    x:DataType="vm:MainMenuViewModel"
+		xmlns:rxui="http://reactiveui.net"
+
+             x:Class="Equipments.AvaloniaUI.Views.MainMenuView">
+
+	<UserControl.Styles>
+		<StyleInclude Source="/Styles/SpecialViewStyles/MainMenuWindowStyles.axaml"/>
+
+	</UserControl.Styles>
+
+	<Grid RowDefinitions="Auto,*" >
+		<Grid Classes="menu_container"
+			  ColumnDefinitions="*,Auto">
+			<StackPanel Orientation="Horizontal">
+
+				<Button Classes="split"
+						Content="Обслуживание">
+					<Button.Flyout>
+						<Flyout Placement="BottomEdgeAlignedLeft">
+							<Button Command="{Binding ShowEquipmentsServiceRequestView}"
+								>Список заявок</Button>
+						</Flyout>
+					</Button.Flyout>
+				</Button>
+				<Button Classes="split" Content="Закупка">
+					<Button.Flyout>
+						<Flyout Placement="BottomEdgeAlignedLeft">
+							<Button Command="{Binding ShowEquipmentPurchaseRequestView}"
+								>Список закупок</Button>
+						</Flyout>
+					</Button.Flyout>
+				</Button>
+				<!--<Button>Закупка</Button>-->
+				<Button>Экспорт</Button>
+				<Button Command="{Binding ShowDashboardView}">Статистика</Button>
+				<Button Classes="icon" >
+					<materialIcons:MaterialIcon Kind="CogOutline"/>
+				</Button>
+				<ToggleButton IsChecked="{Binding IsDarkTheme}"
+							  Command="{Binding ChangeThemeCommand}">
+					<materialIcons:MaterialIcon Kind="WeatherNight"/>
+				</ToggleButton>
+
+			</StackPanel>
+			<Grid HorizontalAlignment="Right"
+					ColumnDefinitions="Auto,Auto"
+					RowDefinitions="*,*"
+					Grid.Column="1">
+				<Border Grid.RowSpan="2"
+						Height="30"
+						Width="30"
+						CornerRadius="15">
+					<Image Source="{Binding User.Employe.ImageUrl^}"/>
+				</Border>
+				<TextBlock Grid.Column="1"
+						   FontSize="12">Приветствуем!</TextBlock>
+				<TextBlock Grid.Column="1"
+						   Grid.Row="1"
+						   FontSize="12"
+						   Foreground="{DynamicResource Accent}"
+						   Text="{Binding User.Employe.FullName}"/>
+			</Grid>
+		</Grid>
+
+		<rxui:RoutedViewHost Grid.Row="1" Margin="20"
+							 Router="{Binding Router}">
+
+		</rxui:RoutedViewHost>
+		<TransitioningContentControl
+			Grid.Row="1" Margin="20"
+			Content="{Binding SelectedViewModel}">
+
+		</TransitioningContentControl>
+	</Grid>
+
+</UserControl>

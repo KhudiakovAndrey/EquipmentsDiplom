@@ -41,18 +41,33 @@ namespace Equipments.AvaloniaUI.ViewModels
 
             var cancelletion = _sourceCache.Connect()
                 .Sort(SortExpressionComparer<EquipmentsServiceRequestVM>.Ascending(r => r.CreationDate))
-                .Filter(request => Filtered(request))
                 .Bind(out _requests)
                 .DisposeMany()
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .Subscribe();
+
             Notify = NotifyTaskCompletion.Create(GetEmployees);
-            Notify = NotifyTaskCompletion.Create(GetServiceRequests);
+
+            Page.PageSize = PageSizes.First();
+
+            this.WhenAnyValue(vm => vm.Page.PageSize).Subscribe(_ =>
+            {
+                Notify = NotifyTaskCompletion.Create(GetServiceRequests);
+            });
+            //Notify = NotifyTaskCompletion.Create(GetServiceRequests);
+
+
+            this.WhenAnyValue(vm => vm.SelectedResponsible,
+                              vm => vm.SelectedSystemAdministrator,
+                              vm => vm.SelectedStartDate,
+                              vm => vm.SelectedEndDate
+                              ).Subscribe(async _ => await FilterGetServiceRequest());
 
             var isExecuteNextPageCommand = this.WhenAnyValue(vm => vm.Page,
                 page => page.PageNumber < Page.TotalPages);
             var isExecuteBackPageCommand = this.WhenAnyValue(vm => vm.Page,
                 page => page.PageNumber != 1);
+
             var isExecuteClearFilterCommand = this.WhenAnyValue(
                     vm => vm.SelectedDate,
                     vm => vm.SelectedResponsible,
@@ -60,20 +75,16 @@ namespace Equipments.AvaloniaUI.ViewModels
                     (date, responsible, sysadmin) => date != null || responsible != null || sysadmin != null
                 );
 
-            this.WhenAnyValue(
-                vm => vm.SelectedResponsible,
-                vm => vm.SelectedSystemAdministrator,
-                vm => vm.SelectedDate).Subscribe(_ =>
-                {
-                    Page.PageNumber = 1;
-                    _sourceCache.Refresh();
-                });
+            var isExecuteCleadDateFilterCommand = this.WhenAnyValue(
+                vm => vm.SelectedStartDate,
+                vm => vm.SelectedEndDate, (start, end) => start != null || end != null);
 
             NextPageCommand = ReactiveCommand.CreateFromTask(NextPage, isExecuteNextPageCommand);
             BackPageCommand = ReactiveCommand.CreateFromTask(BackPage, isExecuteBackPageCommand);
             ClearFilterCommand = ReactiveCommand.Create(ClearFilter, isExecuteClearFilterCommand);
             DeleteServiceRequestCommand = ReactiveCommand.CreateFromTask<Guid>(DeleteServiceRequest);
             EditServiceRequestCommand = ReactiveCommand.Create<Guid>(EditServiceRequest);
+            ClearDateFilterCommand = ReactiveCommand.Create(ClearDateFilter, isExecuteCleadDateFilterCommand);
         }
         public ReactiveCommand<Guid, Unit> EditServiceRequestCommand { get; private set; }
         private void EditServiceRequest(Guid id) => App.ServiceProvider!.GetRequiredService<MainMenuViewModel>()
@@ -81,7 +92,7 @@ namespace Equipments.AvaloniaUI.ViewModels
         public ReactiveCommand<Guid, Unit> DeleteServiceRequestCommand { get; private set; }
         public async Task DeleteServiceRequest(Guid id)
         {
-            var result = await App.ServiceProvider!.GetRequiredService<MainMenuViewModel>()
+            var result = await App.MainMenuVM
                 .ShowAskQuestionDialogAsync(
                 "Вы действителЬно хотите удалить заявку на обслуживание?",
                 "Удаление заявки");
@@ -94,19 +105,6 @@ namespace Equipments.AvaloniaUI.ViewModels
                 }
             }
         }
-        private bool Filtered(EquipmentsServiceRequestVM request)
-        {
-            bool isResponsibleValid = SelectedResponsible?.ID == Guid.Empty ? true
-                : request.Responsible == SelectedResponsible?.FullName;
-
-            bool isSysAdmunValid = SelectedSystemAdministrator?.ID == Guid.Empty ? true
-                : request.SystemAdministration == SelectedSystemAdministrator?.FullName;
-
-            bool isCreationDateValid = SelectedDate == null ? true
-                : request.CreationDate == SelectedDate;
-
-            return isResponsibleValid && isSysAdmunValid && isCreationDateValid;
-        }
 
         private async Task GetEmployees()
         {
@@ -116,27 +114,20 @@ namespace Equipments.AvaloniaUI.ViewModels
                 Responsibles = new ObservableCollection<EmployeModel>(
                     new List<EmployeModel>()
                     {
-                        new EmployeModel
-                        {
-                            ID = Guid.Empty,
-                            FullName = "Все заявители"
-                        },
                         response.Data.Where(em => em.RoleID == (int)Roles.Responsible)
                     });
                 SystemAdministrations = new ObservableCollection<EmployeModel>(
                     new List<EmployeModel>()
                     {
-                        new EmployeModel
-                        {
-                            ID = Guid.Empty,
-                            FullName = "Все исполнители"
-                        },
                         response.Data.Where(em => em.RoleID == (int)Roles.SystemAdministration)
                     });
 
-                SelectedResponsible = Responsibles.First();
-                SelectedSystemAdministrator = SystemAdministrations.First();
             }
+        }
+        private async Task FilterGetServiceRequest()
+        {
+            Page.PageNumber = 1;
+            await GetServiceRequests();
         }
         private async Task GetServiceRequests()
         {
@@ -150,9 +141,9 @@ namespace Equipments.AvaloniaUI.ViewModels
                     edit.Clear();
                     edit.AddOrUpdate(Page.Items);
                 });
-
             }
         }
+
         private GetPageServiceRequestQuery GetPageQuery() =>
              new GetPageServiceRequestQuery
              {
@@ -160,8 +151,25 @@ namespace Equipments.AvaloniaUI.ViewModels
                  {
                      PageNumber = Page.PageNumber,
                      PageSize = Page.PageSize
-                 }
+                 },
+                 IDSystemAdministration = SelectedSystemAdministrator?.ID,
+                 IDResponsible = SelectedResponsible?.ID,
+                 CreationStartDate = SelectedStartDate,
+                 CreationEndDate = SelectedEndDate,
              };
+        public void ShowTest()
+        {
+            App.MainMenuVM.ShowUploadFileDialog();
+        }
+
+        //private ReactiveCommand<Unit,Unit> _exportRequest
+
+        public ReactiveCommand<Unit, Unit> ClearDateFilterCommand { get; private set; }
+        private void ClearDateFilter()
+        {
+            SelectedStartDate = null;
+            SelectedEndDate = null;
+        }
         public ReactiveCommand<Unit, Unit> ClearFilterCommand { get; private set; }
         public ReactiveCommand<Unit, Unit> NextPageCommand { get; private set; }
         public ReactiveCommand<Unit, Unit> BackPageCommand { get; private set; }
@@ -182,6 +190,7 @@ namespace Equipments.AvaloniaUI.ViewModels
             await GetServiceRequests();
         }
 
+
         #region Properties
         [Reactive] public ChangeHeightDataGridRowModel SelectedHeightDataGridRow { get; set; }
         public ObservableCollection<ChangeHeightDataGridRowModel> ChangeHeightDataGridRowItems { get; private set; }
@@ -195,13 +204,20 @@ namespace Equipments.AvaloniaUI.ViewModels
 
         [Reactive] public ObservableCollection<EmployeModel> Responsibles { get; set; } = new();
         [Reactive] public ObservableCollection<EmployeModel> SystemAdministrations { get; set; } = new();
-        [Reactive] public EmployeModel SelectedResponsible { get; set; }
-        [Reactive] public EmployeModel SelectedSystemAdministrator { get; set; }
+        [Reactive] public EmployeModel? SelectedResponsible { get; set; }
+        [Reactive] public EmployeModel? SelectedSystemAdministrator { get; set; }
         [Reactive] public DateTime? SelectedDate { get; set; }
+        [Reactive] public DateTime? SelectedStartDate { get; set; }
+        [Reactive] public DateTime? SelectedEndDate { get; set; }
 
         private SourceCache<EquipmentsServiceRequestVM, Guid> _sourceCache = new(x => x.ID);
 
 
+        [Reactive] public int? SelectedPageSize { get; set; }
+        public List<int> PageSizes { get; } = new()
+        {
+            20,50,80,100,
+        };
         private ReadOnlyObservableCollection<EquipmentsServiceRequestVM> _requests;
         public ReadOnlyObservableCollection<EquipmentsServiceRequestVM> Requests
         {

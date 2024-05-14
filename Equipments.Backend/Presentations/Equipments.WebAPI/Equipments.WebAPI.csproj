@@ -16,4 +16,10 @@
 		<ProjectReference Include="..\..\Infrastructure\Equipments.Persistence\Equipments.Persistence.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+		<None Update="Images\Employees\default.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
 </Project>

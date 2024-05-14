@@ -1,6 +1,7 @@
 {
   "IdentityUrl": "https://localhost:5001/api/",
   "AuthEndpoint": "auth",
+  "UsersEndpoint": "users",
 
 
   "WebApiUrl": "https://localhost:44304/api/",

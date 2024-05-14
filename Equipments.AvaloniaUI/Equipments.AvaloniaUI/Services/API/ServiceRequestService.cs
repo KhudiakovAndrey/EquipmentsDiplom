@@ -1,5 +1,6 @@
 ﻿using Avalonia.Diagnostics;
 using Equipments.Api;
+using Equipments.AvaloniaUI.Data;
 using Equipments.AvaloniaUI.Models;
 using Equipments.AvaloniaUI.Resources;
 using System;
@@ -12,16 +13,16 @@ namespace Equipments.AvaloniaUI.Services.API
     {
         private readonly AppConfiguration _appConfiguration;
 
-        public ServiceRequestService(AppConfiguration appConfiguration)
-            : base(appConfiguration.WebApiUrl)
+        public ServiceRequestService(AppConfiguration appConfiguration, SettingsDbContext settingsDbContext)
+            : base(appConfiguration.WebApiUrl, settingsDbContext)
         {
-            AccessToken = AppConfiguration.AccesToken;
             _appConfiguration = appConfiguration;
+            TokenExpiredEventHandler.RegisterApiService(this);
         }
 
         public async Task<ApiResponse<PaginationEquipmentsServiceRequestVM>> GetPageServiceRequests(GetPageServiceRequestQuery query)
         {
-            var response = await GetAsync<PaginationEquipmentsServiceRequestVM>(
+            var response = await PostAsync<PaginationEquipmentsServiceRequestVM>(
                 _appConfiguration.ServiceRequestsEndpoint + "/page",
                 query);
             return response;

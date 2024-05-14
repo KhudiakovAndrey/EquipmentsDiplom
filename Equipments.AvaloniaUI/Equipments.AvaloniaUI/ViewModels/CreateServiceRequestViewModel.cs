@@ -103,7 +103,7 @@ namespace Equipments.AvaloniaUI.ViewModels
         }
         private async Task DeleteRequestStatus(int id)
         {
-            var mainVm = App.ServiceProvider!.GetService<MainMenuViewModel>()!;
+            var mainVm = App.MainMenuVM;
             var result = await mainVm.ShowAskQuestionDialogAsync(
                 "Вы уверены в удалении статуса?", "Удаление статуса.");
             if (result)

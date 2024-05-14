@@ -1,4 +1,5 @@
 ﻿using Equipments.Api;
+using Equipments.AvaloniaUI.Data;
 using Equipments.AvaloniaUI.Models;
 using Equipments.AvaloniaUI.Resources;
 using System.Threading.Tasks;
@@ -8,10 +9,11 @@ namespace Equipments.AvaloniaUI.Services.API
     public class RequestStatusChangesService : ApiService
     {
         private readonly AppConfiguration _appConfiguration;
-        public RequestStatusChangesService(AppConfiguration appConfiguration)
-            : base(appConfiguration.WebApiUrl)
+        public RequestStatusChangesService(AppConfiguration appConfiguration, SettingsDbContext settingsDbContext)
+            : base(appConfiguration.WebApiUrl, settingsDbContext)
         {
             _appConfiguration = appConfiguration;
+            TokenExpiredEventHandler.RegisterApiService(this);
         }
 
         public async Task<ApiResponse<object>> DeleteByiDAsync(int id)

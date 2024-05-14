@@ -5,15 +5,15 @@ namespace Equipments.AvaloniaUI.Services.API
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddApiServices(this IServiceCollection services, AppConfiguration apiConfiguration)
+        public static IServiceCollection AddApiServices(this IServiceCollection services)
         {
-            services.AddSingleton(new UserService(apiConfiguration));
-            services.AddSingleton(new ProblemTypeService(apiConfiguration));
-            services.AddSingleton(new ServiceRequestService(apiConfiguration));
-            services.AddSingleton(new EmployeesService(apiConfiguration));
-            services.AddSingleton(new RequestStatusChangesService(apiConfiguration));
-            services.AddSingleton(new RequestStatusesService(apiConfiguration));
-            services.AddSingleton(new EquipmentPurchaseRequestService(apiConfiguration));
+            services.AddTransient<UserService>();
+            services.AddTransient<ProblemTypeService>();
+            services.AddTransient<ServiceRequestService>();
+            services.AddTransient<EmployeesService>();
+            services.AddTransient<RequestStatusChangesService>();
+            services.AddTransient<RequestStatusesService>();
+            services.AddTransient<EquipmentPurchaseRequestService>();
 
             return services;
         }

@@ -11,7 +11,7 @@
 
 
 	<Style Selector="StackPanel.menu_container">
-		<Setter Property="Height" Value="30"/>
+		<Setter Property="Height" Value="40"/>
 		<Setter Property="Orientation" Value="Horizontal"/>
 		<Setter Property="VerticalAlignment" Value="Center"/>
 		<Setter Property="HorizontalAlignment" Value="Stretch"/>

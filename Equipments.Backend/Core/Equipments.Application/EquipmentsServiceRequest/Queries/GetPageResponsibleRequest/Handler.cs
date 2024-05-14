@@ -42,7 +42,8 @@ namespace Equipments.Application.EquipmentsServiceRequest.Queries
                     itemDtos,
                     request.Pagination.PageNumber,
                     request.Pagination.PageSize,
-                    totalCount);
+                    totalCount,
+                    itemDtos.Count);
 
                 return paginationResult;
             }

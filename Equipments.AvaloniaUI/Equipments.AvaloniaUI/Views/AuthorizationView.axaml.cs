@@ -14,17 +14,17 @@ namespace Equipments.AvaloniaUI.Views
         public AuthorizationView()
         {
             InitializeComponent();
-            var vm = App.ServiceProvider!.GetRequiredService<AuthorizationViewModel>();
+            var vm = App.ServiceProvider!.GetService<AuthorizationViewModel>();
             DataContext = vm;
 
-            vm.OnAuthorizationSuccess += AuthorizationViewModel_OnAuthorizationSuccess;
+            vm!.OnAuthorizationSuccess += AuthorizationViewModel_OnAuthorizationSuccess;
         }
 
         private void AuthorizationViewModel_OnAuthorizationSuccess(object? sender, System.EventArgs e)
         {
-            if (VisualRoot is MainAuthView root)
+            if (VisualRoot is MainMenuWindow root)
             {
-                root.Close(/* Здесь будет пользователь */);
+                root.ShowMainMenu();
             }
         }
     }

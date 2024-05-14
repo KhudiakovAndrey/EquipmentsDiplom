@@ -1,4 +1,5 @@
 ﻿using Equipments.Api;
+using Equipments.AvaloniaUI.Data;
 using Equipments.AvaloniaUI.Models;
 using Equipments.AvaloniaUI.Resources;
 using System;
@@ -12,10 +13,11 @@ namespace Equipments.AvaloniaUI.Services.API
     public class EquipmentPurchaseRequestService : ApiService
     {
         private readonly AppConfiguration _appConfiguration;
-        public EquipmentPurchaseRequestService(AppConfiguration appConfiguration)
-            : base(appConfiguration.WebApiUrl)
+        public EquipmentPurchaseRequestService(AppConfiguration appConfiguration, SettingsDbContext settingsDbContext)
+            : base(appConfiguration.WebApiUrl, settingsDbContext)
         {
             _appConfiguration = appConfiguration;
+            TokenExpiredEventHandler.RegisterApiService(this);
         }
 
         public async Task<ApiResponse<PurchaseRequestList>> GetAllAsync()
