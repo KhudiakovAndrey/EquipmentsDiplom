@@ -23,7 +23,7 @@ namespace Equipments.WebAPI.Controllers
             return Ok(vm);
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpGet("me")]
         public async Task<ActionResult> GetMeInfo()
         {

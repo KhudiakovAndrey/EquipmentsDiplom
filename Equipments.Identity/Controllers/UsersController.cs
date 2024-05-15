@@ -30,7 +30,7 @@ namespace Equipments.Identity.Controllers
         {
             var identity = HttpContext.User.Identity as ClaimsIdentity;
 
-            string id = identity.FindFirst("sub").Value;
+            string id = identity.FindFirst(ClaimTypes.NameIdentifier)!.Value;
             var user = await _userManager.Users.FirstOrDefaultAsync(user => user.Id == id);
 
             var userDto = new UserDto

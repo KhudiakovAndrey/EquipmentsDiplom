@@ -15,6 +15,6 @@ namespace Equipments.WebAPI.Controllers
             _mediator ??= HttpContext.RequestServices.GetService<IMediator>()!;
         internal Guid UserGuid => !User.Identity!.IsAuthenticated
             ? Guid.Empty
-            : Guid.Parse(User.FindFirst("Sub")!.Value);
+            : Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
     }
 }

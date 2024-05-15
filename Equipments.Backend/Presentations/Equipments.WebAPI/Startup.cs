@@ -56,14 +56,22 @@ namespace Equipments.WebAPI
                     policy.AllowAnyOrigin();
                 });
             });
-            services.AddAuthentication("Bearer")
+            services.AddAuthentication(config =>
+            {
+                config.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                config.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
                 .AddJwtBearer("Bearer", options =>
                 {
-                    options.Authority = "https://localhost:5001";
+                    //options.Authority = "https://localhost:5001";
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateAudience = false,
-                        ValidateLifetime = true,
+                        //ValidateLifetime = true,
+                        ValidateIssuer = true,
+                        ValidIssuer = "Equipments.Identity.Server",
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("1ea1ab0f-315c-4d8b-a1ab-37ede07f1fbe"))
                     };
                 });
 

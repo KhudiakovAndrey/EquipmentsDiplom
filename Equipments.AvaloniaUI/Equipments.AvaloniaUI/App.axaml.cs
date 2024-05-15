@@ -66,33 +66,26 @@ public partial class App : Application
     {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            using (var client = new HttpClient())
+            var settingsDbContext = ServiceProvider?.GetService<SettingsDbContext>();
+
+            var menuWindow = new MainMenuWindow();
+            desktop.MainWindow = menuWindow;
+
+            var settings = settingsDbContext?.Settings.First();
+
+            if (settings?.AccessToken != null && settings?.ExpirationToken != null)
             {
-                client.SetBearerToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwYzYxNGE1NS0zNzJjLTRkZjItYjYzYS1hYWJhY2Q5MDA1NDIiLCJ1bmlxdWVfbmFtZSI6ImFuZHJleSIsImp0aSI6IjQwODRlZjA1LWI4N2QtNDgzNi04YjdmLTZkNGM5MGQzNThkMyIsImF1ZCI6WyJodHRwczovL2xvY2FsaG9zdDo1MDAxIiwiRXF1aXBtZW50cy5BdmFsb25pYVVJIl0sImVtYWlsIjoiMTIzQDEyMy5ydSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6ItCQ0LTQvNC40L3QuNGB0YLRgNCw0YLQvtGAIiwiZXhwIjoxNzE2OTk5NzcxLCJpc3MiOiJFcXVpcG1lbnRzLklkZW50aXR5LlNlcnZlciJ9.F0tvGjCJn8gS0DwbZt7YgK5s4XmmYKcV3AeLD6Ld9UM");
-                
-                var response = client.GetAsync("https://localhost:5001/api/users/me").Result;
+                AppConfiguration.AccesToken = settings.AccessToken;
+                AppConfiguration.ExpirationToken = settings.ExpirationToken;
+
+                var content = menuWindow.Content as MainMenuView;
+                var vm = content?.DataContext as MainMenuViewModel;
+                vm?.Initialize();
             }
-
-            //var settingsDbContext = ServiceProvider?.GetService<SettingsDbContext>();
-
-            //var menuWindow = new MainMenuWindow();
-            //desktop.MainWindow = menuWindow;
-
-            //var settings = settingsDbContext?.Settings.First();
-
-            //if (settings?.AccessToken != null && settings?.ExpirationToken != null)
-            //{
-            //    AppConfiguration.AccesToken = settings.AccessToken;
-            //    AppConfiguration.ExpirationToken = settings.ExpirationToken;
-
-            //    var content = menuWindow.Content as MainMenuView;
-            //    var vm = content?.DataContext as MainMenuViewModel;
-            //    vm?.Initialize();
-            //}
-            //else
-            //{
-            //    menuWindow.Content = new MainAuthView();
-            //}
+            else
+            {
+                menuWindow.Content = new MainAuthView();
+            }
         }
 
         base.OnFrameworkInitializationCompleted();

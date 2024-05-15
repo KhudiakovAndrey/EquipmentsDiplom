@@ -46,18 +46,18 @@ namespace Equipments.AvaloniaUI.ViewModels
                     //Сохранение токена в бд
                     if (IsSaveUser)
                     {
-                        try
-                        {
-                            var settings = await _dbContext.Settings.FirstAsync();
-                            settings.AccessToken = token;
-                            settings.ExpirationToken = expiration;
-                            _dbContext.Update(settings);
-                            await _dbContext.SaveChangesAsync();
-                        }
-                        catch (FileNotFoundException ex)
-                        {
-                            Log.Information(ex, "Не удалось найти файл настроек.");
-                        }
+                    }
+                    try
+                    {
+                        var settings = await _dbContext.Settings.FirstAsync();
+                        settings.AccessToken = token;
+                        settings.ExpirationToken = expiration;
+                        _dbContext.Update(settings);
+                        await _dbContext.SaveChangesAsync();
+                    }
+                    catch (FileNotFoundException ex)
+                    {
+                        Log.Information(ex, "Не удалось найти файл настроек.");
                     }
 
                     AppConfiguration.AccesToken = token;

@@ -18,10 +18,11 @@
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.17" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.17" />
 		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.10" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.5.2" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Equipments.Infrastructure.Api\Equipments.Api.csproj" />
+		<ProjectReference Include="..\Equipments.Infrastructure.Api\Equipments.Api.csproj" />
 	</ItemGroup>
 
 </Project>

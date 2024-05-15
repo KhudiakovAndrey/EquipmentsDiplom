@@ -1,6 +1,7 @@
 using Equipments.Identity.Data;
 using Equipments.Identity.Models;
 using Equipments.Identity.Services.EmailSender;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -57,14 +58,33 @@ namespace Equipments.Identity
                 .AddProfileService<ProfileClaimsService>()
                 .AddDeveloperSigningCredential();
 
-            services.AddAuthentication("Bearer")
+            services.AddAuthentication(config =>
+            {
+                //Сообщаяем Authentication чтобы схема во всех атрибутов по умолчанию была Bearer.
+                config.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                config.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
                 .AddJwtBearer("Bearer", options =>
                 {
-                    options.Authority = "https://localhost:5001";
+                    options.RequireHttpsMetadata = false;
+                    options.SaveToken = true;
+                    ////options.Authority = "https://localhost:5001";
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateAudience = false,
-                        ValidateLifetime = true,
+                        //ValidateLifetime = true,
+                        ValidateIssuer = true,
+                        ValidIssuer = "Equipments.Identity.Server",
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("1ea1ab0f-315c-4d8b-a1ab-37ede07f1fbe"))
+                    };
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnMessageReceived = context =>
+                        {
+                            context.Token = context.Request.Cookies["jwt"];
+                            return Task.CompletedTask;
+                        }
                     };
                 });
 
