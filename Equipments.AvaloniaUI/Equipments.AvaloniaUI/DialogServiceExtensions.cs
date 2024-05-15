@@ -13,7 +13,7 @@ namespace Equipments.AvaloniaUI
 {
     public static class DialogServiceExtensions
     {
-        public static async Task<bool> AskQuestionAsync(this IDialogService service, INotifyPropertyChanged ownerViewModel,
+        public static async Task<bool?> AskQuestionAsync(this IDialogService service, INotifyPropertyChanged ownerViewModel,
             string message, string? title = null)
         {
             if (ownerViewModel == null) throw new ArgumentNullException(nameof(ownerViewModel));
@@ -23,7 +23,7 @@ namespace Equipments.AvaloniaUI
             vm.Message = message;
             var settings = new DialogHostSettings(vm);
             await service.ShowDialogHostAsync(ownerViewModel, settings).ConfigureAwait(true);
-            return vm.DialogResult ?? false;
+            return vm.DialogResult;
         }
 
         public static async Task<bool?> ShowEditRequestStatusChange(this IDialogService service,

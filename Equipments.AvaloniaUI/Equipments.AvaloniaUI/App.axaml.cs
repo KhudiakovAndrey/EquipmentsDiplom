@@ -73,10 +73,9 @@ public partial class App : Application
 
             var settings = settingsDbContext?.Settings.First();
 
-            if (settings?.AccessToken != null && settings?.ExpirationToken != null)
+            if (settings?.AccessToken != null)
             {
-                AppConfiguration.AccesToken = settings.AccessToken;
-                AppConfiguration.ExpirationToken = settings.ExpirationToken;
+                JwtTokenData.AccessToken = settings.AccessToken;
 
                 var content = menuWindow.Content as MainMenuView;
                 var vm = content?.DataContext as MainMenuViewModel;

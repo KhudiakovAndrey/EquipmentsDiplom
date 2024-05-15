@@ -6,10 +6,17 @@
 		</Border>
 	</Design.PreviewWith>
 
-	<Style Selector="Flyout">
-		<Style Selector="^.nullminsize FlyoutPresenter">
-			<Setter Property="MinWidth" Value="0"/>
-			<Setter Property="MinHeight" Value="0"/>
+	<Style Selector="FlyoutPresenter.nullminsize">
+		<Setter Property="MinWidth" Value="0"/>
+		<Setter Property="MinHeight" Value="0"/>
+		<Style Selector="^ /template/ Border#LayoutRoot">
+			<Setter Property="Padding" Value="0"/>
 		</Style>
+	</Style>
+	<Style Selector="MenuItem.dynamicWidth">
+		<Setter Property="Width" Value="{Binding $parent[ContentControl].Bounds.Width}"/>
+	</Style>
+	<Style Selector="MenuItem.headerCenter /template/ ContentPresenter#PART_HeaderPresenter">
+		<Setter Property="HorizontalContentAlignment" Value="Center"/>
 	</Style>
 </Styles>

@@ -29,9 +29,9 @@ namespace Equipments.AvaloniaUI.ViewModels
                     }).ConfigureAwait(true);
         }
 
-        public async Task<bool> ShowAskQuestionDialogAsync(string message, string? title = null)
+        public async Task<bool?> ShowAskQuestionDialogAsync(string message, string? title = null)
         {
-            bool result = await _dialogService.AskQuestionAsync(this, message, title);
+            bool? result = await _dialogService.AskQuestionAsync(this, message, title);
             return result;
         }
         public async Task<bool?> ShowDialogEditRequestStatusChange(UpdateRequestStatusChangeModel? model)
@@ -49,6 +49,5 @@ namespace Equipments.AvaloniaUI.ViewModels
             var files = await _dialogService.ShowUploadFileDialog(this);
             return files;
         }
-
     }
 }

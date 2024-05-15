@@ -51,24 +51,41 @@
 				</ToggleButton>
 
 			</StackPanel>
+
 			<Grid HorizontalAlignment="Right"
-					ColumnDefinitions="Auto,Auto"
-					RowDefinitions="*,*"
-					Grid.Column="1">
-				<Border Grid.RowSpan="2"
+					ColumnDefinitions="Auto,5,Auto"
+					Grid.Column="1"
+				  Margin="0 5 15 0">
+				<Border Width="30"
 						Height="30"
-						Width="30"
+						ClipToBounds="True"
 						CornerRadius="15">
 					<Image Source="{Binding User.Employe.ImageUrl^}"/>
 				</Border>
-				<TextBlock Grid.Column="1"
-						   FontSize="12">Приветствуем!</TextBlock>
-				<TextBlock Grid.Column="1"
-						   Grid.Row="1"
-						   FontSize="12"
-						   Foreground="{DynamicResource Accent}"
-						   Text="{Binding User.Employe.FullName}"/>
+				<Button Classes="split" Grid.Column="2"
+						Name="test"
+						Foreground="{DynamicResource Accent}"
+						Content="{Binding User.Employe.FullName,
+						FallbackValue=Худяков Андрей Владимирович}">
+					<Button.Styles>
+						<Style Selector="FlyoutPresenter">
+							<Setter Property="MaxWidth" Value="1000"/>
+							<Setter Property="Width" Value="{Binding #test.Width}"/>
+						</Style>
+					</Button.Styles>
+					<Button.Flyout>
+						<MenuFlyout>
+							<MenuItem Classes="dynamicWidth headerCenter" Header="Профиль"
+									  Icon="{materialIcons:MaterialIconExt Kind=Account}"/>
+							<Separator/>
+							<MenuItem Classes="headerCenter" Header="Выйти"
+									  Icon="{materialIcons:MaterialIconExt Kind=ExitToApp}"
+									  Command="{Binding ExitApp}"/>
+						</MenuFlyout>
+					</Button.Flyout>
+				</Button>
 			</Grid>
+
 		</Grid>
 
 		<rxui:RoutedViewHost Grid.Row="1" Margin="20"

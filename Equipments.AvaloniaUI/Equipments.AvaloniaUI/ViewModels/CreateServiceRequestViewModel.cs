@@ -106,7 +106,7 @@ namespace Equipments.AvaloniaUI.ViewModels
             var mainVm = App.MainMenuVM;
             var result = await mainVm.ShowAskQuestionDialogAsync(
                 "Вы уверены в удалении статуса?", "Удаление статуса.");
-            if (result)
+            if (result == true)
             {
                 var response = await _requestStatusChangesService.DeleteByiDAsync(id);
                 if (response.IsSucces)

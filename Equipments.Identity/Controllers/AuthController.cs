@@ -66,7 +66,7 @@ namespace Equipments.Identity.Controllers
                 return BadRequest(new ErrorResponse(ErrorCodes.email_not_confirmed, user.Email));
             }
 
-            if (!user.LockoutEnabled)
+            if (user.LockoutEnabled)
             {
                 return BadRequest(new ErrorResponse(ErrorCodes.account_locked, $"Учётная запись заблокирована до {user.LockoutEnd.Value.ToString("dd.MM.yyyy")}"));
             }
@@ -88,7 +88,7 @@ namespace Equipments.Identity.Controllers
             var token = await GenerateJwtTokenAsync(claims);
             var tokenHandler = new JwtSecurityTokenHandler();
 
-            return Ok(new { token = tokenHandler.WriteToken(token), expiration = token.ValidTo });
+            return Ok(new { token = tokenHandler.WriteToken(token) });
         }
 
         private async Task<JwtSecurityToken> GenerateJwtTokenAsync(List<Claim> claims)

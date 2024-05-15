@@ -27,7 +27,7 @@ namespace Equipments.Application.Employees.Queries
 
             async Task<string> IRequestHandler<Query, string>.Handle(Query request, CancellationToken cancellationToken)
             {
-                var employ = await _dbContext.Employees.FirstOrDefaultAsync(em => em.Id == request.ID);
+                var employ = await _dbContext.Employees.FirstOrDefaultAsync(em => em.Iduser == request.ID);
                 if (employ == null)
                 {
                     throw new NotFoundException(nameof(Employee), request.ID);

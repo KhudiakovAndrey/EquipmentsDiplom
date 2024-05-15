@@ -71,8 +71,6 @@
 		<Setter Property="Foreground" Value="White"/>
 	</Style>
 
-
-
 	<Style Selector="Button.split">
 		<Setter Property="Transitions">
 			<Transitions>
@@ -106,7 +104,6 @@
 				</Border>
 			</ControlTemplate>
 		</Setter>
-
 		<Style Selector="^ /template/ PathIcon#PART_PathIcon">
 			<Setter Property="Transitions">
 				<Transitions>

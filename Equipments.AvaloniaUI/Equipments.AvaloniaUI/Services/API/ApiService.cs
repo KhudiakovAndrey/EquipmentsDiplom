@@ -1,5 +1,6 @@
 ﻿using Equipments.Api;
 using Equipments.AvaloniaUI.Data;
+using Equipments.AvaloniaUI.Resources;
 using System;
 using System.Linq;
 
@@ -13,7 +14,7 @@ namespace Equipments.AvaloniaUI.Services.API
         }
         public ApiService(string baseAddress, SettingsDbContext settingsDbContext)
             : base(baseAddress,
-                  settingsDbContext.Settings.First().AccessToken ?? string.Empty)
+                  JwtTokenData.AccessToken)
         {
 
 

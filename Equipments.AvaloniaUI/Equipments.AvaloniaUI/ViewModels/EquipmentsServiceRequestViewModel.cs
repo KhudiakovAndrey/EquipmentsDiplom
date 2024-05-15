@@ -96,7 +96,7 @@ namespace Equipments.AvaloniaUI.ViewModels
                 .ShowAskQuestionDialogAsync(
                 "Вы действителЬно хотите удалить заявку на обслуживание?",
                 "Удаление заявки");
-            if (result)
+            if (result == true)
             {
                 var response = await _serviceRequestService.DeleteServiceRequest(id);
                 if (response.IsSucces)

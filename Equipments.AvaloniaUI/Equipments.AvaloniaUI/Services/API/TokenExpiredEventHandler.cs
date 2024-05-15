@@ -34,11 +34,8 @@ public static class TokenExpiredEventHandler
                 if (settings != null)
                 {
                     settings.AccessToken = null;
-                    settings.ExpirationToken = null;
                     settingsDb?.Update(settings);
                     settingsDb?.SaveChangesAsync();
-                    AppConfiguration.AccesToken = null;
-                    AppConfiguration.ExpirationToken = null;
                 }
                 var content = new MainAuthView();
                 mainMenuWindow.Content = content;

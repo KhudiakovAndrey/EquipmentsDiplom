@@ -2,8 +2,10 @@
 using Avalonia.Platform;
 using Equipments.AvaloniaUI.Resources;
 using Equipments.AvaloniaUI.Services;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -20,9 +22,11 @@ namespace Equipments.AvaloniaUI
         public static async Task<Bitmap?> LoadFromWeb(Uri url)
         {
             using var httpClient = new HttpClient();
-            if (TokenService.ValidToToken(AppConfiguration.AccesToken))
+            var settings = await App.SettingsDbContext!.Settings.FirstAsync();
+            string token = settings.AccessToken ?? string.Empty;
+            if (TokenService.ValidToToken(token))
             {
-                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AppConfiguration.AccesToken);
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             }
 
             try

@@ -1,4 +1,5 @@
 ﻿using Avalonia.Media.Imaging;
+using Equipments.AvaloniaUI.Resources;
 using System;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
@@ -23,7 +24,7 @@ namespace Equipments.AvaloniaUI.Models
         public string NumberAssignedOffice { get; set; } = string.Empty;
         public string DescriptionAssignedOffice { get; set; } = string.Empty;
         [JsonIgnore]
-        public Task<Bitmap?> ImageUrl => ImageHelper.LoadFromWeb(new Uri($"https://localhost:44304/api/employees/me/image"));
+        public Task<Bitmap?> ImageUrl => ImageHelper.LoadFromWeb(new Uri("https://localhost:44304/api/Employees/me/image"));
 
     }
 }
