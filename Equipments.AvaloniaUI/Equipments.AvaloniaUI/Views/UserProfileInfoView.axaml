@@ -1,0 +1,76 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:Equipments.AvaloniaUI.ViewModels"
+			 xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+			 mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450"
+             x:DataType="vm:UserProfileInfoViewModel"
+			 x:Class="Equipments.AvaloniaUI.Views.UserProfileInfoView">
+	<Design.DataContext>
+		<vm:UserProfileInfoViewModel/>
+	</Design.DataContext>
+	<Grid ColumnDefinitions="Auto, 10, *"
+		  RowDefinitions="Auto,Auto,*"
+		  Margin="15">
+
+		<!--IMAGE PROFILE-->
+		<Grid RowDefinitions="Auto,Auto,Auto"
+			  ColumnDefinitions="Auto"
+			  Grid.RowSpan="3">
+			<TextBlock HorizontalAlignment="Center">Фото профиля</TextBlock>
+			<Border CornerRadius="100"
+					Margin="0 5 0 0"
+					ClipToBounds="True"
+					Grid.Row="1"
+					Grid.ColumnSpan="2"
+					Height="150"
+					Width="150"
+					Background="Aqua">
+				<Image/>
+			</Border>
+			<StackPanel Orientation="Horizontal"
+						Grid.Row="2"
+						HorizontalAlignment="Center">
+				<Button Classes="icon" Content="{materialIcons:MaterialIconExt Kind=ImageEdit}"
+						ToolTip.Tip="Изменить фото"/>
+				<Button Classes="icon" Content="{materialIcons:MaterialIconExt Kind=ImageRefresh}"
+						ToolTip.Tip="Установить фото по умолчанию"/>
+			</StackPanel>
+		</Grid>
+		<!--IMAGE PROFILE-->
+
+		<!--FULLNAME-->
+		<Grid Grid.Column="2"
+			  RowDefinitions="Auto,5,Auto"
+			  ColumnDefinitions="*,10,*,10,*">
+			<TextBlock>ФИО</TextBlock>
+			<TextBox Grid.Row="2" UseFloatingWatermark="True"
+					 Watermark="Фамилия"/>
+			<TextBox Grid.Column="2" Grid.Row="2"
+					 UseFloatingWatermark="True"
+					 Watermark="Имя"/>
+			<TextBox Grid.Column="4" Grid.Row="2"
+					 UseFloatingWatermark="True"
+					 Watermark="Отчество"/>
+		</Grid>
+		<!--FULLNAME-->
+
+		<!--CONTACTS-->
+		<Grid Grid.Column="2"
+			  Grid.Row="1"
+			  RowDefinitions="Auto,5,Auto"
+			  ColumnDefinitions="*,10,*"
+			  Margin="0 15 0 0">
+			<TextBlock>Контакты</TextBlock>
+			<TextBox Grid.Row="2"
+					 UseFloatingWatermark="True"
+					 Watermark="Электронная почта"/>
+			<TextBox Grid.Row="2"
+					 Grid.Column="2"
+					 UseFloatingWatermark="True"
+					 Watermark="Телефон"/>
+		</Grid>
+		<!--EMAIL-->
+	</Grid>
+</UserControl>

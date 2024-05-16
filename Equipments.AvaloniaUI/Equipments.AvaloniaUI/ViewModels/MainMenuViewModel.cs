@@ -80,6 +80,8 @@ namespace Equipments.AvaloniaUI.ViewModels
             NaviageIgnoreCopyUrl(new DashboardViewModel());
         public void ShowEditEquipmentPurchaseRequestView(Guid? id) =>
             Router.Navigate.Execute(_purchaseRequestViewModelFactory.Create(id ?? Guid.Empty));
+        public void ShowUserProfileView() =>
+            Router.Navigate.Execute(App.ServiceProvider!.GetService<UserProfileViewModel>()!);
 
         private ReactiveCommand<Unit, Unit>? _exitApp;
         public ReactiveCommand<Unit, Unit> ExitApp => _exitApp ??= ReactiveCommand.CreateFromTask(ExitAppActionAsync);

@@ -3,12 +3,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-			xmlns:vm="clr-namespace:Equipments.AvaloniaUI.ViewModels"
-		    xmlns:local="clr-namespace:Equipments.AvaloniaUI"
-		    xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
-            xmlns:titlebars="clr-namespace:CustomTitleBarTemplate.Views.CustomTitleBars"
-		    x:DataType="vm:MainMenuViewModel"
-		xmlns:rxui="http://reactiveui.net"
+			 xmlns:vm="clr-namespace:Equipments.AvaloniaUI.ViewModels"
+		     xmlns:local="clr-namespace:Equipments.AvaloniaUI"
+		     xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             xmlns:titlebars="clr-namespace:CustomTitleBarTemplate.Views.CustomTitleBars"
+		     x:DataType="vm:MainMenuViewModel"
+			 xmlns:rxui="http://reactiveui.net"
 
              x:Class="Equipments.AvaloniaUI.Views.MainMenuView">
 
@@ -76,7 +76,8 @@
 					<Button.Flyout>
 						<MenuFlyout>
 							<MenuItem Classes="dynamicWidth headerCenter" Header="Профиль"
-									  Icon="{materialIcons:MaterialIconExt Kind=Account}"/>
+									  Icon="{materialIcons:MaterialIconExt Kind=Account}"
+									  Command="{Binding ShowUserProfileView}"/>
 							<Separator/>
 							<MenuItem Classes="headerCenter" Header="Выйти"
 									  Icon="{materialIcons:MaterialIconExt Kind=ExitToApp}"
