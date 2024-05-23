@@ -8,11 +8,7 @@ namespace Equipments.AvaloniaUI.Services.API
 {
     public class ApiService : ApiClient
     {
-        public ApiService(string baseAddress) : base(baseAddress)
-        {
-
-        }
-        public ApiService(string baseAddress, SettingsDbContext settingsDbContext)
+        public ApiService(string baseAddress)
             : base(baseAddress,
                   JwtTokenData.AccessToken)
         {

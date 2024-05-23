@@ -1,0 +1,118 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:vm="clr-namespace:Equipments.AvaloniaUI.ViewModels"
+			 xmlns:progRing="clr-namespace:AvaloniaProgressRing;assembly=AvaloniaProgressRing"
+			 xmlns:local="clr-namespace:Equipments.AvaloniaUI"
+			 xmlns:lvc="using:LiveChartsCore.SkiaSharpView.Avalonia"
+			 xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="450"
+			 x:DataType="vm:UserProfileDashboardViewModel"
+             x:Class="Equipments.AvaloniaUI.Views.UserProfileDashboardView">
+	<UserControl.Styles>
+		<StyleInclude Source="/Styles/SpecialViewStyles/UserProfileDashboardViewStyles.axaml"/>
+	</UserControl.Styles>
+	<Design.DesignStyle>
+		<Style Selector="Grid.loaderContainer">
+			<Setter Property="IsVisible" Value="False"/>
+		</Style>
+	</Design.DesignStyle>
+	<Grid RowDefinitions="Auto,*">
+		<StackPanel Spacing="20" Orientation="Horizontal">
+			<StackPanel.Styles>
+				<Style Selector="Grid.loaderContainer">
+					<Setter Property="IsVisible" Value="{Binding InitializeNotify.IsNotCompleted,FallbackValue=false}"/>
+				</Style>
+			</StackPanel.Styles>
+
+			<Border Classes="panelItem">
+				<Grid RowDefinitions="*,5,Auto"
+					  ColumnDefinitions="Auto,10,*"
+					  Classes="itemContainer">
+					<materialIcons:MaterialIcon Kind="ClipboardList"/>
+					<TextBlock Classes="header"
+							   Grid.Column="2"
+							   FontWeight="Black"
+							   Text="{Binding CreatedCountRequest,FallbackValue=15}"/>
+					<TextBlock Grid.Row="2" Grid.Column="2"
+							   Classes="tip">Созданных заявок</TextBlock>
+					<Grid Grid.RowSpan="3" Grid.ColumnSpan="3"
+						  Classes="loaderContainer">
+						<progRing:ProgressRing IsActive="{Binding $parent[Grid].IsVisible, Mode=TwoWay}"/>
+					</Grid>
+				</Grid>
+			</Border>
+			<Border Classes="panelItem">
+				<Grid RowDefinitions="*,5,Auto"
+					  ColumnDefinitions="Auto,10,*"
+					  Classes="itemContainer">
+					<materialIcons:MaterialIcon Kind="ClockPlus"/>
+					<TextBlock Classes="header"
+							   Grid.Column="2"
+							   FontWeight="Black"
+							   Text="{Binding AvgCreatedRequest,FallbackValue=10}"/>
+					<TextBlock Grid.Row="2" Grid.Column="2"
+							   Classes="tip">Среднее время подачи заявок</TextBlock>
+					<Grid Grid.RowSpan="3" Grid.ColumnSpan="3"
+						Classes="loaderContainer">
+						<progRing:ProgressRing IsActive="{Binding $parent[Grid].IsVisible, Mode=TwoWay}"/>
+					</Grid>
+
+				</Grid>
+			</Border>
+
+		</StackPanel>
+
+		<Border Grid.Row="1"
+				Margin="0 15 0 0"
+				Background="{DynamicResource BaseTheme}">
+			<Panel>
+				<Carousel Margin="40 10">
+					<Carousel.PageTransition>
+						<CompositePageTransition>
+							<PageSlide Duration="0:00:01.500" Orientation="Horizontal"/>
+						</CompositePageTransition>
+					</Carousel.PageTransition>
+					<Carousel.Items>
+
+						<Grid RowDefinitions="Auto,*">
+							<StackPanel Spacing="10"
+										Orientation="Horizontal">
+								<Button Command="{Binding GetCountCratedRequestByWeek}">За неделю</Button>
+								<Button Command="{Binding GetCountCratedRequestByMonth}">За месяц</Button>
+								<Button Command="{Binding GetCountCratedRequestByYear}">За год</Button>
+							</StackPanel>
+							<lvc:CartesianChart Grid.Row="1" Series="{Binding CountCreatedDateSeries}"
+								XAxes="{Binding CountCreatedDateXAxes}"
+											>
+								<!--YAxes="{Binding CountCreatedDateYAxes}"-->
+							</lvc:CartesianChart>
+						</Grid>
+
+					</Carousel.Items>
+				</Carousel>
+				<Panel>
+					<Button VerticalAlignment="Stretch"
+							HorizontalAlignment="Left"
+							Click="PreviousSeries"
+							Classes="icon">
+						<materialIcons:MaterialIcon Kind="ArrowLeft"/>
+					</Button>
+					<Button VerticalAlignment="Stretch"
+							HorizontalAlignment="Right"
+							Click="NextSeries"
+							Classes="icon">
+						<materialIcons:MaterialIcon Kind="ArrowRight"/>
+					</Button>
+				</Panel>
+
+				<Grid Background="{Binding $parent[Border].Background}"
+					  IsVisible="{Binding InitializeSeries.IsNotCompleted,FallbackValue=false}">
+					<progRing:ProgressRing Width="80" Height="80"
+										   IsActive="{Binding $parent[Grid].IsVisible, Mode=TwoWay}"/>
+				</Grid>
+			</Panel>
+		</Border>
+	</Grid>
+</UserControl>

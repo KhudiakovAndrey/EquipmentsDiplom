@@ -14,6 +14,6 @@ public class ViewModelBase : ReactiveObject
         OnError?.Invoke(this, error ?? "[null]");
     }
 
-    public INotifyTaskCompletion? Notify { get; set; }
+    public INotifyTaskCompletion? InitializeNotify { get; set; }
 
 }

@@ -35,7 +35,7 @@ namespace Equipments.AvaloniaUI.ViewModels
             _requestStatusChangesService = requestStatusChangesService;
             _idRequest = idRequest;
 
-            Notify = NotifyTaskCompletion.Create(InitializeAsync);
+            InitializeNotify = NotifyTaskCompletion.Create(InitializeAsync);
 
             this.WhenAnyValue(vm => vm.SelectedEquipmentType).Subscribe(_ =>
             {

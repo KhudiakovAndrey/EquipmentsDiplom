@@ -11,8 +11,8 @@ namespace Equipments.AvaloniaUI.Services.API
     {
         private readonly AppConfiguration _appConfiguration;
 
-        public EmployeesService(AppConfiguration appConfiguration, SettingsDbContext settingsDbContext)
-            : base(appConfiguration.WebApiUrl, settingsDbContext)
+        public EmployeesService(AppConfiguration appConfiguration)
+            : base(appConfiguration.WebApiUrl)
         {
             _appConfiguration = appConfiguration;
             TokenExpiredEventHandler.RegisterApiService(this);

@@ -7,6 +7,8 @@ using Equipments.AvaloniaUI.Models;
 using Equipments.AvaloniaUI.Services.API;
 using Equipments.AvaloniaUI.Views;
 using HanumanInstitute.MvvmDialogs;
+using LiveChartsCore;
+using LiveChartsCore.SkiaSharpView;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using ReactiveUI;
@@ -46,7 +48,6 @@ namespace Equipments.AvaloniaUI.ViewModels
         public async void Initialize()
         {
             ShowEquipmentsServiceRequestView();
-            User = await GetMyUser();
             IsDarkTheme = App.Current!.RequestedThemeVariant == ThemeVariant.Dark;
             ChangeThemeCommand = ReactiveCommand.Create(ChangeTheme);
             Router.CurrentViewModel.Subscribe(view =>
@@ -54,20 +55,6 @@ namespace Equipments.AvaloniaUI.ViewModels
                 SelectedViewModel = (RoutableViewModelBase?)view;
             });
 
-        }
-        private async Task<UserModel> GetMyUser()
-        {
-            var resultMyUser = await _userService.GetMeUser();
-            if (resultMyUser.IsSucces)
-            {
-                var resultMyEmploye = await _employeesService.GetMeEmploye();
-                if (resultMyEmploye.IsSucces)
-                {
-                    resultMyUser.Data.Employe = resultMyEmploye.Data;
-                    return resultMyUser.Data;
-                }
-            }
-            return null;
         }
         public ReactiveCommand<Unit, IRoutableViewModel> GoBack => Router.NavigateBack!;
         public void ShowCreateServiceRequestView(Guid? idRequest = null) =>
@@ -103,12 +90,19 @@ namespace Equipments.AvaloniaUI.ViewModels
             }
         }
 
-        [Reactive] public bool IsDarkTheme { get; set; }
+        [Reactive] public bool IsDarkTheme { get; set; } = false;
         public ReactiveCommand<Unit, Unit> ChangeThemeCommand { get; private set; }
-        private void ChangeTheme()
+        public void ChangeTheme()
         {
             App.Current!.RequestedThemeVariant = App.Current.RequestedThemeVariant == ThemeVariant.Dark ? ThemeVariant.Light : ThemeVariant.Dark;
-            IsDarkTheme = !IsDarkTheme;
+            if (App.Current!.RequestedThemeVariant == ThemeVariant.Dark)
+                LiveCharts.Configure(config =>
+                    config.AddDarkTheme());
+            else
+                LiveCharts.Configure(config =>
+                    config.AddLightTheme());
+
+
         }
         private void NaviageIgnoreCopyUrl(IRoutableViewModel vm)
         {
@@ -118,7 +112,6 @@ namespace Equipments.AvaloniaUI.ViewModels
             Router.Navigate.Execute(vm);
         }
 
-        [Reactive] public UserModel User { get; set; }
 
     }
 }

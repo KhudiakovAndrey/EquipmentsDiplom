@@ -36,7 +36,7 @@ namespace Equipments.AvaloniaUI.ViewModels
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .Subscribe();
 
-            Notify = NotifyTaskCompletion.Create(Initialize);
+            InitializeNotify = NotifyTaskCompletion.Create(Initialize);
 
             this.WhenAnyValue(vm => vm.SelectedDateFilter,
                 vm => vm.SelectedEmploye).Subscribe(_ => _source.Refresh());

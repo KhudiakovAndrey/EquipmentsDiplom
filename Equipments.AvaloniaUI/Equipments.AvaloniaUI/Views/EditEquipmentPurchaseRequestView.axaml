@@ -18,7 +18,7 @@
 
 		<ProgressBar ZIndex="1"
 				 IsIndeterminate="True"
-				 IsVisible="{Binding Notify.IsNotCompleted}"
+				 IsVisible="{Binding InitializeNotify.IsNotCompleted}"
 				 HorizontalAlignment="Center"
 				 VerticalAlignment="Center"
 				 Width="100"

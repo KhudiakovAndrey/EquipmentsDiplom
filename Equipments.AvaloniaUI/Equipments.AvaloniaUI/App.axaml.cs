@@ -2,6 +2,7 @@
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using Avalonia.Styling;
 using Equipments.AvaloniaUI.Data;
 using Equipments.AvaloniaUI.Factory;
 using Equipments.AvaloniaUI.Resources;
@@ -11,6 +12,8 @@ using Equipments.AvaloniaUI.Views;
 using HanumanInstitute.MvvmDialogs;
 using HanumanInstitute.MvvmDialogs.Avalonia;
 using IdentityModel.Client;
+using LiveChartsCore;
+using LiveChartsCore.SkiaSharpView;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -60,6 +63,27 @@ public partial class App : Application
 
         //Инициализируем БД
         DbInitializer.Initialize(ServiceProvider!.GetRequiredService<SettingsDbContext>());
+
+        var settingsDbContext = ServiceProvider?.GetService<SettingsDbContext>();
+
+        LiveCharts.Configure(config =>
+        {
+            if (settingsDbContext != null
+            && settingsDbContext.Settings.FirstOrDefault()?.Theme != null)
+            {
+                if (settingsDbContext.Settings.First().Theme == ThemeVariant.Dark.ToString())
+                {
+                    config.AddDarkTheme();
+                    App.Current!.RequestedThemeVariant = ThemeVariant.Dark;
+                }
+                else
+                {
+                    config.AddLightTheme();
+                    App.Current!.RequestedThemeVariant = ThemeVariant.Light;
+                }
+            }
+        });
+
     }
 
     public override async void OnFrameworkInitializationCompleted()
@@ -68,14 +92,14 @@ public partial class App : Application
         {
             var settingsDbContext = ServiceProvider?.GetService<SettingsDbContext>();
 
-            var menuWindow = new MainMenuWindow();
-            desktop.MainWindow = menuWindow;
 
             var settings = settingsDbContext?.Settings.First();
 
             if (settings?.AccessToken != null)
             {
                 JwtTokenData.AccessToken = settings.AccessToken;
+                var menuWindow = new MainMenuWindow();
+                desktop.MainWindow = menuWindow;
 
                 var content = menuWindow.Content as MainMenuView;
                 var vm = content?.DataContext as MainMenuViewModel;
@@ -83,6 +107,8 @@ public partial class App : Application
             }
             else
             {
+                var menuWindow = new MainMenuWindow();
+                desktop.MainWindow = menuWindow;
                 menuWindow.Content = new MainAuthView();
             }
         }

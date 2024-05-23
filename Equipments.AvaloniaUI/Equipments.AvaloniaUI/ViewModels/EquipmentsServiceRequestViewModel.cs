@@ -1,8 +1,11 @@
-﻿using DynamicData;
+﻿using Aspose.Cells;
+using DynamicData;
 using DynamicData.Binding;
 using Equipments.AvaloniaUI.Models;
 using Equipments.AvaloniaUI.Services.API;
 using Equipments.AvaloniaUI.Services.Enums;
+using HanumanInstitute.MvvmDialogs;
+using HanumanInstitute.MvvmDialogs.FrameworkDialogs;
 using Microsoft.Extensions.DependencyInjection;
 using Nito.AsyncEx;
 using ReactiveUI;
@@ -10,6 +13,7 @@ using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
@@ -22,9 +26,13 @@ namespace Equipments.AvaloniaUI.ViewModels
     {
         private readonly ServiceRequestService _serviceRequestService;
         private readonly EmployeesService _employeesService;
+        private readonly MainMenuWindowViewModel _mainMenuWindowViewModel;
+        private readonly IDialogService _dialogService;
 
         public EquipmentsServiceRequestViewModel(ServiceRequestService serviceRequestService,
-            EmployeesService employeesService)
+            EmployeesService employeesService,
+            MainMenuWindowViewModel mainMenuWindowViewModel,
+            IDialogService dialogService)
             : base(nameof(EquipmentPurchaseRequestViewModel).ToLowerInvariant())
         {
             _serviceRequestService = serviceRequestService;
@@ -46,15 +54,14 @@ namespace Equipments.AvaloniaUI.ViewModels
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .Subscribe();
 
-            Notify = NotifyTaskCompletion.Create(GetEmployees);
+            InitializeNotify = NotifyTaskCompletion.Create(GetEmployees);
 
             Page.PageSize = PageSizes.First();
 
             this.WhenAnyValue(vm => vm.Page.PageSize).Subscribe(_ =>
             {
-                Notify = NotifyTaskCompletion.Create(GetServiceRequests);
+                InitializeNotify = NotifyTaskCompletion.Create(GetServiceRequests);
             });
-            //Notify = NotifyTaskCompletion.Create(GetServiceRequests);
 
 
             this.WhenAnyValue(vm => vm.SelectedResponsible,
@@ -85,6 +92,8 @@ namespace Equipments.AvaloniaUI.ViewModels
             DeleteServiceRequestCommand = ReactiveCommand.CreateFromTask<Guid>(DeleteServiceRequest);
             EditServiceRequestCommand = ReactiveCommand.Create<Guid>(EditServiceRequest);
             ClearDateFilterCommand = ReactiveCommand.Create(ClearDateFilter, isExecuteCleadDateFilterCommand);
+            _mainMenuWindowViewModel = mainMenuWindowViewModel;
+            _dialogService = dialogService;
         }
         public ReactiveCommand<Guid, Unit> EditServiceRequestCommand { get; private set; }
         private void EditServiceRequest(Guid id) => App.ServiceProvider!.GetRequiredService<MainMenuViewModel>()
@@ -188,6 +197,55 @@ namespace Equipments.AvaloniaUI.ViewModels
         {
             Page.PageNumber++;
             await GetServiceRequests();
+        }
+
+
+        public async void ExportPage(SaveFormat format)
+        {
+            var filter = new FileFilter()
+            {
+                Extensions = new List<string>
+                {
+                    format.ToString().ToLower(),
+                },
+                Name = format.ToString()
+            };
+            var settings = new SaveFileDialogSettings
+            {
+                Filters = new List<FileFilter> { filter }
+            };
+            var file = await _dialogService.ShowSaveFileDialogAsync(_mainMenuWindowViewModel, settings);
+
+            if (file == null)
+                return;
+
+            Workbook workbook = new Workbook();
+            Worksheet sheet = workbook.Worksheets[0];
+            sheet.Cells[0, 0].PutValue("Заявитель");
+            sheet.Cells[0, 1].PutValue("Исполнитель");
+            sheet.Cells[0, 2].PutValue("Проблема");
+            sheet.Cells[0, 3].PutValue("Дата подачи");
+
+            int rowIndex = 1;
+            foreach (var item in Page.Items)
+            {
+                sheet.Cells[rowIndex, 0].PutValue(item.Responsible.FullName);
+                sheet.Cells[rowIndex, 1].PutValue(item.SystemAdministration.FullName);
+                sheet.Cells[rowIndex, 2].PutValue(item.ProblemType);
+                sheet.Cells[rowIndex, 3].PutValue(item.CreationDate.ToString("dd:MM:yyyy HH:mm:ss"));
+                rowIndex++;
+            }
+
+
+
+            try
+            {
+                workbook.Save(file!.Path!.AbsolutePath, format);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(DateTime.Now + ": " + ex.Message);
+            }
         }
 
 

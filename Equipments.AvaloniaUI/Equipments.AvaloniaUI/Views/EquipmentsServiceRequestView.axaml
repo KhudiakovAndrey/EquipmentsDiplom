@@ -3,10 +3,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:Equipments.AvaloniaUI.ViewModels"
+			 xmlns:views="clr-namespace:Equipments.AvaloniaUI.Views"
 			 xmlns:model="clr-namespace:Equipments.AvaloniaUI.Models"
 			 xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
 			 xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
 			 xmlns:beh="clr-namespace:Equipments.AvaloniaUI.Behaviors"
+			 xmlns:aspose="clr-namespace:Aspose.Cells;assembly=Aspose.Cells"
 			 mc:Ignorable="d" d:DesignWidth="750" d:DesignHeight="450"
 			 x:DataType="vm:EquipmentsServiceRequestViewModel"
 			 x:Class="Equipments.AvaloniaUI.Views.EquipmentsServiceRequestView">
@@ -22,9 +24,27 @@
 			  Classes="header"
 			  ColumnDefinitions="Auto,10,Auto,*,Auto">
 			<TextBlock VerticalAlignment="Center" Classes="h4">Заявки на обслуживание оборудования</TextBlock>
-			<Button Grid.Column="2" ToolTip.Tip="Экспорт в Excel">
-				<materialIcons:MaterialIcon Kind="ExportVariant"/>
-			</Button>
+			<SplitButton Grid.Column="2" ToolTip.Tip="Экспорт в Excel"
+						 Command="{Binding ExportPage}"
+						 CommandParameter="{x:Static aspose:SaveFormat.Xlsx}}">
+				<materialIcons:MaterialIcon Kind="MicrosoftExcel"/>
+				<SplitButton.Flyout>
+					<MenuFlyout Placement="BottomEdgeAlignedRight">
+						<MenuItem Icon="{materialIcons:MaterialIconExt Kind=FilePdfBox}"
+								  Header="Экспорт в PDF"
+								  Command="{Binding ExportPage}"
+								  CommandParameter="{x:Static aspose:SaveFormat.Pdf}}"/>
+						<MenuItem Icon="{materialIcons:MaterialIconExt Kind=LanguageHtml5}"
+								  Header="Экспорт в Html"
+								  Command="{Binding ExportPage}"
+								  CommandParameter="{x:Static aspose:SaveFormat.Html}}"/>
+						<MenuItem Icon="{materialIcons:MaterialIconExt Kind=FileDocument}"
+								  Header="Экспорт в CSV"
+								  Command="{Binding ExportPage}"
+								  CommandParameter="{x:Static aspose:SaveFormat.Csv}}"/>
+					</MenuFlyout>
+				</SplitButton.Flyout>
+			</SplitButton>
 
 			<StackPanel Orientation="Horizontal"
 						Grid.Column="4"
@@ -221,7 +241,9 @@
 					</StackPanel>
 
 
-					<Button Classes="accent" Grid.Column="4">Создать заявку</Button>
+					<Button Classes="accent" Grid.Column="4"
+							Command="{Binding ((vm:MainMenuViewModel)DataContext).ShowCreateServiceRequestView,
+												RelativeSource={RelativeSource AncestorType={x:Type views:MainMenuView}}}}">Создать заявку</Button>
 				</Grid>
 
 				<DataGrid Classes="selection" AutoGenerateColumns="False"
@@ -300,7 +322,8 @@
 											<PathIcon Data="{StaticResource delete_regular}"
 													  Foreground="White"/>
 										</Button>
-										<Button Classes="action_row" Command="{Binding $parent[DataGrid].((vm:EquipmentsServiceRequestViewModel)DataContext).EditServiceRequestCommand}"
+										<Button Classes="action_row" Command="{Binding ((vm:MainMenuViewModel)DataContext).ShowCreateServiceRequestView,
+												RelativeSource={RelativeSource AncestorType={x:Type views:MainMenuView}}}}"
 												CommandParameter="{Binding ID}"
 												ToolTip.Tip="Изменить заявку">
 											<materialIcons:MaterialIcon Kind="Pencil"

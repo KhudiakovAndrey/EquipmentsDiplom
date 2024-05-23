@@ -31,7 +31,7 @@ namespace Equipments.AvaloniaUI.ViewModels
         }
         public void Intitialize()
         {
-            Notify = NotifyTaskCompletion.Create(GetAllStatuses);
+            InitializeNotify = NotifyTaskCompletion.Create(GetAllStatuses);
         }
         private async Task GetAllStatuses()
         {

@@ -24,12 +24,12 @@
 						<Grid>
 							<materialIcons:MaterialIcon Kind="ArrowLeftBold"
 														IsVisible="{Binding $parent[ToggleButton].IsChecked}"
-														Height="26"
-														Width="26"/>
+														Height="20"
+														Width="20"/>
 							<materialIcons:MaterialIcon Kind="ArrowRightBold"
 														IsVisible="{Binding !$parent[ToggleButton].IsChecked}"
-														Height="26"
-														Width="26"/>
+														Height="20"
+														Width="20"/>
 						</Grid>
 					</ToggleButton>
 					<!--<Button Content="{materialIcons:MaterialIconExt Kind=}"/>-->
@@ -51,7 +51,7 @@
 			</SplitView.Pane>
 
 			<SplitView.Content>
-				<TransitioningContentControl Content="{Binding SelectedView}"/>
+				<TransitioningContentControl Margin="15" Content="{Binding SelectedView}"/>
 			</SplitView.Content>
 		</SplitView>
 	</Grid>

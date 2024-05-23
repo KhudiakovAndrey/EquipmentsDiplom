@@ -3,6 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:Equipments.AvaloniaUI.ViewModels"
+			 xmlns:views="clr-namespace:Equipments.AvaloniaUI.Views"
 			 xmlns:model="clr-namespace:Equipments.AvaloniaUI.Models"
 			 xmlns:converters="clr-namespace:Equipments.AvaloniaUI.Converters"
 			 mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450"
@@ -21,11 +22,11 @@
 
 		<ScrollViewer VerticalScrollBarVisibility="Auto"
 					  ZIndex="0"
-					  IsVisible="{Binding Notify.IsCompleted}">
+					  IsVisible="{Binding InitializeNotify.IsCompleted}">
 			<StackPanel Spacing="5" MaxWidth="600">
 				<Button FontSize="16" Classes="accent"
 						Command="{Binding ((vm:MainMenuViewModel)DataContext).GoBack,
-							RelativeSource={RelativeSource AncestorType={x:Type Window}}}">←Назад</Button>
+							RelativeSource={RelativeSource AncestorType={x:Type views:MainMenuView}}}">←Назад</Button>
 				<TextBlock TextWrapping="Wrap">
 					<TextBlock Classes="h1" FontWeight="Black" Text="{Binding Title}"/>
 					<TextBlock Text="{Binding NumberRequest}"
@@ -154,7 +155,7 @@
 
 		<ProgressBar ZIndex="1"
 					 IsIndeterminate="True"
-					 IsVisible="{Binding Notify.IsNotCompleted}"
+					 IsVisible="{Binding InitializeNotify.IsNotCompleted}"
 					 HorizontalAlignment="Center"
 					 VerticalAlignment="Center"
 					 Width="100"

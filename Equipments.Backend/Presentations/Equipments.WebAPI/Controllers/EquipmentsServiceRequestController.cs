@@ -2,6 +2,7 @@
 using Equipments.Application.EquipmentsServiceRequest.Commands;
 using Equipments.Application.EquipmentsServiceRequest.Queries;
 using Equipments.WebAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
@@ -82,6 +83,48 @@ namespace Equipments.WebAPI.Controllers
             await Mediator.Send(command);
 
             return Ok();
+        }
+
+        [Authorize]
+        [HttpGet("dashboard/createdCount")]
+        public async Task<ActionResult> GetCreatedRequestByUser()
+        {
+
+            var query = new GetCreateRequestByUser.Query
+            {
+                UserID = UserGuid
+            };
+            var vm = await Mediator.Send(query);
+            return Ok(vm);
+        }
+
+        [Authorize]
+        [HttpGet("dashboard/avgCreatedCount")]
+        public async Task<ActionResult> GetAvgCreatedRequestByUser()
+        {
+            var query = new GetEvgCreatedRequestByUser.Query
+            {
+                IDUser = UserGuid
+            };
+            var vm = await Mediator.Send(query);
+            return Ok(vm);
+        }
+        [Authorize]
+        [HttpGet("dashboard/countCreatedDate")]
+        public async Task<ActionResult> GetCountCreatedServiceRequestByDate([FromQuery] DateTime startDate,
+            [FromQuery] DateTime endDate,
+            [FromQuery] GetCountCreatedRequestByDate.RequestCountPeriod period)
+        {
+            var query = new GetCountCreatedRequestByDate.Query
+            {
+                IDUser = UserGuid,
+                StartDate = startDate,
+                EndDate = endDate,
+                Period = period
+            };
+            var vm = await Mediator.Send(query);
+
+            return Ok(vm);
         }
     }
 }

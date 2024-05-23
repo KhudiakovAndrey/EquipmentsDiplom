@@ -14,8 +14,8 @@ namespace Equipments.AvaloniaUI.Services.API
     {
         private readonly AppConfiguration _appConfiguration;
 
-        public EquipmentTypesService(AppConfiguration appConfiguration, SettingsDbContext settingsDbContext)
-            : base(appConfiguration.WebApiUrl, settingsDbContext)
+        public EquipmentTypesService(AppConfiguration appConfiguration)
+            : base(appConfiguration.WebApiUrl)
         {
             _appConfiguration = appConfiguration;
             TokenExpiredEventHandler.RegisterApiService(this);

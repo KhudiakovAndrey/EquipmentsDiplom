@@ -4,8 +4,11 @@ using Equipments.AvaloniaUI.Data;
 using Equipments.AvaloniaUI.Models;
 using Equipments.AvaloniaUI.Resources;
 using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace Equipments.AvaloniaUI.Services.API
 {
@@ -13,8 +16,8 @@ namespace Equipments.AvaloniaUI.Services.API
     {
         private readonly AppConfiguration _appConfiguration;
 
-        public ServiceRequestService(AppConfiguration appConfiguration, SettingsDbContext settingsDbContext)
-            : base(appConfiguration.WebApiUrl, settingsDbContext)
+        public ServiceRequestService(AppConfiguration appConfiguration)
+            : base(appConfiguration.WebApiUrl)
         {
             _appConfiguration = appConfiguration;
             TokenExpiredEventHandler.RegisterApiService(this);
@@ -49,6 +52,28 @@ namespace Equipments.AvaloniaUI.Services.API
         public async Task<ApiResponse<DetailedEquipmentServiceRequestVm>> GetDetailedServiceRequest(Guid id)
         {
             var response = await GetAsync<DetailedEquipmentServiceRequestVm>(_appConfiguration.ServiceRequestsEndpoint + "/" + id);
+            return response;
+        }
+
+        public async Task<ApiResponse<int>> GetCountCreatedByUserAsync()
+        {
+            var response = await GetAsync<int>(_appConfiguration.ServiceRequestsEndpoint + "/" + "dashboard/createdCount");
+            return response;
+        }
+        public async Task<ApiResponse<double>> GetAvgCreatedByUserAsync()
+        {
+            var response = await GetAsync<double>(_appConfiguration.ServiceRequestsEndpoint + "/" + "dashboard/avgCreatedCount");
+            return response;
+        }
+        public async Task<ApiResponse<List<RequestCountDateModel>>> GetCountCreatedByDate(DateTime startDate, DateTime endDate, CountDatePeriodModel period)
+        {
+            NameValueCollection queryStrig = HttpUtility.ParseQueryString(string.Empty);
+            queryStrig.Add("startDate", startDate.ToString("yyyy-MM-dd"));
+            queryStrig.Add("endDate", endDate.ToString("yyyy-MM-dd"));
+            queryStrig.Add("period", period.ToString());
+
+            var response = await GetAsync<List<RequestCountDateModel>>($"{_appConfiguration.ServiceRequestsEndpoint}/dashboard/countCreatedDate?"
+                + queryStrig.ToString());
             return response;
         }
     }

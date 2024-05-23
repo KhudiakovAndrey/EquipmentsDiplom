@@ -32,6 +32,7 @@
 
 		<StyleInclude Source="avares://DialogHost.Avalonia/Styles.xaml"/>
 		<StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
+		<StyleInclude Source="avares://AvaloniaProgressRing/Styles/ProgressRing.xaml"/>
 
 		<StyleInclude Source="/Styles/ButtonStyles.axaml"/>
 		<StyleInclude Source="/Styles/TextStyles.axaml"/>
@@ -43,5 +44,6 @@
 		<StyleInclude Source="/Styles/AutoCompleteBoxStyles.axaml"/>
 		<StyleInclude Source="/Styles/ToggleButtonStyles.axaml"/>
 		<StyleInclude Source="/Styles/ComboBoxStyles.axaml"/>
+		<StyleInclude Source="/Styles/ProgressRingStyles.axaml"/>
 	</Application.Styles>
 </Application>

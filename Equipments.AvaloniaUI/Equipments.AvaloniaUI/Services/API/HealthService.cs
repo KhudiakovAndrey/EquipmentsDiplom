@@ -14,8 +14,8 @@ namespace Equipments.AvaloniaUI.Services.API
     {
         private readonly AppConfiguration _appConfiguration;
 
-        public HealthService(AppConfiguration appConfiguration, SettingsDbContext settingsDbContext)
-            : base(appConfiguration.WebApiUrl, settingsDbContext)
+        public HealthService(AppConfiguration appConfiguration)
+            : base(appConfiguration.WebApiUrl)
         {
             _appConfiguration = appConfiguration;
             TokenExpiredEventHandler.RegisterApiService(this);

@@ -9,8 +9,8 @@ namespace Equipments.AvaloniaUI.Services.API
     public class RequestStatusChangesService : ApiService
     {
         private readonly AppConfiguration _appConfiguration;
-        public RequestStatusChangesService(AppConfiguration appConfiguration, SettingsDbContext settingsDbContext)
-            : base(appConfiguration.WebApiUrl, settingsDbContext)
+        public RequestStatusChangesService(AppConfiguration appConfiguration)
+            : base(appConfiguration.WebApiUrl)
         {
             _appConfiguration = appConfiguration;
             TokenExpiredEventHandler.RegisterApiService(this);

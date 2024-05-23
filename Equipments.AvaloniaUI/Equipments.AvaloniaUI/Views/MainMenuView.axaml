@@ -46,7 +46,7 @@
 					<materialIcons:MaterialIcon Kind="CogOutline"/>
 				</Button>
 				<ToggleButton IsChecked="{Binding IsDarkTheme}"
-							  Command="{Binding ChangeThemeCommand}">
+							  Command="{Binding ChangeTheme}">
 					<materialIcons:MaterialIcon Kind="WeatherNight"/>
 				</ToggleButton>
 
@@ -60,12 +60,12 @@
 						Height="30"
 						ClipToBounds="True"
 						CornerRadius="15">
-					<Image Source="{Binding User.Employe.ImageUrl^}"/>
+					<Image Source="{Binding $parent[Window].((vm:MainMenuWindowViewModel)DataContext).User.Employe.ImageUrl^}"/>
 				</Border>
 				<Button Classes="split" Grid.Column="2"
 						Name="test"
 						Foreground="{DynamicResource Accent}"
-						Content="{Binding User.Employe.FullName,
+						Content="{Binding $parent[Window].((vm:MainMenuWindowViewModel)DataContext).User.Employe.FullName,
 						FallbackValue=Худяков Андрей Владимирович}">
 					<Button.Styles>
 						<Style Selector="FlyoutPresenter">

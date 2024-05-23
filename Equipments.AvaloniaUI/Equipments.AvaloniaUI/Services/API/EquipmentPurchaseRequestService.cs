@@ -13,8 +13,8 @@ namespace Equipments.AvaloniaUI.Services.API
     public class EquipmentPurchaseRequestService : ApiService
     {
         private readonly AppConfiguration _appConfiguration;
-        public EquipmentPurchaseRequestService(AppConfiguration appConfiguration, SettingsDbContext settingsDbContext)
-            : base(appConfiguration.WebApiUrl, settingsDbContext)
+        public EquipmentPurchaseRequestService(AppConfiguration appConfiguration)
+            : base(appConfiguration.WebApiUrl)
         {
             _appConfiguration = appConfiguration;
             TokenExpiredEventHandler.RegisterApiService(this);

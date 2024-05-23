@@ -32,6 +32,7 @@ namespace Equipments.AvaloniaUI.ViewModels
         public List<MenuListItemTemplate> PaneItems { get; set; } = new()
         {
             new MenuListItemTemplate("Профиль", typeof(UserProfileInfoViewModel),"HomeUser"),
+            new MenuListItemTemplate("Статистика", typeof(UserProfileDashboardViewModel),"ChartArc"),
         };
         [Reactive] public MenuListItemTemplate? SelectedPaneItem { get; set; }
     }

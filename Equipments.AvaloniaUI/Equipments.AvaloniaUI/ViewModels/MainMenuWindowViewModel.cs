@@ -1,8 +1,10 @@
 ﻿using Avalonia.Platform.Storage;
 using Equipments.AvaloniaUI.Models;
+using Equipments.AvaloniaUI.Services.API;
 using HanumanInstitute.MvvmDialogs;
 using HanumanInstitute.MvvmDialogs.Avalonia.DialogHost;
 using HanumanInstitute.MvvmDialogs.FileSystem;
+using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,11 +16,23 @@ namespace Equipments.AvaloniaUI.ViewModels
     public class MainMenuWindowViewModel : ViewModelBase
     {
         private readonly IDialogService _dialogService;
-
-        public MainMenuWindowViewModel(IDialogService dialogService)
+        private readonly EmployeesService _employeesService;
+        private readonly UserService _userService;
+        public MainMenuWindowViewModel(IDialogService dialogService,
+            EmployeesService employeesService,
+            UserService userService)
         {
             _dialogService = dialogService;
+            _employeesService = employeesService;
+            _userService = userService;
+            Initialize();
         }
+
+        private async void Initialize()
+        {
+            User = await GetMyUser();
+        }
+
         public async Task ShowDialogHostAsync(string message)
         {
             await _dialogService.ShowDialogHostAsync(
@@ -49,5 +63,24 @@ namespace Equipments.AvaloniaUI.ViewModels
             var files = await _dialogService.ShowUploadFileDialog(this);
             return files;
         }
+
+
+        private async Task<UserModel> GetMyUser()
+        {
+            var resultMyUser = await _userService.GetMeUser();
+            if (resultMyUser.IsSucces)
+            {
+                var resultMyEmploye = await _employeesService.GetMeEmploye();
+                if (resultMyEmploye.IsSucces)
+                {
+                    resultMyUser.Data.Employe = resultMyEmploye.Data;
+                    return resultMyUser.Data;
+                }
+            }
+            return null;
+        }
+
+        [Reactive] public UserModel User { get; set; }
+
     }
 }

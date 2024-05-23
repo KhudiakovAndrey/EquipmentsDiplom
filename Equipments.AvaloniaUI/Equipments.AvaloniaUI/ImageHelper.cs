@@ -22,11 +22,9 @@ namespace Equipments.AvaloniaUI
         public static async Task<Bitmap?> LoadFromWeb(Uri url)
         {
             using var httpClient = new HttpClient();
-            var settings = await App.SettingsDbContext!.Settings.FirstAsync();
-            string token = settings.AccessToken ?? string.Empty;
-            if (TokenService.ValidToToken(token))
+            if (TokenService.ValidToToken(JwtTokenData.AccessToken))
             {
-                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", JwtTokenData.AccessToken);
             }
 
             try
