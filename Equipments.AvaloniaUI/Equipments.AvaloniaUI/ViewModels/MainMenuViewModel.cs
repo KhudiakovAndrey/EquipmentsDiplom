@@ -64,7 +64,9 @@ namespace Equipments.AvaloniaUI.ViewModels
         public void ShowEquipmentPurchaseRequestView() =>
             NaviageIgnoreCopyUrl(App.ServiceProvider!.GetService<EquipmentPurchaseRequestViewModel>()!);
         public void ShowDashboardView() =>
-            NaviageIgnoreCopyUrl(new DashboardViewModel());
+            NaviageIgnoreCopyUrl(App.ServiceProvider!.GetService<DashboardViewModel>()!);
+        public void ShowReportView() =>
+            NaviageIgnoreCopyUrl(App.ServiceProvider!.GetService<ReportsViewModel>()!);
         public void ShowEditEquipmentPurchaseRequestView(Guid? id) =>
             Router.Navigate.Execute(_purchaseRequestViewModelFactory.Create(id ?? Guid.Empty));
         public void ShowUserProfileView() =>

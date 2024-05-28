@@ -45,5 +45,6 @@
 		<StyleInclude Source="/Styles/ToggleButtonStyles.axaml"/>
 		<StyleInclude Source="/Styles/ComboBoxStyles.axaml"/>
 		<StyleInclude Source="/Styles/ProgressRingStyles.axaml"/>
+		<StyleInclude Source="/Styles/ShapeStyles.axaml"/>
 	</Application.Styles>
 </Application>

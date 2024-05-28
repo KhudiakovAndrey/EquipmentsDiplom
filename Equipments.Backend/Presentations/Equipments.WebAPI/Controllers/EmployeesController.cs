@@ -1,4 +1,5 @@
-﻿using Equipments.Application.Employees.Queries;
+﻿using Equipments.Application.Employees.Commands;
+using Equipments.Application.Employees.Queries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
@@ -67,6 +68,33 @@ namespace Equipments.WebAPI.Controllers
             var provider = new FileExtensionContentTypeProvider();
             provider.TryGetContentType(path, out string contentType);
             return File(imageBytes, contentType);
+        }
+        [HttpPut("{id}/image")]
+        public async Task<ActionResult> Put(Guid id, [FromBody] byte[] imageBytes)
+        {
+            var command = new ChangeImage.Command
+            {
+                ID = id,
+                Image = Guid.NewGuid().ToString() + ".png",
+            };
+            await Mediator.Send(command);
+
+            await System.IO.File.WriteAllBytesAsync(AppDomain.CurrentDomain.BaseDirectory + @"\Images\Employees\" + command.Image, imageBytes);
+
+
+            return Ok();
+        }
+        [HttpPut("{id}/image/default")]
+        public async Task<ActionResult> SetDefaultImage(Guid id)
+        {
+            var command = new ChangeImage.Command
+            {
+                ID = id,
+                Image = "default.png",
+            };
+            await Mediator.Send(command);
+
+            return Ok();
         }
 
         private byte[]? FindAndGetImage(string file, out string path)

@@ -16,26 +16,39 @@
 		<converters:ContentFromRoleConverter x:Key="ContentFromRoleConverter"/>
 	</UserControl.Resources>
 	<Grid ColumnDefinitions="Auto, 10, *"
-		  RowDefinitions="Auto,Auto,Auto,*,Auto"
+		  RowDefinitions="*,Auto"
 		  Margin="15">
 
 		<!--IMAGE PROFILE-->
 		<Grid RowDefinitions="Auto,Auto,Auto"
 			  ColumnDefinitions="Auto"
-			  Grid.RowSpan="4">
+			  Grid.RowSpan="2"
+			  VerticalAlignment="Center">
 			<TextBlock HorizontalAlignment="Center">Фото профиля</TextBlock>
-			<Canvas
+			<Canvas Name="PART_ImageContainer"
 					Grid.Row="1"
 					Grid.ColumnSpan="2"
 					Margin="0 5 0 0"
 					Height="150" Width="150">
-
-				<Border CornerRadius="100"
-						ClipToBounds="True"
-						Background="Aqua"
-						Height="150" Width="150">
-					<Image Source="{Binding $parent[Window].((vm:MainMenuWindowViewModel)DataContext).User.Employe.ImageUrl^}"/>
-				</Border>
+				<Canvas.Styles>
+					<Style Selector="Canvas Ellipse.dragDrop[Tag=dropped]">
+						<Setter Property="Opacity" Value="0.5"/>
+						<Setter Property="StrokeThickness" Value="1"/>
+					</Style>
+				</Canvas.Styles>
+				<Ellipse Height="150" Width="150"
+						 Stroke="Gray"
+						 StrokeDashArray="10"
+						 Name="PART_EllipseDragDropImage"
+						 DragDrop.AllowDrop="True"
+						 Classes="dragDrop">
+					<Ellipse.Fill>
+						<ImageBrush Source="{Binding User.Employe.ImageUrl^}"/>
+					</Ellipse.Fill>
+				</Ellipse>
+				<TextBlock Name="PART_droppedTextBlock" Canvas.Top="65"
+						   IsEnabled="False"
+						   Canvas.Left="42">Загрузить</TextBlock>
 				<Button Canvas.Bottom="5" Canvas.Right="5"
 						CornerRadius="30">
 					<materialIcons:MaterialIcon Kind="{Binding Role,Converter={StaticResource IconFromRoleConverter}}"
@@ -61,76 +74,89 @@
 						Grid.Row="2"
 						HorizontalAlignment="Center">
 				<Button Classes="icon" Content="{materialIcons:MaterialIconExt Kind=ImageEdit}"
-						ToolTip.Tip="Изменить фото"/>
+						ToolTip.Tip="Изменить фото"
+						Click="ChangeImageButton_Click"/>
 				<Button Classes="icon" Content="{materialIcons:MaterialIconExt Kind=ImageRefresh}"
+						Command="{Binding SetDefaultImage}"
 						ToolTip.Tip="Установить фото по умолчанию"/>
 			</StackPanel>
 		</Grid>
 		<!--IMAGE PROFILE-->
 
-		<!--FULLNAME-->
-		<Grid Grid.Column="2"
-			  RowDefinitions="Auto,5,Auto">
-			<TextBlock>ФИО</TextBlock>
-			<TextBox Grid.Row="2" Watermark="Введите ФИО"
-					 Text="{Binding $parent[Window].((vm:MainMenuWindowViewModel)DataContext).User.Employe.FullName}"/>
-		</Grid>
-		<!--FULLNAME-->
+		<ScrollViewer Grid.Column="2">
+			<StackPanel Spacing="10">
+				<!--FULLNAME-->
+				<Grid RowDefinitions="Auto,5,Auto">
+					<TextBlock>ФИО</TextBlock>
+					<TextBox Grid.Row="2" Watermark="Введите ФИО"
+							 Text="{Binding User.Employe.FullName}"/>
+				</Grid>
+				<!--FULLNAME-->
 
-		<!--CONTACTS-->
-		<Grid Grid.Column="2"
-			  Grid.Row="1"
-			  RowDefinitions="Auto,5,Auto"
-			  Margin="0 15 0 0">
-			<TextBlock>Контакты</TextBlock>
-			<WrapPanel Grid.Row="2"
-					   Orientation="Horizontal"
-					   >
+				<!--CONTACTS-->
+				<Grid RowDefinitions="Auto,5,Auto">
+					<TextBlock>Контакты</TextBlock>
+					<WrapPanel Grid.Row="2"
+							   Orientation="Horizontal"
+						   >
 
-				<TextBox UseFloatingWatermark="True"
-						 Watermark="Электронная почта"
-						 Width="200"
-						 Text="{Binding $parent[Window].((vm:MainMenuWindowViewModel)DataContext).User.Email}"/>
-				<TextBox UseFloatingWatermark="True"
-						 Watermark="Телефон"
-						 Width="180"
-						 Margin="10 0"
-						 Text="{Binding $parent[Window].((vm:MainMenuWindowViewModel)DataContext).User.PhoneNumber}"/>
-			</WrapPanel>
-		</Grid>
-		<!--CONTACTS-->
+						<TextBox UseFloatingWatermark="True"
+								 Watermark="Электронная почта"
+								 Width="200"
+								 Text="{Binding User.Email}"/>
+						<TextBox UseFloatingWatermark="True"
+								 Watermark="Телефон"
+								 Width="180"
+								 Margin="10 0"
+								 Text="{Binding User.PhoneNumber}"/>
+					</WrapPanel>
+				</Grid>
+				<!--CONTACTS-->
 
-		<!--POST DEPARTMENT OFFICE-->
-		<Grid Grid.Column="2"
-			  Grid.Row="2"
-			  RowDefinitions="Auto,5,Auto"
-			  Margin="0 15 0 0">
-			<TextBlock>Место в организации</TextBlock>
-			<WrapPanel Orientation="Horizontal"
-					   Grid.Row="1">
+				<!--POST DEPARTMENT OFFICE-->
+				<Grid RowDefinitions="Auto,5,Auto">
+					<TextBlock>Место в организации</TextBlock>
+					<WrapPanel Orientation="Horizontal"
+							   Grid.Row="2">
+						<TextBox UseFloatingWatermark="True"
+								 IsReadOnly="True"
+								 Watermark="Должность"
+								 Text="{Binding User.Employe.Post}"
+								 Margin="0 5"/>
+						<TextBox UseFloatingWatermark="True"
+								 IsReadOnly="True"
+								 Watermark="Отдел"
+								 Text="{Binding User.Employe.Department}"
+								  Margin="10 5"/>
+						<TextBox Margin="0 5"
+								 IsReadOnly="True"
+								 UseFloatingWatermark="True"
+								 Watermark="Кабинет"
+								 Text="{Binding User.Employe.NumberAssignedOffice}"/>
+					</WrapPanel>
+				</Grid>
+				<!--POST DEPARTMENT OFFICE-->
 
-				<ComboBox HorizontalAlignment="Stretch"
-						  PlaceholderText="Должность"
-						  Margin="0 5">
-
-				</ComboBox>
-				<ComboBox HorizontalAlignment="Stretch"
-						  PlaceholderText="Отдел"
-						  Margin="10 5">
-
-				</ComboBox>
-				<ComboBox Margin="0 5"
-						  PlaceholderText="Кабинет">
-
-				</ComboBox>
-			</WrapPanel>
-		</Grid>
-		<!--POST DEPARTMENT OFFICE-->
+				<!--CHANGE PASSWORD-->
+				<StackPanel Margin="0 30 0 0" Spacing="5">
+					<TextBlock>Смена пароля</TextBlock>
+					<TextBox UseFloatingWatermark="True"
+							 Watermark="Текущий пароль"/>
+					<TextBox UseFloatingWatermark="True"
+							 Watermark="Новый пароль"/>
+					<TextBox UseFloatingWatermark="True"
+							 Watermark="Повтор пароля"/>
+					<Button>Сменить пароль</Button>
+				</StackPanel>
+				<!--CHANGE PASSWORD-->
 
 
-		<StackPanel Grid.Row="4" Grid.Column="2"
-					Orientation="Horizontal">
-			<Button Classes="accent">Сохранить</Button>
+			</StackPanel>
+		</ScrollViewer>
+
+		<StackPanel Grid.Column="2" Grid.Row="1" Orientation="Horizontal">
+			<Button Classes="accent"
+					Command="{Binding Save}">Сохранить</Button>
 		</StackPanel>
 	</Grid>
 </UserControl>

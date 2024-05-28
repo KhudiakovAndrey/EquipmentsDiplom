@@ -74,8 +74,8 @@ namespace Equipments.WebAPI
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("1ea1ab0f-315c-4d8b-a1ab-37ede07f1fbe"))
                     };
                 });
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
-            services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Equipments.WebAPI", Version = "v1" });
@@ -97,6 +97,7 @@ namespace Equipments.WebAPI
             app.UseRouting();
 
             app.UseHttpsRedirection();
+            app.UseStaticFiles();
 
             app.UseCors("AllowAll");
 
@@ -106,7 +107,9 @@ namespace Equipments.WebAPI
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

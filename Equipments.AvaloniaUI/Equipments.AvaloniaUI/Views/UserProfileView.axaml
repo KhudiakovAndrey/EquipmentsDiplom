@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:Equipments.AvaloniaUI.ViewModels"
 			 xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
-
 			 mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450"
 			 x:DataType="vm:UserProfileViewModel"
              x:Class="Equipments.AvaloniaUI.Views.UserProfileView">
@@ -15,12 +14,12 @@
 		<SplitView OpenPaneLength="150"
 				   IsPaneOpen="True"
 				   DisplayMode="CompactInline"
-				   CompactPaneLength="48">
+				   CompactPaneLength="25">
 			<SplitView.Pane>
 				<StackPanel>
 					<ToggleButton IsChecked="{Binding $parent[SplitView].IsPaneOpen, Mode=TwoWay}"
 								  HorizontalAlignment="Right"
-								  Height="40" Width="48">
+								  Height="25" Width="25">
 						<Grid>
 							<materialIcons:MaterialIcon Kind="ArrowLeftBold"
 														IsVisible="{Binding $parent[ToggleButton].IsChecked}"
@@ -32,7 +31,6 @@
 														Width="20"/>
 						</Grid>
 					</ToggleButton>
-					<!--<Button Content="{materialIcons:MaterialIconExt Kind=}"/>-->
 					<ListBox ItemsSource="{Binding PaneItems}"
 							 SelectedItem="{Binding SelectedPaneItem}"
 							 SelectionMode="Single">
@@ -40,8 +38,8 @@
 							<DataTemplate DataType="{x:Type vm:MenuListItemTemplate}">
 								<StackPanel Orientation="Horizontal" Spacing="10">
 									<materialIcons:MaterialIcon Kind="{Binding Kind}"
-																Height="26"
-																Width="26"/>
+																Height="20"
+																Width="20"/>
 									<TextBlock VerticalAlignment="Center" Text="{Binding Header}"/>
 								</StackPanel>
 							</DataTemplate>

@@ -42,7 +42,10 @@ namespace Equipments.AvaloniaUI
         {
             if (ownerViewModel == null) throw new ArgumentNullException(nameof(ownerViewModel));
             var vm = service.CreateViewModel<DialogUploadFileViewModel>();
-            var settings = new DialogHostSettings(vm);
+            var settings = new DialogHostSettings(vm)
+            {
+
+            };
             await service.ShowDialogHostAsync(ownerViewModel, settings).ConfigureAwait(true);
 
             if (vm.DialogResult == true)
@@ -51,6 +54,7 @@ namespace Equipments.AvaloniaUI
             }
             return null;
         }
+
 
     }
 }

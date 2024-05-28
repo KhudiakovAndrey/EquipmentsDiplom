@@ -1,3 +1,4 @@
+using Aspose.Cells.Drawing;
 using Avalonia.Controls;
 
 namespace Equipments.AvaloniaUI.Views
@@ -7,6 +8,7 @@ namespace Equipments.AvaloniaUI.Views
         public UserProfileView()
         {
             InitializeComponent();
+
         }
     }
 }

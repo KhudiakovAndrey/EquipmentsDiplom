@@ -12,6 +12,7 @@
   "ProblemTypesEndpoint": "problem-type",
   "RequestStatusChangesEndpoint": "request-status-changes",
   "RequestStatusesEndpoint": "request-statuses",
-  "PurchaseRequestsEndpoint": "purchase-requests"
+  "PurchaseRequestsEndpoint": "purchase-requests",
+  "ReportsEndpoint": "reports"
 
 }

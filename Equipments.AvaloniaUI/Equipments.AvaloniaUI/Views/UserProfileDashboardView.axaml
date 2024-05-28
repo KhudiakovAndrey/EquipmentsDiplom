@@ -79,9 +79,9 @@
 						<Grid RowDefinitions="Auto,*">
 							<StackPanel Spacing="10"
 										Orientation="Horizontal">
-								<Button Command="{Binding GetCountCratedRequestByWeek}">За неделю</Button>
-								<Button Command="{Binding GetCountCratedRequestByMonth}">За месяц</Button>
-								<Button Command="{Binding GetCountCratedRequestByYear}">За год</Button>
+								<Button Command="{Binding GetCountCratedRequestByWeek}">За неделю по дням</Button>
+								<Button Command="{Binding GetCountCratedRequestByMonth}">За месяц по дням</Button>
+								<Button Command="{Binding GetCountCratedRequestByYear}">За год по месяцам</Button>
 							</StackPanel>
 							<lvc:CartesianChart Grid.Row="1" Series="{Binding CountCreatedDateSeries}"
 								XAxes="{Binding CountCreatedDateXAxes}"

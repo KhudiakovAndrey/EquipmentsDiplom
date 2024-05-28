@@ -7,6 +7,7 @@
 	<ItemGroup>
 		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.17" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.17" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
 	</ItemGroup>
 
@@ -14,6 +15,12 @@
 		<ProjectReference Include="..\..\Core\Equipments.Application\Equipments.Application.csproj" />
 		<ProjectReference Include="..\..\Core\Equipments.Domain\Equipments.Domain.csproj" />
 		<ProjectReference Include="..\..\Infrastructure\Equipments.Persistence\Equipments.Persistence.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Update="wwwroot\installers\**">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
 	</ItemGroup>
 
 	<ItemGroup>

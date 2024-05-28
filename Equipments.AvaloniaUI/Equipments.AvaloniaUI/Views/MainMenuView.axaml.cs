@@ -11,7 +11,6 @@ namespace Equipments.AvaloniaUI.Views
             InitializeComponent();
             var vm = App.ServiceProvider!.GetRequiredService<MainMenuViewModel>();
             DataContext = vm;
-
         }
     }
 }

@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<installers>
+	<installer>
+		<version>1.0.0</version>
+		<filename>installer-1.0.0.exe</filename>
+		<releasedate>2024-06-26</releasedate>
+	</installer>
+</installers>

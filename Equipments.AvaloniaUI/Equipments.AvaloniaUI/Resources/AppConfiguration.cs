@@ -16,5 +16,6 @@ namespace Equipments.AvaloniaUI.Resources
         public string RequestStatusesEndpoint { get; set; } = string.Empty;
         public string PurchaseRequestsEndpoint { get; set; } = string.Empty;
         public string UsersEndpoint { get; set; } = string.Empty;
+        public string ReportsEndpoint { get; set; } = string.Empty;
     }
 }

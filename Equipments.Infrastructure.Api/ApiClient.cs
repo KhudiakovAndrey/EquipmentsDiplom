@@ -57,7 +57,7 @@ namespace Equipments.Api
             var response = await _httpClient.PostAsync(_baseAddress + requestUrl, jsonContent);
             return await HandleResponse<T>(response);
         }
-        public async Task<ApiResponse<T>> PutAsync<T>(string requestUrl, object content)
+        public async Task<ApiResponse<T>> PutAsync<T>(string requestUrl, object content = null)
         {
             bool succes = SetDefaultRequestHeadersAuthorization();
             if (!succes)

@@ -29,7 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Equipments.AvaloniaUI.Deskt
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Equipments.Api", "Equipments.Infrastructure.Api\Equipments.Api.csproj", "{16D9ADD1-0A10-4A81-B53C-011599420C9C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuestPdf.Previwer", "QuestPdf.Previwer\QuestPdf.Previwer.csproj", "{2E7567E3-3C11-4A05-B9BC-93C5F597ECD7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuestPdf.Previwer", "QuestPdf.Previwer\QuestPdf.Previwer.csproj", "{2E7567E3-3C11-4A05-B9BC-93C5F597ECD7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

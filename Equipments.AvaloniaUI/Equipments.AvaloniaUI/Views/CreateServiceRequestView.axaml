@@ -5,6 +5,7 @@
              xmlns:vm="clr-namespace:Equipments.AvaloniaUI.ViewModels"
 			 xmlns:views="clr-namespace:Equipments.AvaloniaUI.Views"
 			 xmlns:model="clr-namespace:Equipments.AvaloniaUI.Models"
+			 xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
 			 xmlns:converters="clr-namespace:Equipments.AvaloniaUI.Converters"
 			 mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450"
              x:DataType="vm:CreateServiceRequestViewModel"
@@ -34,8 +35,11 @@
 				</TextBlock>
 
 				<StackPanel Orientation="Horizontal">
-					<Button Classes="accent"
-							Command="{Binding EditRequestStatusChangeCommand}">Изменить статус</Button>
+					<Button Classes="accent">Изменить статус</Button>
+					<Button ToolTip.Tip="Печать заявки"
+							Click="ShowReportViewPdfButton_Click">
+						<materialIcons:MaterialIcon Kind="PrinterEye"/>
+					</Button>
 				</StackPanel>
 
 				<TextBlock>Заявитель:</TextBlock>

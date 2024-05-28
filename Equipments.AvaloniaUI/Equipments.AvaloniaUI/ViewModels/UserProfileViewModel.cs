@@ -1,20 +1,13 @@
-﻿using Avalonia.Controls.Mixins;
-using Avalonia.Media;
-using Equipments.AvaloniaUI.Views;
-using Microsoft.Extensions.DependencyInjection;
-using ReactiveUI;
+﻿using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Equipments.AvaloniaUI.ViewModels
 {
     public class UserProfileViewModel : RoutableViewModelBase
     {
-
         public UserProfileViewModel()
             : base(nameof(UserProfileViewModel))
         {
@@ -47,6 +40,6 @@ namespace Equipments.AvaloniaUI.ViewModels
         }
         public string Header { get; }
         public Type ModelType { get; }
-        public String Kind { get; }
+        public string Kind { get; }
     }
 }

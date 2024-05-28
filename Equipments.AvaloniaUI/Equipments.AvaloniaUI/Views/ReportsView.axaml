@@ -1,0 +1,19 @@
+<Window xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:vm="clr-namespace:Equipments.AvaloniaUI.ViewModels"
+			 xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             xmlns:converters="clr-namespace:Equipments.AvaloniaUI.Converters"
+			 xmlns:views="clr-namespace:Equipments.AvaloniaUI.Views"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="600"
+		     Height="700" Width="500"
+			 WindowStartupLocation="CenterScreen"
+	         x:DataType="vm:ReportsViewModel"
+			 Title="Просмотр отчёта"
+			 Icon="/Assets/Icon.ico"
+             x:Class="Equipments.AvaloniaUI.Views.ReportsView">
+	<Grid RowDefinitions="Auto,*">
+		<WebView  Grid.Row="1" Name="PART_WebView" Url="{Binding Url}" HtmlContent="{Binding HtmlContent}"/>
+	</Grid>
+</Window>

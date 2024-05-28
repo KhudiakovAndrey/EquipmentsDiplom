@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Avalonia.Styling;
+using AvaloniaWebView;
 using Equipments.AvaloniaUI.Data;
 using Equipments.AvaloniaUI.Factory;
 using Equipments.AvaloniaUI.Resources;
@@ -116,6 +117,11 @@ public partial class App : Application
         base.OnFrameworkInitializationCompleted();
     }
 
+    public override void RegisterServices()
+    {
+        base.RegisterServices();
+        AvaloniaWebViewBuilder.Initialize(default);
+    }
 
     public static ServiceProvider? ServiceProvider { get; private set; }
     public static MainAuthViewModel? MainAuthVM => ServiceProvider!.GetService<MainAuthViewModel>();

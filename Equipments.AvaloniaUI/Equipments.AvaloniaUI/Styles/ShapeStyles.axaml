@@ -1,0 +1,30 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<Design.PreviewWith>
+		<Border Padding="20">
+			<!-- Add Controls for Previewer Here -->
+		</Border>
+	</Design.PreviewWith>
+
+	<Style Selector="Ellipse.dragDrop">
+		<Setter Property="Transitions">
+			<Transitions>
+				<DoubleTransition Property="StrokeDashOffset" Duration="0:0:0.5"/>
+			</Transitions>
+		</Setter>
+		<Style Selector="^[Tag=dropped]">
+			<Style.Animations>
+				<Animation Duration="0:0:3"
+						   IterationCount="INFINITE"
+						   FillMode="Backward" >
+					<KeyFrame Cue="0%">
+						<Setter Property="StrokeDashOffset" Value="100"/>
+					</KeyFrame>
+					<KeyFrame Cue="100%">
+						<Setter Property="StrokeDashOffset" Value="0"/>
+					</KeyFrame>
+				</Animation>
+			</Style.Animations>
+		</Style>
+	</Style>
+</Styles>

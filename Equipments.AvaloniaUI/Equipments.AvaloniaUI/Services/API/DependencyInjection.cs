@@ -14,6 +14,7 @@ namespace Equipments.AvaloniaUI.Services.API
             services.AddTransient<RequestStatusChangesService>();
             services.AddTransient<RequestStatusesService>();
             services.AddTransient<EquipmentPurchaseRequestService>();
+            services.AddTransient<ReportService>();
 
             return services;
         }

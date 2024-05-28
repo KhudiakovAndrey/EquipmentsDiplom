@@ -39,6 +39,14 @@
 						</Flyout>
 					</Button.Flyout>
 				</Button>
+				<Button Classes="split" Content="Отчёты">
+					<Button.Flyout>
+						<Flyout Placement="BottomEdgeAlignedLeft">
+							<Button Command="{Binding ShowReportView}"
+								>Общие</Button>
+						</Flyout>
+					</Button.Flyout>
+				</Button>
 				<!--<Button>Закупка</Button>-->
 				<Button>Экспорт</Button>
 				<Button Command="{Binding ShowDashboardView}">Статистика</Button>

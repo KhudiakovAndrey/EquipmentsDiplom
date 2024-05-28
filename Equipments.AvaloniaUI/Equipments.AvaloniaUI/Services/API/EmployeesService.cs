@@ -2,7 +2,9 @@
 using Equipments.AvaloniaUI.Data;
 using Equipments.AvaloniaUI.Models;
 using Equipments.AvaloniaUI.Resources;
+using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Equipments.AvaloniaUI.Services.API
@@ -26,6 +28,16 @@ namespace Equipments.AvaloniaUI.Services.API
         public async Task<ApiResponse<FullEmployeModel>> GetMeEmploye()
         {
             var response = await GetAsync<FullEmployeModel>(_appConfiguration.EmployeesEndpoint + "/me");
+            return response;
+        }
+        public async Task<ApiResponse<object>> PutImageAsync(Guid id, byte[] imageBytes)
+        {
+            var response = await PutAsync<object>(_appConfiguration.EmployeesEndpoint + $"/{id}/image", imageBytes);
+            return response;
+        }
+        public async Task<ApiResponse<object>> SetDefaultImageAsync(Guid id)
+        {
+            var response = await PutAsync<object>(_appConfiguration.EmployeesEndpoint + $"/{id}/image/default");
             return response;
         }
     }

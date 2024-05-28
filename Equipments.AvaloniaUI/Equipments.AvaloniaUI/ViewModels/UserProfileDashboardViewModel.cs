@@ -10,7 +10,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 namespace Equipments.AvaloniaUI.ViewModels

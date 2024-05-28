@@ -13,7 +13,7 @@
 
 
 	<ItemGroup>
-	  <AvaloniaResource Remove="Assets\defaultEmploy.png" />
+		<AvaloniaResource Remove="Assets\defaultEmploy.png" />
 	</ItemGroup>
 
 
@@ -49,10 +49,13 @@
 		<PackageReference Include="Serilog.Sinks.Console" Version="5.0.1" />
 		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
 		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.5.1" />
+		<PackageReference Include="WebView.Avalonia" Version="11.0.0.1" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<Folder Include="Services\Interfaces\" />
+		<Folder Include="Web\pdf.js\.git\objects\info\" />
+		<Folder Include="Web\pdf.js\.git\refs\tags\" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -60,7 +63,54 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Content Include="Web\pdf.js\.github\requirements.txt" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<EmbeddedResource Include="Resources\appconfig.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="Web\pdf.js\.github\CODEOWNERS" />
+		<None Include="Web\pdf.js\.github\CONTRIBUTING.md" />
+		<None Include="Web\pdf.js\.github\dependabot.yml" />
+		<None Include="Web\pdf.js\.github\fluent_linter_config.yml" />
+		<None Include="Web\pdf.js\.github\ISSUE_TEMPLATE.md" />
+		<None Include="Web\pdf.js\.github\workflows\ci.yml" />
+		<None Include="Web\pdf.js\.github\workflows\codeql.yml" />
+		<None Include="Web\pdf.js\.github\workflows\fluent_linter.yml" />
+		<None Include="Web\pdf.js\.github\workflows\font_tests.yml" />
+		<None Include="Web\pdf.js\.github\workflows\lint.yml" />
+		<None Include="Web\pdf.js\.github\workflows\publish_website.yml" />
+		<None Include="Web\pdf.js\.github\workflows\types_tests.yml" />
+		<None Include="Web\pdf.js\.git\config" />
+		<None Include="Web\pdf.js\.git\description" />
+		<None Include="Web\pdf.js\.git\HEAD" />
+		<None Include="Web\pdf.js\.git\hooks\applypatch-msg.sample" />
+		<None Include="Web\pdf.js\.git\hooks\commit-msg.sample" />
+		<None Include="Web\pdf.js\.git\hooks\fsmonitor-watchman.sample" />
+		<None Include="Web\pdf.js\.git\hooks\post-update.sample" />
+		<None Include="Web\pdf.js\.git\hooks\pre-applypatch.sample" />
+		<None Include="Web\pdf.js\.git\hooks\pre-commit.sample" />
+		<None Include="Web\pdf.js\.git\hooks\pre-merge-commit.sample" />
+		<None Include="Web\pdf.js\.git\hooks\pre-push.sample" />
+		<None Include="Web\pdf.js\.git\hooks\pre-rebase.sample" />
+		<None Include="Web\pdf.js\.git\hooks\pre-receive.sample" />
+		<None Include="Web\pdf.js\.git\hooks\prepare-commit-msg.sample" />
+		<None Include="Web\pdf.js\.git\hooks\push-to-checkout.sample" />
+		<None Include="Web\pdf.js\.git\hooks\sendemail-validate.sample" />
+		<None Include="Web\pdf.js\.git\hooks\update.sample" />
+		<None Include="Web\pdf.js\.git\index" />
+		<None Include="Web\pdf.js\.git\info\exclude" />
+		<None Include="Web\pdf.js\.git\logs\HEAD" />
+		<None Include="Web\pdf.js\.git\logs\refs\heads\master" />
+		<None Include="Web\pdf.js\.git\logs\refs\remotes\origin\HEAD" />
+		<None Include="Web\pdf.js\.git\objects\pack\pack-6e16a761c570b26e630eece9669eb67a9b310701.idx" />
+		<None Include="Web\pdf.js\.git\objects\pack\pack-6e16a761c570b26e630eece9669eb67a9b310701.pack" />
+		<None Include="Web\pdf.js\.git\objects\pack\pack-6e16a761c570b26e630eece9669eb67a9b310701.rev" />
+		<None Include="Web\pdf.js\.git\packed-refs" />
+		<None Include="Web\pdf.js\.git\refs\heads\master" />
+		<None Include="Web\pdf.js\.git\refs\remotes\origin\HEAD" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -68,23 +118,23 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Properties\Resources.Designer.cs">
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>Resources.resx</DependentUpon>
-	  </Compile>
+		<Compile Update="Properties\Resources.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Resources.resx</DependentUpon>
+		</Compile>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <EmbeddedResource Update="Properties\Resources.resx">
-	    <Generator>ResXFileCodeGenerator</Generator>
-	    <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-	  </EmbeddedResource>
+		<EmbeddedResource Update="Properties\Resources.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Update="Assets\defaultEmploy.png">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
+		<None Update="Assets\defaultEmploy.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 	</ItemGroup>
 </Project>

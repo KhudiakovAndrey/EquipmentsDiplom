@@ -2,6 +2,7 @@
 
 using Avalonia;
 using Avalonia.ReactiveUI;
+using Avalonia.WebView.Desktop;
 using Serilog;
 
 namespace Equipments.AvaloniaUI.Desktop;
@@ -40,5 +41,6 @@ class Program
             .UsePlatformDetect()
             .WithInterFont()
             .LogToTrace()
-            .UseReactiveUI();
+            .UseReactiveUI()
+            .UseDesktopWebView();
 }
