@@ -5,7 +5,7 @@ using System;
 
 namespace Equipments.Application.Employees.Queries
 {
-    public partial class GetEmployeeByIDUser
+    public partial class GetEmployeeByID
     {
         public class EmployeDto : IMapWith<Employee>
         {

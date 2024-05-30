@@ -52,5 +52,7 @@ namespace Equipments.Identity.Controllers
 
             return Ok();
         }
+
+
     }
 }

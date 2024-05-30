@@ -28,7 +28,7 @@ namespace Equipments.WebAPI.Controllers
         [HttpGet("me")]
         public async Task<ActionResult> GetMeInfo()
         {
-            var query = new GetEmployeeByID.Query
+            var query = new GetEmployeeByIDUser.Query
             {
                 IDUser = UserGuid
             };
@@ -41,9 +41,15 @@ namespace Equipments.WebAPI.Controllers
         [HttpGet("me/image")]
         public async Task<ActionResult> GetMeImage()
         {
+            var employeQuery = new GetEmployeeByIDUser.Query
+            {
+                IDUser = UserGuid
+            };
+            var employe = await Mediator.Send(employeQuery);
+
             var query = new GetImage.Query
             {
-                ID = UserGuid
+                ID = employe.ID
             };
             var image = await Mediator.Send(query);
 
