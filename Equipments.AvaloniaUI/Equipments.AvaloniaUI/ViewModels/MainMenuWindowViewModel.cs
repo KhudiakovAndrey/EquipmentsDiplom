@@ -1,10 +1,12 @@
 ﻿using Avalonia.Platform.Storage;
 using Equipments.AvaloniaUI.Models;
+using Equipments.AvaloniaUI.Resources;
 using Equipments.AvaloniaUI.Services.API;
 using HanumanInstitute.MvvmDialogs;
 using HanumanInstitute.MvvmDialogs.Avalonia.DialogHost;
 using HanumanInstitute.MvvmDialogs.FileSystem;
 using ReactiveUI.Fody.Helpers;
+using SQLitePCL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +32,8 @@ namespace Equipments.AvaloniaUI.ViewModels
 
         private async void Initialize()
         {
-            User = await GetMyUser();
+            if (JwtTokenData.AccessToken != null)
+                User = await GetMyUser();
         }
 
         public async Task ShowDialogHostAsync(string message)
