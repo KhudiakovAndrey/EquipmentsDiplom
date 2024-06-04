@@ -46,7 +46,7 @@ namespace Equipments.AvaloniaUI.Models
         [DataMember]
         public string DescriptionAssignedOffice { get; set; } = string.Empty;
         [JsonIgnore]
-        public Task<Bitmap?> ImageUrl => ImageHelper.LoadFromWeb(new Uri("https://equipments.kpk/api/Employees/me/image"));
+        public Task<Bitmap?> ImageUrl => ImageHelper.LoadFromWeb(new Uri("http://equipments.kpk/api/Employees/me/image"));
 
     }
 }

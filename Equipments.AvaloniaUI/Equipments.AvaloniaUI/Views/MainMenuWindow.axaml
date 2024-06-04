@@ -7,9 +7,9 @@
 		xmlns:views="clr-namespace:Equipments.AvaloniaUI.Views"
 		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Equipments.AvaloniaUI.Views.MainMenuWindow"
-        Title="КПК Главное меню"
-		Padding="{Binding $self.OffScreenMargin}"
 		Icon="/Assets/Icon.ico"
+        Title="Система управления оборудованием КПК"
+		Padding="{Binding $self.OffScreenMargin}"
 		x:DataType="vm:MainMenuWindowViewModel"
 		WindowStartupLocation="CenterScreen">
 	<views:MainMenuView/>

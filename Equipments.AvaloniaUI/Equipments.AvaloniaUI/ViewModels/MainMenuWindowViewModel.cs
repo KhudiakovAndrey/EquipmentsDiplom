@@ -30,10 +30,14 @@ namespace Equipments.AvaloniaUI.ViewModels
             Initialize();
         }
 
-        private async void Initialize()
+        public async void Initialize()
         {
             if (JwtTokenData.AccessToken != null)
+            {
+                _employeesService.AccessToken = JwtTokenData.AccessToken;
+                _userService.AccessToken = JwtTokenData.AccessToken;
                 User = await GetMyUser();
+            }
         }
 
         public async Task ShowDialogHostAsync(string message)

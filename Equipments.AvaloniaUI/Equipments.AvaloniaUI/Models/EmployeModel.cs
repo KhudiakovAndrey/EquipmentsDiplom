@@ -15,6 +15,6 @@ namespace Equipments.AvaloniaUI.Models
         public int RoleID { get; set; }
 
         [JsonIgnore]
-        public Task<Bitmap?> ImageUrl => ImageHelper.LoadFromWeb(new Uri($"https://equipments.kpk/api/employees/{ID}/image"));
+        public Task<Bitmap?> ImageUrl => ImageHelper.LoadFromWeb(new Uri($"http://equipments.kpk/api/employees/{ID}/image"));
     }
 }

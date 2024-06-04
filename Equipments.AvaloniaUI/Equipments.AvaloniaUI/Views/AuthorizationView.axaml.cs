@@ -24,6 +24,8 @@ namespace Equipments.AvaloniaUI.Views
         {
             if (VisualRoot is MainMenuWindow root)
             {
+                var vm = root.DataContext as MainMenuWindowViewModel;
+                vm.Initialize();
                 root.ShowMainMenu();
             }
         }
