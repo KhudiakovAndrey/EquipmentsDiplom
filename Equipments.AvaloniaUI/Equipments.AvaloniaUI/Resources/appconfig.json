@@ -1,9 +1,9 @@
 {
-  "IdentityUrl": "http://equipments.kpk.identity/api/",
+  "IdentityUrl": "https://localhost:5001/api/",
   "AuthEndpoint": "auth",
   "UsersEndpoint": "users",
 
-  "WebApiUrl": "http://equipments.kpk/api/",
+  "WebApiUrl": "https://localhost:44304/api/",
   "HealthEndpoint": "health",
   "ServiceRequestsEndpoint": "service-request",
   "EmployeesEndpoint": "employees",

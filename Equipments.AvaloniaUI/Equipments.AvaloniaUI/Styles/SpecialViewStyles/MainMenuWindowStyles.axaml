@@ -15,7 +15,7 @@
 		<Setter Property="Orientation" Value="Horizontal"/>
 		<Setter Property="VerticalAlignment" Value="Center"/>
 		<Setter Property="HorizontalAlignment" Value="Stretch"/>
-		<Setter Property="Background" Value="{DynamicResource BaseTheme}"/>
+		<Setter Property="Background" Value="{DynamicResource ThemeBackgroundBrush}"/>
 		<!--<Style Selector="^ Button">
 			<Setter Property="Background" Value="{DynamicResource BaseTheme}"/>
 		</Style>-->

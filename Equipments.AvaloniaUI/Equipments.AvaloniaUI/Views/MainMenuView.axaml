@@ -9,7 +9,6 @@
              xmlns:titlebars="clr-namespace:CustomTitleBarTemplate.Views.CustomTitleBars"
 		     x:DataType="vm:MainMenuViewModel"
 			 xmlns:rxui="http://reactiveui.net"
-
              x:Class="Equipments.AvaloniaUI.Views.MainMenuView">
 
 	<UserControl.Styles>
@@ -20,7 +19,7 @@
 	<Grid RowDefinitions="Auto,*" >
 		<Grid Classes="menu_container"
 			  ColumnDefinitions="*,Auto">
-			<StackPanel Orientation="Horizontal">
+			<StackPanel Orientation="Horizontal" Background="{DynamicResource BaseTheme}">
 
 				<Button Classes="split"
 						Content="Обслуживание">

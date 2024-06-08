@@ -19,7 +19,7 @@
 	</Style>
 
 	<Style Selector="Border.content_container">
-		<Setter Property="Background" Value="{DynamicResource BaseTheme}"/>
+		<!--<Setter Property="Background" Value="{DynamicResource BaseTheme}"/>-->
 		<Setter Property="Margin" Value="0 15 0 0"/>
 		<Setter Property="CornerRadius" Value="10 10 0 0"/>
 	</Style>

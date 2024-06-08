@@ -28,11 +28,11 @@
 
 	<ResourceDictionary.ThemeDictionaries>
 		<ResourceDictionary x:Key="Light">
-			<SolidColorBrush x:Key="BaseTheme">#f9f0f1</SolidColorBrush>
+			<SolidColorBrush x:Key="BaseTheme">#F6F7F9FF</SolidColorBrush>
 			<SolidColorBrush x:Key="SecondaryRowBackgroundBrush">#F5F5F5</SolidColorBrush>
 		</ResourceDictionary>
 		<ResourceDictionary x:Key="Dark">
-			<SolidColorBrush x:Key="BaseTheme">#202020</SolidColorBrush>
+			<SolidColorBrush x:Key="BaseTheme">#1C1C1CFF</SolidColorBrush>
 			<SolidColorBrush x:Key="SecondaryRowBackgroundBrush">#424242</SolidColorBrush>
 
 		</ResourceDictionary>
