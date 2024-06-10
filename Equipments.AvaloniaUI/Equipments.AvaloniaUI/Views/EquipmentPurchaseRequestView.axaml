@@ -5,12 +5,49 @@
              xmlns:vm="clr-namespace:Equipments.AvaloniaUI.ViewModels"
 			 xmlns:model="clr-namespace:Equipments.AvaloniaUI.Models"
 			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+			 xmlns:sg="clr-namespace:SpacedGridControl.Avalonia;assembly=SpacedGridControl.Avalonia"
              x:DataType="vm:EquipmentPurchaseRequestViewModel"
 			 x:Class="Equipments.AvaloniaUI.Views.EquipmentPurchaseRequestView">
-	<StackPanel Spacing="10">
+	<UserControl.Styles>
+		<StyleInclude Source="/Styles/SpecialViewStyles/EquipmentPurchaseRequestStyles.axaml"/>
+	</UserControl.Styles>
 
-		<StackPanel Orientation="Horizontal" Spacing="10">
+	<DockPanel Classes="main">
 
+		<!--HEADER-->
+		<Grid Classes="header"
+			  DockPanel.Dock="Top"
+			  ColumnDefinitions="Auto,*,Auto">
+			<StackPanel Orientation="Horizontal"
+						Spacing="10">
+				<TextBlock Classes="h3"
+						   FontWeight="Black">Закупка оборудования</TextBlock>
+				<SplitButton ToolTip.Tip="Экспорт в Excel">
+					<materialIcons:MaterialIcon Kind="MicrosoftExcel"/>
+					<SplitButton.Flyout>
+						<MenuFlyout Placement="BottomEdgeAlignedRight">
+							<MenuItem Icon="{materialIcons:MaterialIconExt Kind=FilePdfBox}"
+									  Header="Экспорт в PDF"/>
+							<MenuItem Icon="{materialIcons:MaterialIconExt Kind=LanguageHtml5}"
+									  Header="Экспорт в Html"/>
+							<MenuItem Icon="{materialIcons:MaterialIconExt Kind=FileDocument}"
+									  Header="Экспорт в CSV"/>
+						</MenuFlyout>
+					</SplitButton.Flyout>
+				</SplitButton>
+			</StackPanel>
+
+			<StackPanel Grid.Column="2">
+
+			</StackPanel>
+		</Grid>
+		<!--HEADER-->
+
+		<!--FILTER-->
+		<sg:SpacedGrid Classes="tools" ColumnDefinitions="Auto,*,Auto"
+					   ColumnSpacing="10" DockPanel.Dock="Top" Background="AliceBlue"
+					   >
 			<ComboBox ItemsSource="{Binding EmployeesFilterList}"
 					  SelectedItem="{Binding SelectedEmploye}">
 				<ComboBox.ItemTemplate>
@@ -19,10 +56,18 @@
 					</DataTemplate>
 				</ComboBox.ItemTemplate>
 			</ComboBox>
-
 			<CalendarDatePicker Watermark="Выберите дату создания"
-								SelectedDate="{Binding SelectedDateFilter}"/>
-			<Button Command="{Binding ClearFilterCommand}">Очистить фильтр</Button>
+								SelectedDate="{Binding SelectedDateFilter}"
+								Grid.Column="2"/>
+
+		</sg:SpacedGrid>
+
+		<!--FILTER-->
+
+
+		<!--<StackPanel Orientation="Horizontal" Spacing="10">
+
+
 		</StackPanel>
 
 		<StackPanel Orientation="Horizontal">
@@ -62,10 +107,12 @@
 
 				</DataGridTemplateColumn>
 			</DataGrid.Columns>
-			<!--Таблица: 
+			-->
+		<!--Таблица: 
 			Можно сделать Expander для отображения 
 			закупочного оборудования и
 			коммерческих предложений-->
-		</DataGrid>
-	</StackPanel>
+		<!--
+		</DataGrid>-->
+	</DockPanel>
 </UserControl>

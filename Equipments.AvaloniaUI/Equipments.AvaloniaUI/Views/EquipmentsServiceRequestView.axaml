@@ -13,7 +13,7 @@
 			 x:DataType="vm:EquipmentsServiceRequestViewModel"
 			 x:Class="Equipments.AvaloniaUI.Views.EquipmentsServiceRequestView">
 	<UserControl.Styles>
-		<StyleInclude Source="/Styles/SpecialViewStyles/EquipmentsServiceRequestViewStyles.axaml"/>
+		<StyleInclude Source="/Styles/SpecialViewStyles/EquipmentsServiceRequestStyles.axaml"/>
 	</UserControl.Styles>
 
 
