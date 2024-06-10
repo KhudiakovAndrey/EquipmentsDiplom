@@ -13,13 +13,13 @@
 
 	<UserControl.Styles>
 		<StyleInclude Source="/Styles/SpecialViewStyles/MainMenuWindowStyles.axaml"/>
-
 	</UserControl.Styles>
 
 	<Grid RowDefinitions="Auto,*" >
 		<Grid Classes="menu_container"
+			  Background="{DynamicResource BaseTheme}"
 			  ColumnDefinitions="*,Auto">
-			<StackPanel Orientation="Horizontal" Background="{DynamicResource BaseTheme}">
+			<StackPanel Orientation="Horizontal">
 
 				<Button Classes="split"
 						Content="Обслуживание">
@@ -71,6 +71,7 @@
 				</Border>
 				<Button Classes="split" Grid.Column="2"
 						Name="test"
+						Background="Transparent"
 						Foreground="{DynamicResource Accent}"
 						Content="{Binding $parent[Window].((vm:MainMenuWindowViewModel)DataContext).User.Employe.FullName,
 						FallbackValue=Худяков Андрей Владимирович}">
@@ -96,12 +97,11 @@
 
 		</Grid>
 
-		<rxui:RoutedViewHost Grid.Row="1" Margin="20"
-							 Router="{Binding Router}">
-
+		<rxui:RoutedViewHost Grid.Row="1" Router="{Binding Router}">
 		</rxui:RoutedViewHost>
+
 		<TransitioningContentControl
-			Grid.Row="1" Margin="20"
+			Grid.Row="1"
 			Content="{Binding SelectedViewModel}">
 
 		</TransitioningContentControl>

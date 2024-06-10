@@ -14,12 +14,12 @@
 		<SplitView OpenPaneLength="150"
 				   IsPaneOpen="True"
 				   DisplayMode="CompactInline"
-				   CompactPaneLength="25">
+				   CompactPaneLength="43">
 			<SplitView.Pane>
-				<StackPanel>
+				<StackPanel Background="{DynamicResource BaseTheme}">
 					<ToggleButton IsChecked="{Binding $parent[SplitView].IsPaneOpen, Mode=TwoWay}"
 								  HorizontalAlignment="Right"
-								  Height="25" Width="25">
+								  Height="45" Width="45">
 						<Grid>
 							<materialIcons:MaterialIcon Kind="ArrowLeftBold"
 														IsVisible="{Binding $parent[ToggleButton].IsChecked}"

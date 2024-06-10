@@ -1,11 +1,6 @@
 ﻿using Equipments.Api;
-using Equipments.AvaloniaUI.Data;
 using Equipments.AvaloniaUI.Models;
 using Equipments.AvaloniaUI.Resources;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Equipments.AvaloniaUI.Services.API

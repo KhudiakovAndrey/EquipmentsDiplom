@@ -32,7 +32,7 @@
 			<SolidColorBrush x:Key="SecondaryRowBackgroundBrush">#F5F5F5</SolidColorBrush>
 		</ResourceDictionary>
 		<ResourceDictionary x:Key="Dark">
-			<SolidColorBrush x:Key="BaseTheme">#1C1C1CFF</SolidColorBrush>
+			<SolidColorBrush x:Key="BaseTheme">#171717</SolidColorBrush>
 			<SolidColorBrush x:Key="SecondaryRowBackgroundBrush">#424242</SolidColorBrush>
 
 		</ResourceDictionary>
