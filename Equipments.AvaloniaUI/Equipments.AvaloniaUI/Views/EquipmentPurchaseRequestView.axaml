@@ -45,9 +45,8 @@
 		<!--HEADER-->
 
 		<!--FILTER-->
-		<sg:SpacedGrid Classes="tools" ColumnDefinitions="Auto,*,Auto"
-					   ColumnSpacing="10" DockPanel.Dock="Top" Background="AliceBlue"
-					   >
+		<sg:SpacedGrid Classes="tools" ColumnDefinitions="Auto,Auto,*,Auto"
+					   ColumnSpacing="10" DockPanel.Dock="Top">
 			<ComboBox ItemsSource="{Binding EmployeesFilterList}"
 					  SelectedItem="{Binding SelectedEmploye}">
 				<ComboBox.ItemTemplate>
@@ -58,22 +57,15 @@
 			</ComboBox>
 			<CalendarDatePicker Watermark="Выберите дату создания"
 								SelectedDate="{Binding SelectedDateFilter}"
-								Grid.Column="2"/>
-
+								Grid.Column="1"/>
+			<Button Classes="accent" Grid.Column="3"
+					Command="{Binding ShowEditRequestCommand}">Создать заявку</Button>
 		</sg:SpacedGrid>
 
 		<!--FILTER-->
 
+		<!--TABLE-->
 
-		<!--<StackPanel Orientation="Horizontal" Spacing="10">
-
-
-		</StackPanel>
-
-		<StackPanel Orientation="Horizontal">
-			<Button Classes="accent"
-					Command="{Binding ShowEditRequestCommand}">Создать заявку</Button>
-		</StackPanel>
 
 		<DataGrid ItemsSource="{Binding Purchases}"
 				  AutoGenerateColumns="False"
@@ -81,7 +73,7 @@
 				  CanUserResizeColumns="True"
 				  CanUserReorderColumns="False"
 				  GridLinesVisibility="Horizontal"
-				  VerticalAlignment="Stretch">
+				  >
 			<DataGrid.Columns>
 				<DataGridTextColumn Header="Системный администратор"
 									Width="*"
@@ -107,12 +99,13 @@
 
 				</DataGridTemplateColumn>
 			</DataGrid.Columns>
-			-->
-		<!--Таблица: 
+
+			<!--Таблица: 
 			Можно сделать Expander для отображения 
 			закупочного оборудования и
 			коммерческих предложений-->
-		<!--
-		</DataGrid>-->
+
+		</DataGrid>
+		<!--TABLE-->
 	</DockPanel>
 </UserControl>

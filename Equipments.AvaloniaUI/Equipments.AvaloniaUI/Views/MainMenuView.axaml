@@ -102,7 +102,11 @@
 
 		<TransitioningContentControl
 			Grid.Row="1"
-			Content="{Binding SelectedViewModel}">
+			Content="{Binding SelectedViewModel}"
+			Background="{DynamicResource LightBaseTheme}"
+			Margin="10"
+			Padding="10"
+			CornerRadius="10">
 
 		</TransitioningContentControl>
 	</Grid>

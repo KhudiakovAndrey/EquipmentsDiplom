@@ -11,6 +11,7 @@
         Title="Система управления оборудованием КПК"
 		Padding="{Binding $self.OffScreenMargin}"
 		x:DataType="vm:MainMenuWindowViewModel"
-		WindowStartupLocation="CenterScreen">
+		WindowStartupLocation="CenterScreen"
+		Background="{DynamicResource BaseTheme}">
 	<views:MainMenuView/>
 </Window>
