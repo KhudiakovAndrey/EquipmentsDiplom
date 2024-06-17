@@ -24,6 +24,7 @@ namespace Equipments.AvaloniaUI.ViewModels
             services.AddTransient<UserProfileDashboardViewModel>();
             services.AddTransient<DashboardViewModel>();
             services.AddTransient<ReportsViewModel>();
+            services.AddTransient<UserProfileSettingsViewModel>();
 
             //Регистрируем классы создающиеся один раз при запуске
             services.AddSingleton<MainMenuWindowViewModel>();

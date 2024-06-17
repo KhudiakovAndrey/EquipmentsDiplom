@@ -18,7 +18,7 @@ namespace Equipments.AvaloniaUI.ViewModels
         private void OnSelectedPaneItemChanged(MenuListItemTemplate template)
         {
             var vm = App.ServiceProvider!.GetService(template.ModelType);
-            SelectedView = (RoutableViewModelBase)vm!;
+            SelectedView = (ViewModelBase)vm!;
         }
 
         [Reactive] public ViewModelBase SelectedView { get; set; }
@@ -26,6 +26,7 @@ namespace Equipments.AvaloniaUI.ViewModels
         {
             new MenuListItemTemplate("Профиль", typeof(UserProfileInfoViewModel),"HomeUser"),
             new MenuListItemTemplate("Статистика", typeof(UserProfileDashboardViewModel),"ChartArc"),
+            new MenuListItemTemplate("Настройки", typeof(UserProfileSettingsViewModel),"CogOutline"),
         };
         [Reactive] public MenuListItemTemplate? SelectedPaneItem { get; set; }
     }

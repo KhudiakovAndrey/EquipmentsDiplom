@@ -1,0 +1,47 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 xmlns:vm="clr-namespace:Equipments.AvaloniaUI.ViewModels"
+			 xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+			 xmlns:converters="clr-namespace:Equipments.AvaloniaUI.Converters"
+			 x:DataType="vm:UserProfileSettingsViewModel"
+			 xmlns:sg="clr-namespace:SpacedGridControl.Avalonia;assembly=SpacedGridControl.Avalonia"
+             x:Class="Equipments.AvaloniaUI.Views.UserProfileSettingsView">
+
+	<StackPanel Spacing="15">
+		<TextBlock Classes="h3" FontWeight="Black">Настройки</TextBlock>
+		<sg:SpacedGrid ColumnDefinitions="Auto,*"
+					   ColumnSpacing="10">
+			<TextBlock>
+				<TextBlock FontWeight="Black">Цветовая тема</TextBlock>
+				<LineBreak/>
+				<TextBlock MaxWidth="200" TextWrapping="Wrap">Найстройте цветовую тему под ваши предпочтения</TextBlock>
+			</TextBlock>
+
+			<StackPanel Orientation="Horizontal"
+						Spacing="5"
+						Grid.Column="1">
+				<StackPanel>
+					<Image Height="100" Source="/Assets/DefaultTheme.png"/>
+					<RadioButton GroupName="themes"
+								 Command="{Binding ChangeTheme}"
+								 CommandParameter="Default">Под систему</RadioButton>
+				</StackPanel>
+				<StackPanel>
+					<Image Source="/Assets/LightTheme.png" Height="100"/>
+					<RadioButton GroupName="themes"
+								 Command="{Binding ChangeTheme}"
+								 CommandParameter="Light">Светлая</RadioButton>
+				</StackPanel>
+				<StackPanel>
+					<Image Source="/Assets/DarkTheme.png" Height="100"/>
+					<RadioButton GroupName="themes"
+								 Command="{Binding ChangeTheme}"
+								 CommandParameter="Dark">Тёмная</RadioButton>
+				</StackPanel>
+			</StackPanel>
+		</sg:SpacedGrid>
+	</StackPanel>
+</UserControl>

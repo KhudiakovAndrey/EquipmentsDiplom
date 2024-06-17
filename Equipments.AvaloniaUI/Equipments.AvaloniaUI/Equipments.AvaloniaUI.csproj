@@ -21,13 +21,24 @@
 
 
 	<ItemGroup>
+	  <AvaloniaXaml Remove="Web\**" />
+	  <Compile Remove="Web\**" />
+	  <EmbeddedResource Remove="Web\**" />
+	  <None Remove="Web\**" />
+	</ItemGroup>
+
+
+	<ItemGroup>
 		<AvaloniaResource Remove="Assets\defaultEmploy.png" />
 	</ItemGroup>
 
 
 	<ItemGroup>
+		<None Remove="Assets\DarkTheme.png" />
+		<None Remove="Assets\DefaultTheme.png" />
 		<None Remove="Assets\Icon.ico" />
 		<None Remove="Assets\laptop-logo.ico" />
+		<None Remove="Assets\LightTheme.png" />
 		<None Remove="Resources\appconfig.json" />
 	</ItemGroup>
 
@@ -63,8 +74,6 @@
 
 	<ItemGroup>
 		<Folder Include="Services\Interfaces\" />
-		<Folder Include="Web\pdf.js\.git\objects\info\" />
-		<Folder Include="Web\pdf.js\.git\refs\tags\" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -73,54 +82,10 @@
 
 	<ItemGroup>
 		<Content Include="Assets\Icon.ico" />
-		<Content Include="Web\pdf.js\.github\requirements.txt" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<EmbeddedResource Include="Resources\appconfig.json" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<None Include="Web\pdf.js\.github\CODEOWNERS" />
-		<None Include="Web\pdf.js\.github\CONTRIBUTING.md" />
-		<None Include="Web\pdf.js\.github\dependabot.yml" />
-		<None Include="Web\pdf.js\.github\fluent_linter_config.yml" />
-		<None Include="Web\pdf.js\.github\ISSUE_TEMPLATE.md" />
-		<None Include="Web\pdf.js\.github\workflows\ci.yml" />
-		<None Include="Web\pdf.js\.github\workflows\codeql.yml" />
-		<None Include="Web\pdf.js\.github\workflows\fluent_linter.yml" />
-		<None Include="Web\pdf.js\.github\workflows\font_tests.yml" />
-		<None Include="Web\pdf.js\.github\workflows\lint.yml" />
-		<None Include="Web\pdf.js\.github\workflows\publish_website.yml" />
-		<None Include="Web\pdf.js\.github\workflows\types_tests.yml" />
-		<None Include="Web\pdf.js\.git\config" />
-		<None Include="Web\pdf.js\.git\description" />
-		<None Include="Web\pdf.js\.git\HEAD" />
-		<None Include="Web\pdf.js\.git\hooks\applypatch-msg.sample" />
-		<None Include="Web\pdf.js\.git\hooks\commit-msg.sample" />
-		<None Include="Web\pdf.js\.git\hooks\fsmonitor-watchman.sample" />
-		<None Include="Web\pdf.js\.git\hooks\post-update.sample" />
-		<None Include="Web\pdf.js\.git\hooks\pre-applypatch.sample" />
-		<None Include="Web\pdf.js\.git\hooks\pre-commit.sample" />
-		<None Include="Web\pdf.js\.git\hooks\pre-merge-commit.sample" />
-		<None Include="Web\pdf.js\.git\hooks\pre-push.sample" />
-		<None Include="Web\pdf.js\.git\hooks\pre-rebase.sample" />
-		<None Include="Web\pdf.js\.git\hooks\pre-receive.sample" />
-		<None Include="Web\pdf.js\.git\hooks\prepare-commit-msg.sample" />
-		<None Include="Web\pdf.js\.git\hooks\push-to-checkout.sample" />
-		<None Include="Web\pdf.js\.git\hooks\sendemail-validate.sample" />
-		<None Include="Web\pdf.js\.git\hooks\update.sample" />
-		<None Include="Web\pdf.js\.git\index" />
-		<None Include="Web\pdf.js\.git\info\exclude" />
-		<None Include="Web\pdf.js\.git\logs\HEAD" />
-		<None Include="Web\pdf.js\.git\logs\refs\heads\master" />
-		<None Include="Web\pdf.js\.git\logs\refs\remotes\origin\HEAD" />
-		<None Include="Web\pdf.js\.git\objects\pack\pack-6e16a761c570b26e630eece9669eb67a9b310701.idx" />
-		<None Include="Web\pdf.js\.git\objects\pack\pack-6e16a761c570b26e630eece9669eb67a9b310701.pack" />
-		<None Include="Web\pdf.js\.git\objects\pack\pack-6e16a761c570b26e630eece9669eb67a9b310701.rev" />
-		<None Include="Web\pdf.js\.git\packed-refs" />
-		<None Include="Web\pdf.js\.git\refs\heads\master" />
-		<None Include="Web\pdf.js\.git\refs\remotes\origin\HEAD" />
 	</ItemGroup>
 
 	<ItemGroup>
