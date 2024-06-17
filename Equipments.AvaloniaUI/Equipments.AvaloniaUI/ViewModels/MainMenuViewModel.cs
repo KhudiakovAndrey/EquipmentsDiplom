@@ -71,6 +71,13 @@ namespace Equipments.AvaloniaUI.ViewModels
             Router.Navigate.Execute(_purchaseRequestViewModelFactory.Create(id ?? Guid.Empty));
         public void ShowUserProfileView() =>
             Router.Navigate.Execute(App.ServiceProvider!.GetService<UserProfileViewModel>()!);
+        public void ShowRequestPrevMonthView()
+        {
+            var mainVm = App.ServiceProvider!.GetService<MainReportViewModel>();
+            mainVm.SelectedViewModel = (IReportViewModel)App.ServiceProvider!.GetService<ReportServiceRequestPrevMonthViewModel>();
+            Router.Navigate.Execute(mainVm);
+        }
+
 
         private ReactiveCommand<Unit, Unit>? _exitApp;
         public ReactiveCommand<Unit, Unit> ExitApp => _exitApp ??= ReactiveCommand.CreateFromTask(ExitAppActionAsync);

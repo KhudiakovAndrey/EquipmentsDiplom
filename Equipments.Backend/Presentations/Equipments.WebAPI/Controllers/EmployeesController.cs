@@ -108,5 +108,14 @@ namespace Equipments.WebAPI.Controllers
             path = AppDomain.CurrentDomain.BaseDirectory + @"\Images\Employees\" + file;
             return System.IO.File.ReadAllBytes(path);
         }
+
+
+        [HttpGet("by-department/{id}")]
+        public async Task<ActionResult> GetEmployesByDepartment(int idDepartment)
+        {
+            var query = new GetAllByDepartment.Query { IDDepartment = idDepartment };
+            var vm = await Mediator.Send(query);
+            return Ok(vm);
+        }
     }
 }

@@ -1,0 +1,23 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:vm="clr-namespace:Equipments.AvaloniaUI.ViewModels"
+			 x:DataType="vm:MainReportViewModel"
+			 xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450"
+			 x:Class="Equipments.AvaloniaUI.Views.MainReportView">
+	<StackPanel Spacing="10">
+		<StackPanel Orientation="Horizontal">
+			<Button Command="{Binding Reload}">
+				<materialIcons:MaterialIcon Kind="Reload"/>
+			</Button>
+		</StackPanel>
+		<TransitioningContentControl Margin="20"
+									 Content="{Binding SelectedViewModel}">
+			<TransitioningContentControl.PageTransition>
+				<PageSlide Orientation="Vertical" Duration="0:00:00.500"/>
+			</TransitioningContentControl.PageTransition>
+		</TransitioningContentControl>
+	</StackPanel>
+</UserControl>

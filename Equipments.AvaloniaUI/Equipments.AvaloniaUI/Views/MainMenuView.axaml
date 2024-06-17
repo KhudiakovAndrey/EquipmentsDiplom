@@ -41,8 +41,14 @@
 				<Button Classes="split" Content="Отчёты">
 					<Button.Flyout>
 						<Flyout Placement="BottomEdgeAlignedLeft">
+							<StackPanel>
+							<Button Command="{Binding ShowRequestPrevMonthView}"
+								>Обслуженное оборудование за месяц</Button>
 							<Button Command="{Binding ShowReportView}"
-								>Общие</Button>
+								>Список заявок системного администратора</Button>
+							<Button Command="{Binding ShowReportView}"
+								>Сотрудники департамента</Button>
+							</StackPanel>
 						</Flyout>
 					</Button.Flyout>
 				</Button>

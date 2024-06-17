@@ -25,9 +25,10 @@ namespace Equipments.Application.Interfaces
         DbSet<RequestComment> RequestComments { get; set; }
         DbSet<RequestStatus> RequestStatuses { get; set; }
         DbSet<RequestStatusChange> RequestStatusChanges { get; set; }
-
-
         Task<bool> CheckConnectionAsync();
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
+        Task<IEnumerable<TResult>> FromSql<TResult>(string sql, object parameters) where TResult : class;
+        Task<IEnumerable<TResult>> FromSql<TResult>(string sql) where TResult : class;
     }
 }
+

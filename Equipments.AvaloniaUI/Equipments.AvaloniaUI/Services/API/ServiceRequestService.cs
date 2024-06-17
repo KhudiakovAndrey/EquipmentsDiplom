@@ -65,6 +65,11 @@ namespace Equipments.AvaloniaUI.Services.API
             var response = await GetAsync<double>(_appConfiguration.ServiceRequestsEndpoint + "/" + "dashboard/avgCreatedCount");
             return response;
         }
+        public async Task<ApiResponse<IEnumerable<ServiceRequestPrevMonth>>> GetAllPrevMonth()
+        {
+            var response = await GetAsync<IEnumerable<ServiceRequestPrevMonth>>(_appConfiguration.ServiceRequestsEndpoint + "/" + "services-prev-month");
+            return response;
+        }
         public async Task<ApiResponse<List<RequestCountDateModel>>> GetCountCreatedByDate(DateTime startDate, DateTime endDate, CountDatePeriodModel period)
         {
             NameValueCollection queryStrig = HttpUtility.ParseQueryString(string.Empty);

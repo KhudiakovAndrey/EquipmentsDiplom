@@ -126,5 +126,23 @@ namespace Equipments.WebAPI.Controllers
 
             return Ok(vm);
         }
+
+        [HttpGet("by-sys-admin/{id}")]
+        public async Task<ActionResult> GetAllBySysAdminSQL(Guid id)
+        {
+            var query = new GetAllBySysAdminSQL.Query
+            {
+                IDSystemAdmin = id
+            };
+            var vm = await Mediator.Send(query);
+            return Ok(vm);
+        }
+        [HttpGet("services-prev-month")]
+        public async Task<ActionResult> GetServicesPrevMonth()
+        {
+            var query = new GetAllByPrevMonth.Query();
+            var vm = await Mediator.Send(query);
+            return Ok(vm);
+        }
     }
 }

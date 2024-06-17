@@ -1,9 +1,11 @@
-﻿using Equipments.Application.Interfaces;
+﻿using Dapper;
+using Equipments.Application.Interfaces;
 using Equipments.Domain.Entities;
 using Equipments.Persistence.EntiryTypeConfiguration;
 using Equipments.Persistence.EntityTypeConfiguration;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 #nullable disable
@@ -12,6 +14,12 @@ namespace Equipments.Persistence.Models
 {
     public partial class EquipmentsBusinessContext : DbContext, IEquipmentsDbContext
     {
+        static EquipmentsBusinessContext()
+        {
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+            AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
+        }
+
         public EquipmentsBusinessContext()
         {
         }
@@ -40,6 +48,7 @@ namespace Equipments.Persistence.Models
         {
             var connection = Database.GetDbConnection();
 
+
             try
             {
                 await connection.OpenAsync();
@@ -55,10 +64,70 @@ namespace Equipments.Persistence.Models
             }
         }
 
+        //public async Task<IEnumerable<TResult>> FromSql<TResult>(string sql, params object[] parameters) where TResult : class
+        //{
+        //    using var connection = Database.GetDbConnection();
+        //    await connection.OpenAsync();
+        //    using NpgsqlCommand command = (NpgsqlCommand)connection.CreateCommand();
+        //    command.CommandText = sql;
+
+        //    for (int i = 0; i < parameters.Length; i++)
+        //    {
+        //        string type = parameters[i].GetType().ToString();
+        //        var value = parameters[i];
+        //        command.Parameters.Add(new NpgsqlParameter() { Value = value });
+        //    }
+
+        //    using var reader = await command.ExecuteReaderAsync();
+        //    var result = new List<TResult>();
+
+        //    while (await reader.ReadAsync())
+        //    {
+        //        var obj = Activator.CreateInstance<TResult>();
+        //        var properties = obj.GetType().GetProperties();
+
+        //        for (int i = 0; i < reader.FieldCount; i++)
+        //        {
+        //            var property = properties.FirstOrDefault(p => string.Equals(p.Name, reader.GetName(i), StringComparison.OrdinalIgnoreCase));
+
+        //            if (property != null && reader.IsDBNull(i) == false)
+        //            {
+        //                var value = reader.GetValue(i);
+        //                var propertyType = property.PropertyType;
+        //                var convertedValue = Convert.ChangeType(value, propertyType);
+        //                property.SetValue(obj, convertedValue);
+        //            }
+        //        }
+
+        //        result.Add(obj);
+        //    }
+        //    return result;
+        //}
+
+
+        public async Task<IEnumerable<TResult>> FromSql<TResult>(string sql, object parameters) where TResult : class
+        {
+            using var connection = Database.GetDbConnection();
+            await connection.OpenAsync();
+
+            var result = await connection.QueryAsync<TResult>(sql, parameters);
+
+            return result;
+        }
+        public async Task<IEnumerable<TResult>> FromSql<TResult>(string sql) where TResult : class
+        {
+            using var connection = Database.GetDbConnection();
+            await connection.OpenAsync();
+
+            var result = await connection.QueryAsync<TResult>(sql);
+
+            return result;
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "Russian_Russia.1251");
-
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
             modelBuilder.ApplyConfiguration(new AssignedOfficeConfiguration());
             modelBuilder.ApplyConfiguration(new CommercialOfferConfiguration());
             modelBuilder.ApplyConfiguration(new CommercialOrganizationConfiguration());
@@ -74,10 +143,9 @@ namespace Equipments.Persistence.Models
             modelBuilder.ApplyConfiguration(new RequestStatusConfiguration());
             modelBuilder.ApplyConfiguration(new RequestStatusChangeConfiguration());
             modelBuilder.ApplyConfiguration(new EmployeeRolesConfiguration());
-
-
             OnModelCreatingPartial(modelBuilder);
         }
+
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
