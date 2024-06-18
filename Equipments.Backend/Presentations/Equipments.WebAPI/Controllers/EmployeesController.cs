@@ -110,7 +110,7 @@ namespace Equipments.WebAPI.Controllers
         }
 
 
-        [HttpGet("by-department/{id}")]
+        [HttpGet("by-department/{idDepartment}")]
         public async Task<ActionResult> GetEmployesByDepartment(int idDepartment)
         {
             var query = new GetAllByDepartment.Query { IDDepartment = idDepartment };

@@ -4,14 +4,38 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:vm="clr-namespace:Equipments.AvaloniaUI.ViewModels"
 			 x:DataType="vm:MainReportViewModel"
+			 xmlns:aspose="clr-namespace:Aspose.Cells;assembly=Aspose.Cells"
 			 xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
              mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450"
 			 x:Class="Equipments.AvaloniaUI.Views.MainReportView">
 	<StackPanel Spacing="10">
-		<StackPanel Orientation="Horizontal">
-			<Button Command="{Binding Reload}">
+		<StackPanel Orientation="Horizontal"
+					Spacing="10">
+			<Button Command="{Binding Reload}"
+					ToolTip.Tip="Обновить">
 				<materialIcons:MaterialIcon Kind="Reload"/>
 			</Button>
+			<SplitButton Command="{Binding Export}"
+						 CommandParameter="{x:Static aspose:SaveFormat.Xlsx}}"
+						 ToolTip.Tip="Экспорт в Excel">
+				<materialIcons:MaterialIcon Kind="MicrosoftExcel"/>
+				<SplitButton.Flyout>
+					<MenuFlyout Placement="BottomEdgeAlignedRight">
+						<MenuItem Icon="{materialIcons:MaterialIconExt Kind=FilePdfBox}"
+								  Header="Экспорт в PDF"
+								  Command="{Binding Export}"
+								  CommandParameter="{x:Static aspose:SaveFormat.Pdf}}"/>
+						<MenuItem Icon="{materialIcons:MaterialIconExt Kind=LanguageHtml5}"
+								  Header="Экспорт в Html"
+								  Command="{Binding Export}"
+								  CommandParameter="{x:Static aspose:SaveFormat.Html}}"/>
+						<MenuItem Icon="{materialIcons:MaterialIconExt Kind=FileDocument}"
+								  Header="Экспорт в CSV"
+								  Command="{Binding Export}"
+								  CommandParameter="{x:Static aspose:SaveFormat.Csv}}"/>
+					</MenuFlyout>
+				</SplitButton.Flyout>
+			</SplitButton>
 		</StackPanel>
 		<TransitioningContentControl Margin="20"
 									 Content="{Binding SelectedViewModel}">

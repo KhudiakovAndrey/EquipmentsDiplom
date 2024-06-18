@@ -12,6 +12,7 @@
   "RequestStatusChangesEndpoint": "request-status-changes",
   "RequestStatusesEndpoint": "request-statuses",
   "PurchaseRequestsEndpoint": "purchase-requests",
-  "ReportsEndpoint": "reports"
+  "ReportsEndpoint": "reports",
+  "DepartmentsEndpoint": "departments"
 
 }

@@ -38,12 +38,12 @@ namespace Equipments.Application.EquipmentsServiceRequest.Queries
                     .Include(r => r.IdsystemAdministratorNavigation)
                     .Include(r => r.IdsystemAdministratorNavigation.IddepartmentNavigation)
                     .Include(r => r.IdsystemAdministratorNavigation.IdpostNavigation)
+                    .Include(r => r.RequestStatusChanges).ThenInclude(rsc => rsc.StatusNavigation)
                     .FirstOrDefaultAsync(en => en.Id == request.IDRequest);
                 if (serviceRequest == null)
                 {
                     throw new NotFoundException(nameof(EquipmentServiceRequest), request.IDRequest);
                 }
-
                 GetServiceRequestDetails.RequestDetailsVM detailsVM = _mapper.Map<GetServiceRequestDetails.RequestDetailsVM>(serviceRequest);
 
                 var report = new ServiceRequestReport(detailsVM);

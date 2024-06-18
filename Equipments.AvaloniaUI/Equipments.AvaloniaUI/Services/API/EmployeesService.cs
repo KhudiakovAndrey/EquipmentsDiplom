@@ -40,5 +40,10 @@ namespace Equipments.AvaloniaUI.Services.API
             var response = await PutAsync<object>(_appConfiguration.EmployeesEndpoint + $"/{id}/image/default");
             return response;
         }
+        public async Task<ApiResponse<IEnumerable<ReportEmployeByDepartmentModel>>> GetAllByDepartment(int idDepartment)
+        {
+            var response = await GetAsync<IEnumerable<ReportEmployeByDepartmentModel>>(_appConfiguration.EmployeesEndpoint + $"/by-department/{idDepartment}");
+            return response;
+        }
     }
 }

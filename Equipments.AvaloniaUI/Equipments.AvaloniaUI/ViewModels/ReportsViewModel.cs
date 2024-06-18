@@ -1,8 +1,6 @@
-using System;
-using System.Collections.Generic;
 using Equipments.AvaloniaUI.Services.API;
-using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using System;
 
 namespace Equipments.AvaloniaUI.ViewModels
 {
@@ -33,4 +31,6 @@ namespace Equipments.AvaloniaUI.ViewModels
         [Reactive] public string HtmlContent { get; set; }
         [Reactive] public string Url { get; set; }
     }
+
+
 }

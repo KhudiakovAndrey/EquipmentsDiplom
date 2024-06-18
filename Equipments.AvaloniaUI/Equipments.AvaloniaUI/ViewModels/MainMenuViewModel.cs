@@ -74,7 +74,13 @@ namespace Equipments.AvaloniaUI.ViewModels
         public void ShowRequestPrevMonthView()
         {
             var mainVm = App.ServiceProvider!.GetService<MainReportViewModel>();
-            mainVm.SelectedViewModel = (IReportViewModel)App.ServiceProvider!.GetService<ReportServiceRequestPrevMonthViewModel>();
+            mainVm.SelectedViewModel = App.ServiceProvider!.GetService<ReportServiceRequestPrevMonthViewModel>();
+            Router.Navigate.Execute(mainVm);
+        }
+        public void ShowReportEmployesByDepartment()
+        {
+            var mainVm = App.ServiceProvider!.GetService<MainReportViewModel>();
+            mainVm.SelectedViewModel = App.ServiceProvider!.GetService<ReportEmployesByDepartmentViewModel>();
             Router.Navigate.Execute(mainVm);
         }
 

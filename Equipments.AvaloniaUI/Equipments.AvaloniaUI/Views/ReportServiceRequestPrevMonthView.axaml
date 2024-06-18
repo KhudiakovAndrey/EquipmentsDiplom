@@ -3,6 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:vm="clr-namespace:Equipments.AvaloniaUI.ViewModels"
+			 xmlns:views="clr-namespace:Equipments.AvaloniaUI.Views"
 			 x:DataType="vm:ReportServiceRequestPrevMonthViewModel"
 			 xmlns:progRing="clr-namespace:AvaloniaProgressRing;assembly=AvaloniaProgressRing"
              mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="450"
@@ -10,14 +11,13 @@
 	<StackPanel Spacing="10" VerticalAlignment="Stretch">
 		<TextBlock Classes="h4" TextWrapping="Wrap"
 				   TextAlignment="Center">Статистика заявок на обслуживание оборудования за прошлый месяц, сгруппированная по типу оборудования</TextBlock>
-
 		<Grid>
 			<DataGrid ItemsSource="{Binding Items}"
 					  AutoGenerateColumns="False"
-					  IsReadOnly="True" >
+					  IsReadOnly="True">
 				<DataGrid.Columns>
-					<DataGridTextColumn Binding="{Binding EquipmentType}"/>
-					<DataGridTextColumn Binding="{Binding RequestCount}"/>
+					<DataGridTextColumn Binding="{Binding EquipmentType}" Width="*" Header="Тип оборудования"/>
+					<DataGridTextColumn Binding="{Binding RequestCount}" Header="Количество поданных заявок за месяц"/>
 				</DataGrid.Columns>
 			</DataGrid>
 			<progRing:ProgressRing VerticalAlignment="Center"

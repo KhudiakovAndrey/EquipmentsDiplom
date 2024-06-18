@@ -30,7 +30,7 @@
 						</Flyout>
 					</Button.Flyout>
 				</Button>
-				<Button Classes="split" Content="Закупка">
+				<Button Classes="split" Content="Закупка" IsVisible="False">
 					<Button.Flyout>
 						<Flyout Placement="BottomEdgeAlignedLeft">
 							<Button Command="{Binding ShowEquipmentPurchaseRequestView}"
@@ -42,20 +42,20 @@
 					<Button.Flyout>
 						<Flyout Placement="BottomEdgeAlignedLeft">
 							<StackPanel>
-							<Button Command="{Binding ShowRequestPrevMonthView}"
+								<Button Command="{Binding ShowRequestPrevMonthView}"
 								>Обслуженное оборудование за месяц</Button>
-							<Button Command="{Binding ShowReportView}"
+								<Button Command="{Binding ShowReportView}"
 								>Список заявок системного администратора</Button>
-							<Button Command="{Binding ShowReportView}"
-								>Сотрудники департамента</Button>
+								<Button Command="{Binding ShowReportEmployesByDepartment}"
+								>Сотрудники отдела</Button>
 							</StackPanel>
 						</Flyout>
 					</Button.Flyout>
 				</Button>
 				<!--<Button>Закупка</Button>-->
-				<Button>Экспорт</Button>
+				<Button IsVisible="False">Экспорт</Button>
 				<Button Command="{Binding ShowDashboardView}">Статистика</Button>
-				<Button Classes="icon" >
+				<Button Classes="icon" IsVisible="False">
 					<materialIcons:MaterialIcon Kind="CogOutline"/>
 				</Button>
 				<ToggleButton IsChecked="{Binding IsDarkTheme}"

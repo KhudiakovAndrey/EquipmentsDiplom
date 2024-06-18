@@ -8,7 +8,7 @@
 		mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Equipments.AvaloniaUI.Views.MainMenuWindow"
 		Icon="/Assets/Icon.ico"
-        Title="Система управления оборудованием КПК"
+        Title="Система управления оборудованием"
 		Padding="{Binding $self.OffScreenMargin}"
 		x:DataType="vm:MainMenuWindowViewModel"
 		WindowStartupLocation="CenterScreen"

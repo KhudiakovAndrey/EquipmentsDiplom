@@ -1,0 +1,42 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:vm="clr-namespace:Equipments.AvaloniaUI.ViewModels"
+			 x:DataType="vm:ReportEmployesByDepartmentViewModel"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Equipments.AvaloniaUI.Views.ReportEmployesByDepartmentView">
+	<StackPanel Spacing="10">
+		<ComboBox ItemsSource="{Binding Departments}"
+				  SelectedItem="{Binding SelectedDepartments}"
+				  
+				  IsTextSearchEnabled="True"
+				  PlaceholderText="Выберите отдел">
+			<ComboBox.ItemTemplate>
+				<DataTemplate>
+					<TextBlock Text="{Binding Name}"/>
+				</DataTemplate>
+			</ComboBox.ItemTemplate>
+		</ComboBox>
+		<Grid >
+			<DataGrid ItemsSource="{Binding Items}"
+					  AutoGenerateColumns="False"
+					  IsReadOnly="True"
+					  IsVisible="{Binding SelectedDepartments,Converter={x:Static ObjectConverters.IsNotNull}}">
+				<DataGrid.Columns>
+					<DataGridTextColumn Binding="{Binding FullName}"
+										Header="ФИО"
+										Width="*"/>
+					<DataGridTextColumn Binding="{Binding PostName}"
+										Header="Должность"
+										Width="*"/>
+					<DataGridTextColumn Binding="{Binding OfficeNumber}"
+										Header="Кабинет"
+										Width="*"/>
+				</DataGrid.Columns>
+			</DataGrid>
+			<TextBlock TextAlignment="Center"
+					   IsVisible="{Binding SelectedDepartments,Converter={x:Static ObjectConverters.IsNull}}">Выберите отдел чтобы продолжить</TextBlock>
+		</Grid>
+	</StackPanel>
+</UserControl>
