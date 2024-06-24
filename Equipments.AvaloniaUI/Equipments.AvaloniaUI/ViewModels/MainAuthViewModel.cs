@@ -3,6 +3,7 @@ using Avalonia.Styling;
 using Equipments.AvaloniaUI.Views;
 using HanumanInstitute.MvvmDialogs;
 using HanumanInstitute.MvvmDialogs.Avalonia.DialogHost;
+using Microsoft.Extensions.DependencyInjection;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System.Reactive;
@@ -14,14 +15,16 @@ namespace Equipments.AvaloniaUI.ViewModels
     public class MainAuthViewModel : ViewModelBase
     {
         private readonly IDialogService _dialogService;
+        private readonly MainMenuWindowViewModel _mainWindowViewModel;
 
         [Reactive]
         public UserControl SelectedView { get; set; }
 
-        public MainAuthViewModel(IDialogService dialogService)
+        public MainAuthViewModel(IDialogService dialogService, MainMenuWindowViewModel mainWindowViewModel)
         {
             _dialogService = dialogService;
             Initialized();
+            _mainWindowViewModel = mainWindowViewModel;
         }
         public void Initialized()
         {
@@ -61,12 +64,7 @@ namespace Equipments.AvaloniaUI.ViewModels
 
         public async Task ShowDialogHostAsync(string message)
         {
-            await _dialogService.ShowDialogHostAsync(
-                    this,
-                    new DialogHostSettings(message)
-                    {
-                        CloseOnClickAway = true
-                    }).ConfigureAwait(true);
+            await _mainWindowViewModel.ShowDialogHostAsync(message);
         }
     }
 }

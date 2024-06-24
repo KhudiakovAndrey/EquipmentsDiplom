@@ -1,4 +1,5 @@
-﻿using Equipments.AvaloniaUI.Data;
+﻿using Avalonia.Controls.ApplicationLifetimes;
+using Equipments.AvaloniaUI.Data;
 using Equipments.AvaloniaUI.Models;
 using Equipments.AvaloniaUI.Resources;
 using Equipments.AvaloniaUI.Services.API;
@@ -18,16 +19,18 @@ namespace Equipments.AvaloniaUI.ViewModels
     {
         private readonly SettingsDbContext _dbContext;
         private readonly UserService _loginService;
+        private readonly MainMenuWindowViewModel _mainMenuWindowViewModel;
 
         [Reactive]
         public LoginViewModel Login { get; set; } = new LoginViewModel();
 
-        public AuthorizationViewModel(SettingsDbContext dbContext, UserService loginService)
+        public AuthorizationViewModel(SettingsDbContext dbContext, UserService loginService, MainMenuWindowViewModel mainMenuWindowViewModel)
         {
             AuthCommand = ReactiveCommand.CreateFromTask(Auth, Login.IsValid);
 
             _dbContext = dbContext;
             _loginService = loginService;
+            _mainMenuWindowViewModel = mainMenuWindowViewModel;
         }
         public ReactiveCommand<Unit, Unit> AuthCommand { get; private set; }
         public async Task Auth()
@@ -87,7 +90,6 @@ namespace Equipments.AvaloniaUI.ViewModels
 
         public async void ShowDialog()
         {
-            await App.MainAuthVM?.ShowDialogHostAsync("Hello World!")!;
         }
         public event EventHandler? OnAuthorizationSuccess;
 

@@ -102,7 +102,7 @@
 						</ListBox.ItemTemplate>
 					</ListBox>
 
-					<Button Grid.Column="3" Command="{Binding ShowTest}">Загрузка файла</Button>
+					<Button IsVisible="False" Grid.Column="3" Command="{Binding ShowTest}">Загрузка файла</Button>
 
 					<StackPanel Spacing="10" Orientation="Horizontal" Grid.Column="2">
 						<AutoCompleteBox Watermark="Найти заявителя" MinWidth="200"

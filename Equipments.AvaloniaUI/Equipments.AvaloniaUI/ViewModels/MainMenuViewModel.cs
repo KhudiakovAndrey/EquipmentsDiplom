@@ -89,7 +89,7 @@ namespace Equipments.AvaloniaUI.ViewModels
         public ReactiveCommand<Unit, Unit> ExitApp => _exitApp ??= ReactiveCommand.CreateFromTask(ExitAppActionAsync);
         private async Task ExitAppActionAsync()
         {
-            var result = await _ownerVM.ShowAskQuestionDialogAsync("Вы уверены что хотите выйти из своего профиля? (Вам придётся снова авторизироваться)", "Выход");
+            var result = await _ownerVM.ShowAskQuestionDialogAsync("Вы уверены что хотите выйти из своего профиля? (Вам придётся снова авторизоваться)", "Выход");
             if (result == true
                && App.Current!.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop
                && desktop.MainWindow is MainMenuWindow mainMenuWindow)

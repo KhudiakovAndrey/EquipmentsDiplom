@@ -23,7 +23,7 @@ namespace Equipments.Application.EquipmentsServiceRequest.Queries
                         opt => opt.MapFrom(req => req.IdsystemAdministratorNavigation))
                     .ForMember(reqDto => reqDto.ProblemType,
                         opt => opt.MapFrom(req => req.IdproblemTypeNavigation.IdequipmentTypeNavigation.Name
-                        + " "
+                        + '-'
                         + req.IdproblemTypeNavigation.Description))
                     .ForMember(reqDto => reqDto.CreationDate,
                         opt => opt.MapFrom(req => req.CreationDate));

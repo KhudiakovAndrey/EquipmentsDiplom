@@ -33,6 +33,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuestPdf.Previwer", "QuestP
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Equipments.AvalonuiaUI.Setup", "Equipments.AvaloniaUI\Equipments.AvaloniaUI\Equipments.AvalonuiaUI.Setup\Equipments.AvalonuiaUI.Setup.vdproj", "{A8AB938A-B85F-4922-81F0-6A85D7229103}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{9F92AA7E-455C-4724-ADFC-8309CD2D9423}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Equipments.AvaloniaUI.Tests", "Equipments.AvaloniaUI.Tests\Equipments.AvaloniaUI.Tests.csproj", "{F4A83A94-AD79-4CEB-9533-80C822279610}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -70,6 +74,10 @@ Global
 		{2E7567E3-3C11-4A05-B9BC-93C5F597ECD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A8AB938A-B85F-4922-81F0-6A85D7229103}.Debug|Any CPU.ActiveCfg = Debug
 		{A8AB938A-B85F-4922-81F0-6A85D7229103}.Release|Any CPU.ActiveCfg = Release
+		{F4A83A94-AD79-4CEB-9533-80C822279610}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4A83A94-AD79-4CEB-9533-80C822279610}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4A83A94-AD79-4CEB-9533-80C822279610}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4A83A94-AD79-4CEB-9533-80C822279610}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -86,6 +94,7 @@ Global
 		{0F741F31-F90A-4C3A-9EAA-EC046E2B3256} = {A64AA6CC-3F47-419F-AA23-89893DCF1935}
 		{16D9ADD1-0A10-4A81-B53C-011599420C9C} = {FE366974-E9F5-434E-BAD0-1C017CD57B05}
 		{A8AB938A-B85F-4922-81F0-6A85D7229103} = {A64AA6CC-3F47-419F-AA23-89893DCF1935}
+		{F4A83A94-AD79-4CEB-9533-80C822279610} = {9F92AA7E-455C-4724-ADFC-8309CD2D9423}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BFDF835A-7156-454D-8E6A-CF22DD8BFFA0}

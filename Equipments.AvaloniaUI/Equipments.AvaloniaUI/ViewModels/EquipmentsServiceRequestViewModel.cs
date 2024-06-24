@@ -274,7 +274,7 @@ namespace Equipments.AvaloniaUI.ViewModels
         [Reactive] public int? SelectedPageSize { get; set; }
         public List<int> PageSizes { get; } = new()
         {
-            20,50,80,100,
+            5,10,20,50,
         };
         private ReadOnlyObservableCollection<EquipmentsServiceRequestVM> _requests;
         public ReadOnlyObservableCollection<EquipmentsServiceRequestVM> Requests

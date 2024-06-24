@@ -132,8 +132,8 @@ namespace Equipments.Identity.Controllers
                 UserName = model.Username,
                 Email = model.Email,
                 RegistrationDate = DateTime.UtcNow,
-                EmailConfirmed = true
-                //EmailConfirmationCode = AppUser.GenerateEmailConfirmationCode(),
+                EmailConfirmed = false,
+                EmailConfirmationCode = AppUser.GenerateEmailConfirmationCode(),
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);

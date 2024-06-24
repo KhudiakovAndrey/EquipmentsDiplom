@@ -13,9 +13,11 @@ namespace Equipments.AvaloniaUI.ViewModels
         private readonly UserService _userService;
         public event EventHandler<string> FailedRegistraion;
         public event EventHandler<RegViewModel> SuccessfulRegistration;
-        public RegistrationViewModel(UserService registrationService)
+        private readonly MainMenuWindowViewModel _ownerVm;
+        public RegistrationViewModel(UserService registrationService, MainMenuWindowViewModel ownerVm)
         {
             _userService = registrationService;
+            _ownerVm = ownerVm;
 
             Register = new RegViewModel();
 
@@ -26,7 +28,6 @@ namespace Equipments.AvaloniaUI.ViewModels
                 vm => vm.Register.ConfirmPassword, (u, e, p, c) => RegViewModel.isValiable(Register));
 
             RegistrationCommand = ReactiveCommand.CreateFromTask(Registration, isExecuteRegistrationCommand);
-
         }
 
         public ReactiveCommand<Unit, Unit> RegistrationCommand { get; private set; }
@@ -39,7 +40,7 @@ namespace Equipments.AvaloniaUI.ViewModels
             }
             else
             {
-                FailedRegistraion?.Invoke(this, response.Message.ErrorMessage);
+                //await _ownerVm.ShowDialogHostAsync(response.Message.ErrorMessage);
             }
         }
 

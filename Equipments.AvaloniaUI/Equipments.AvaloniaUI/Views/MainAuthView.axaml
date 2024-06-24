@@ -15,15 +15,18 @@
 		</Style>
 	</UserControl.Styles>
 	<Grid>
-		<TransitioningContentControl
-			Classes="views-container"
-			Content="{Binding SelectedView}">
-			<TransitioningContentControl.PageTransition>
-				<PageSlide Orientation="Horizontal" Duration="0:00:00.300" />
-			</TransitioningContentControl.PageTransition>
-		</TransitioningContentControl>
-		<!--<ToggleSwitch VerticalAlignment="Bottom"
+		<NotificationCard>
+
+			<TransitioningContentControl
+				Classes="views-container"
+				Content="{Binding SelectedView}">
+				<TransitioningContentControl.PageTransition>
+					<PageSlide Orientation="Horizontal" Duration="0:00:00.300" />
+				</TransitioningContentControl.PageTransition>
+			</TransitioningContentControl>
+			<!--<ToggleSwitch VerticalAlignment="Bottom"
 					  Command="{Binding ChangeThemeCommand}">Дневной режим</ToggleSwitch>-->
+		</NotificationCard>
 
 	</Grid>
 </UserControl>

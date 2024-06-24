@@ -50,7 +50,7 @@ namespace Equipments.Application.EquipmentsServiceRequest.Queries
                     .Take(request.Pagination.PageSize);
                 var items = await query.Include(req => req.IdresponsibleNavigation)
                             .Include(req => req.IdsystemAdministratorNavigation)
-                            .Include(req => req.IdproblemTypeNavigation)
+                            .Include(req => req.IdproblemTypeNavigation).ThenInclude(problem => problem.IdequipmentTypeNavigation)
                             .ToListAsync(cancellationToken);
 
                 var itemDtos = _mapper.Map<List<ServiceRequestVM>>(items);

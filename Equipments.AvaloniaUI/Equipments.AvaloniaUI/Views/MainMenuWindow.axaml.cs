@@ -1,34 +1,16 @@
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Input;
-using Avalonia.Platform;
-using Equipments.AvaloniaUI.Data;
-using Equipments.AvaloniaUI.Resources;
-using Equipments.AvaloniaUI.Services;
 using Equipments.AvaloniaUI.ViewModels;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using ReactiveUI;
-using System;
 
 namespace Equipments.AvaloniaUI.Views
 {
     public partial class MainMenuWindow : Window
     {
-        private readonly SettingsDbContext _settingsDbContext;
         public MainMenuWindow()
         {
             InitializeComponent();
-            var vm = App.ServiceProvider!.GetService<MainMenuWindowViewModel>();
-            _settingsDbContext = App.ServiceProvider!.GetService<SettingsDbContext>()!;
+            var vm = App.ServiceProvider!.GetRequiredService<MainMenuWindowViewModel>();
             DataContext = vm;
-            Closing += MainMenuWindow_OnCancelClosing;
-        }
-
-        private async void MainMenuWindow_OnCancelClosing(object? sender, WindowClosingEventArgs e)
-        {
-
         }
 
         public void ShowAuthView()
